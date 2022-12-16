@@ -1,6 +1,13 @@
 from flask import Flask, render_template, request, session, url_for, redirect
 from flask_cors import CORS
 from models import *
+import hashlib
+
+
+
+def digest_string(hash_string):
+    sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
+    return sha_signature
 
 app = Flask(__name__)
 
@@ -31,7 +38,7 @@ def gift_cards():
         amount = request.form.get('amount')
         email = request.form.get('email')
         password = request.form.get('password')
-        create_gift_card(int(amount), email, password)
+        create_gift_card(int(amount), email, hashlib.sha256(password.encode()).digest())
 
     gift_cards = get_all_gift_cards()
     return render_template('gift_cards.html', posts=gift_cards)
@@ -60,7 +67,7 @@ def register_user():
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
-        create_user(name, email, password)
+        create_user(name, email, hashlib.sha256(password.encode()).digest())
 
     users = get_all_users()
     return render_template('register.html', posts=users)
@@ -74,7 +81,7 @@ def user_login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        user = login(email, password)
+        user = login(email, hashlib.sha256(password.encode()).digest())
         if user is not None:
             session['user'] = user
             return render_template('login.html', posts=user)
