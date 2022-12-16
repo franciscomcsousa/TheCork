@@ -29,8 +29,9 @@ def gift_cards():
     
     if request.method == 'POST':
         amount = request.form.get('amount')
-        #email = request.form.get('email')
-        create_gift_card(amount)
+        email = request.form.get('email')
+        password = request.form.get('password')
+        create_gift_card(int(amount), email, password)
 
     gift_cards = get_all_gift_cards()
     return render_template('gift_cards.html', posts=gift_cards)
@@ -43,7 +44,8 @@ def redeem_cards():
     
     if request.method == 'POST':
         card_number = request.form.get('number')
-        redeem_gift_card(card_number)
+        email = request.form.get('email')
+        redeem_gift_card(card_number, email)
 
     gift_cards = get_all_gift_cards()
     return render_template('redeem_cards.html', posts=gift_cards)

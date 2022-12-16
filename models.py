@@ -30,27 +30,28 @@ def get_all_gift_cards():
     return gift_cards
 
 
-def create_gift_card(amount):
+def create_gift_card(amount, email, password):
     con = sqlite3.connect(path.join(ROOT, 'database.db'))
     cur = con.cursor()
-    # verify if the user exists and has enough money
-    # cur.execute('select * from users where email = ?', (email, ))
-    # user = cur.fetchall()
-    # if len(user) == 0:
-    #     con.close()
-    #     return
-    # elif user[0][4] < amount:
-    #     con.close()
-    #     return
+    # verify if the user exists and has correct password
+    cur.execute('select * from users where email = ? and password = ?', (email, password))
+    user = cur.fetchall()
+    if len(user) == 0:
+        con.close()
+        return
+    elif user[0][4] < amount:
+        con.close()
+        return    
+    
     card_number = os.urandom(32).hex()
     cur.execute('insert into gift_cards (card_number, amount) values(?, ?)', (card_number, amount))
     # update the user's wallet, subtract the amount
-    #cur.execute('update users set wallet = ? where email = ?', (user[0][4] - amount, email))
+    cur.execute('update users set wallet = ? where email = ?', (user[0][4] - amount, email))
     con.commit()
     con.close()
     
     
-def redeem_gift_card(card_number):
+def redeem_gift_card(card_number, email):
     con = sqlite3.connect(path.join(ROOT, 'database.db'))
     cur = con.cursor()
     cur.execute('select * from gift_cards where card_number = ?', (card_number, ))
@@ -58,6 +59,13 @@ def redeem_gift_card(card_number):
     #if there is no gift card with that number
     if len(gift_card) == 0:
         con.close()
+    # if there is a user with that email
+    cur.execute('select * from users where email = ?', (email, ))
+    user = cur.fetchall()
+    if len(user) == 0:
+        con.close()
+    # update the user's wallet, add the amount
+    cur.execute('update users set wallet = ? where email = ?', (user[0][4] + gift_card[0][2], email))
     cur.execute('delete from gift_cards where card_number = ?', (card_number, ))
     con.commit()
     con.close()
