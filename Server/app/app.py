@@ -3,8 +3,6 @@ from flask_cors import CORS
 from models import *
 import hashlib
 
-
-
 def digest_string(hash_string):
     sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
     return sha_signature
@@ -95,4 +93,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)
