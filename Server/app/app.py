@@ -3,10 +3,6 @@ from flask_cors import CORS
 from models import *
 import hashlib
 
-def digest_string(hash_string):
-    sha_signature = hashlib.sha256(hash_string.encode()).hexdigest()
-    return sha_signature
-
 app = Flask(__name__)
 
 CORS(app)
@@ -65,8 +61,7 @@ def register_user():
         name = request.form.get('name')
         email = request.form.get('email')
         password = request.form.get('password')
-        create_user(name, email, hashlib.sha256(password.encode()).digest())
-
+        create_user(name, email, hashlib.sha256(password.encode('ascii')).hexdigest())
     users = get_all_users()
     return render_template('register.html', posts=users)
 
