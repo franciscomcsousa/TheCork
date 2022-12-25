@@ -49,7 +49,7 @@ sudo netplan apply
 
 #### ipables
 
-- Back ofice connects to the firewall instead of directly to the database, because of this the firewall needs prerouting and forward configurations
+- Backend connects to the firewall instead of directly to the database, because of this the firewall needs prerouting and forward configurations
 ```
 iptables -I PREROUTING -t nat -i enp0s8 -p tcp --dport 3306 -j DNAT --to 192.168.11.1:3306
 iptables -I FORWARD -p tcp -i enp0s8 -o enp0s9 -d 192.168.11.1 --dport 3306 -j ACCEPT
