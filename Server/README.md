@@ -10,7 +10,7 @@
 
 ## Scheme of the network
 
-![imageinfo](/NetworkSecurity/Server/images/network.png)
+![image info](/NetworkSecurity/Server/images/network.png)
 
 ## VM2 - Firewall
 
