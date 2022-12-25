@@ -6,7 +6,7 @@ ROOT = path.dirname(path.relpath(__file__))
 
 
 con = mysql.connector.connect(
-        host = "192.168.2.4",
+        host = "192.168.10.254",
         user = "sirs",
         passwd = "TimekeeperCookie10!",
         database = "thecork"
