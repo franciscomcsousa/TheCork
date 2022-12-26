@@ -43,19 +43,19 @@ const mainFeaturedPost = {
 //TODO
 const featuredPosts = [
   {
-    title: 'Restaurante 1',
-    date: 'Nov 12',
+    title: 'Gift a Card!',
+    date: 'your friends will be happy...',
     description:
       'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random',
+    image: 'https://images.wsj.net/im-581988/M',
     imageLabel: 'Image Text',
   },
   {
-    title: 'Restaurante 2',
-    date: 'Nov 11',
+    title: 'Do you have a Gift Card?',
+    date: 'Redeem it here!',
     description:
       'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://source.unsplash.com/random',
+    image: 'https://img.freepik.com/free-photo/chicken-wings-barbecue-sweetly-sour-sauce-picnic-summer-menu-tasty-food-top-view-flat-lay_2829-6471.jpg?w=2000',
     imageLabel: 'Image Text',
   },
 ];
@@ -93,12 +93,12 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="The Cork" sections={sections}/>
+        <Header title="Fast and Delicious" sections={sections}/>
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
             {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post} />
+              <FeaturedPost key={post.title} post={post}/>
             ))}
           </Grid>
           {/* <Grid container spacing={5} sx={{ mt: 3 }}>

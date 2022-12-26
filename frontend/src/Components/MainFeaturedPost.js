@@ -49,7 +49,7 @@ function MainFeaturedPost(props) {
             <Typography variant="h5" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link variant="subtitle1" href="#">
+            <Link variant="subtitle1" href="/redeem_cards">
               {post.linkText}
             </Link>
           </Box>
