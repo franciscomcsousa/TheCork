@@ -153,6 +153,12 @@ network:
 #### Running MySQL
 
 - [**MySQL**](https://www.mysql.com/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
+```
+$ sudo systemctl start mysql
+$ sudo systemctl enable mysql
+```
+
+- Set the `bind-address` of `mysql.conf.d` to `0.0.0.0`
 
 - After creating a proper user and password, the database (named `thecork`) is populated using
 `mysql thecork < schema.sql`
