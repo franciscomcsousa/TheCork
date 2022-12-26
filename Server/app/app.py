@@ -58,12 +58,11 @@ def register_user():
         pass
     
     if request.method == 'POST':
-        name = request.form.get('name')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        create_user(name, email, hashlib.sha256(password.encode('ascii')).hexdigest())
-    users = get_all_users()
-    return render_template('register.html', posts=users)
+        data = request.get_json()
+        name = data['name']
+        email = data['email']
+        password = data['password']
+        create_user(name, email, hashlib.sha256(password.encode()).digest())
 
 
 @app.route('/login', methods=['GET', 'POST'])
