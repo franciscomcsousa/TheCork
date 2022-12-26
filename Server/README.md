@@ -60,7 +60,11 @@ iptables -I FORWARD -p tcp -i enp0s8 -o enp0s9 -d 192.168.11.1 --dport 3306 -j A
 iptables -t nat -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.10.1:80
 iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 80 -j SNAT --to-source 192.168.20.1
 ```
-
+- This time allowing https requests (port 443)
+```
+iptables -t nat -I PREROUTING -p tcp --dport 443 -j DNAT --to-destination 192.168.10.1:443
+iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-source 192.168.20.1
+```
 - TODO - easier to provide the file with the iptables rules
 
 #### ufw
@@ -91,7 +95,8 @@ network:
 
 - Start by installing [**Nginx**](https://www.nginx.com/)
 
-- Change the default file to the following one:
+- Change the default file to the following one
+`sudo unlink /etc/nginx/sites-enabled/default`
 
 ```
 $ cat vim /etc/nginx/sites-enabled/sirs_project
