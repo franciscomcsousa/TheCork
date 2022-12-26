@@ -2,6 +2,10 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Important
+
+In the package.json file, the proxy is set to "http://127.0.0.1:5000/". This is the default port where the backend server is running. If its on a different port, you will need to change the proxy in the package.json file.
+
 ## Available Scripts
 
 In the project directory, you can run:
