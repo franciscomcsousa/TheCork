@@ -7,12 +7,6 @@ export const Register = () => {
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
     
-     useEffect(() => {
-        fetch('/register')
-        .then(console.log("fetching"))
-    }, [])
-
-    
     const handleFormChangeName = (nameInput) => {
         setNameInput(nameInput)
     }
