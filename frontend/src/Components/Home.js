@@ -49,6 +49,7 @@ const featuredPosts = [
       'This is a wider card with supporting text below as a natural lead-in to additional content.',
     image: 'https://images.wsj.net/im-581988/M',
     imageLabel: 'Image Text',
+    link: "/gift_cards",
   },
   {
     title: 'Do you have a Gift Card?',
@@ -57,6 +58,7 @@ const featuredPosts = [
       'This is a wider card with supporting text below as a natural lead-in to additional content.',
     image: 'https://img.freepik.com/free-photo/chicken-wings-barbecue-sweetly-sour-sauce-picnic-summer-menu-tasty-food-top-view-flat-lay_2829-6471.jpg?w=2000',
     imageLabel: 'Image Text',
+    link: "/redeem_cards"
   },
 ];
 
@@ -98,7 +100,7 @@ export default function Home() {
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
             {featuredPosts.map((post) => (
-              <FeaturedPost key={post.title} post={post}/>
+              <FeaturedPost key={post.title} post={post} />
             ))}
           </Grid>
           {/* <Grid container spacing={5} sx={{ mt: 3 }}>

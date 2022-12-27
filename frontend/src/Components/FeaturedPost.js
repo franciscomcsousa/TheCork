@@ -12,7 +12,7 @@ function FeaturedPost(props) {
 
   return (
     <Grid item xs={12} md={6}>
-      <CardActionArea component="a" href="/gift_cards">
+      <CardActionArea component="a" href={post.link}>
         <Card sx={{ display: 'flex' }}>
           <CardContent sx={{ flex: 1 }}>
             <Typography component="h2" variant="h5">
@@ -33,6 +33,7 @@ function FeaturedPost(props) {
             sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
             image={post.image}
             alt={post.imageLabel}
+            href={post.link}
           />
         </Card>
       </CardActionArea>
@@ -47,6 +48,7 @@ FeaturedPost.propTypes = {
     image: PropTypes.string.isRequired,
     imageLabel: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
+    link: PropTypes.string.isRequired,
   }).isRequired,
 };
 
