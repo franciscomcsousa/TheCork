@@ -24,10 +24,10 @@ network:
   ethernets:
       enp0s3:    # or enp0s8, if you have it enabled instead
           addresses:
-              - 192.168.30.100/24
+              - 192.168.20.100/24
           routes:
               - to: 0.0.0.0/0
-                via: 192.168.30.254
+                via: 192.168.20.254
           nameservers:
               addresses: [8.8.8.8, 8.8.4.4]
 ```
