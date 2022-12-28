@@ -12,6 +12,26 @@
 
 ![image info](/Server/images/network.png)
 
+## VM1 - Internal Client
+
+#### Network manager
+
+```
+### On VM1
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+      enp0s3:    # or enp0s8, if you have it enabled instead
+          addresses:
+              - 192.168.30.100/24
+          routes:
+              - to: 0.0.0.0/0
+                via: 192.168.30.254
+          nameservers:
+              addresses: [8.8.8.8, 8.8.4.4]
+```
+
 ## VM2 - Firewall
 
 #### Network manager
