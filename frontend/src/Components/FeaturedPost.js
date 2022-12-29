@@ -25,12 +25,12 @@ function FeaturedPost(props) {
               {post.description}
             </Typography>
             <Typography variant="subtitle1" color="primary">
-              Continue reading...
+              Take me there
             </Typography>
           </CardContent>
           <CardMedia
             component="img"
-            sx={{ width: 160, display: { xs: 'none', sm: 'block' } }}
+            sx={{ width: 230, display: { xs: 'none', sm: 'block' } }}
             image={post.image}
             alt={post.imageLabel}
             href={post.link}

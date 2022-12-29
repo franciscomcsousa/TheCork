@@ -43,15 +43,12 @@ function MainFeaturedPost(props) {
               pr: { md: 0 },
             }}
           >
-            <Typography component="h1" variant="h3" color="inherit" gutterBottom>
+            <Typography component="h1" variant="h3" align="center" color="inherit" gutterBottom>
               {post.title}
             </Typography>
-            <Typography variant="h5" color="inherit" paragraph>
+            <Typography variant="h5" align="center" color="inherit" paragraph>
               {post.description}
             </Typography>
-            <Link variant="subtitle1" href="/redeem_cards">
-              {post.linkText}
-            </Link>
           </Box>
         </Grid>
       </Grid>
@@ -64,7 +61,7 @@ MainFeaturedPost.propTypes = {
     description: PropTypes.string.isRequired,
     image: PropTypes.string.isRequired,
     imageText: PropTypes.string.isRequired,
-    linkText: PropTypes.string.isRequired,
+    //linkText: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
   }).isRequired,
 };

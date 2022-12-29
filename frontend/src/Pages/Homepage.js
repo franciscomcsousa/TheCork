@@ -10,7 +10,6 @@ export const Homepage = () => {
 
 return (
     <div>
-        {/* <RegisterForm userInput={userInput} onFormChange={handleFormChange} onFormSubmit={handleFormSubmit}/> */}
         <Home/>
     </div>
     )

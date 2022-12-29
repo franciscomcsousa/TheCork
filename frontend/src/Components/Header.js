@@ -6,24 +6,27 @@ import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import Box from '@mui/material/Box';
+import {useNavigate} from 'react-router-dom'
 
 function Header(props) {
   const { sections, title } = props;
+  const navigate = useNavigate();
 
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Button size="small">Bookings</Button>
-        <Typography
-          component="h2"
-          variant="h5"
-          color="inherit"
-          align="center"
-          noWrap
-          sx={{ flex: 1 }}
-        >
-          {title}
-        </Typography>
+        <Box
+        m={1} //margin
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
+        paddingLeft={51}
+        paddingRight={45}
+      >
+      <Button size="large" variant="text" color="inherit" onClick={() => navigate('/', {replace: true})}>{title}</Button>
+      </Box>
         <IconButton>
           <SearchIcon />
         </IconButton>

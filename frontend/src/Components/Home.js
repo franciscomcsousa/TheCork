@@ -34,20 +34,19 @@ const sections = [
 const mainFeaturedPost = {
   title: 'The Cork',
   description:
-    "Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.",
-  image: 'https://images.unsplash.com/photo-1447078806655-40579c2520d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
+    "Search for restaurants, bars, cafes, and more in your area. Book a table, order food, or just browse the menu. It's all here.",
+    image: 'https://images.unsplash.com/photo-1447078806655-40579c2520d6?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
   imageText: 'main image description',
-  linkText: 'Continue reading…',
 };
 
 //TODO
 const featuredPosts = [
   {
     title: 'Gift a Card!',
-    date: 'your friends will be happy...',
+    date: 'Your friends will be happy...',
     description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://images.wsj.net/im-581988/M',
+      'Give the gift of choice with a Cork Gift Card. Choose from a variety of amounts so you can give the perfect gift to that special someone.',
+    image: 'https://www.westend61.de/images/0001475646pw/woman-giving-gift-to-female-friend-at-table-in-restaurant-VYF00213.jpg',
     imageLabel: 'Image Text',
     link: "/gift_cards",
   },
@@ -55,8 +54,8 @@ const featuredPosts = [
     title: 'Do you have a Gift Card?',
     date: 'Redeem it here!',
     description:
-      'This is a wider card with supporting text below as a natural lead-in to additional content.',
-    image: 'https://img.freepik.com/free-photo/chicken-wings-barbecue-sweetly-sour-sauce-picnic-summer-menu-tasty-food-top-view-flat-lay_2829-6471.jpg?w=2000',
+      'Someone thought of you and gave you a Cork Gift Card? Well, now is the time to redeem it! You dont want to leave them hanging, do you?',
+    image: 'https://media.istockphoto.com/id/183764681/photo/3d-gift-card.jpg?b=1&s=170667a&w=0&k=20&c=cwQcCegtVu9kfjrm9adhQvLHhV8vbZQjA-yjbzr1q8E=',
     imageLabel: 'Image Text',
     link: "/redeem_cards"
   },
@@ -95,7 +94,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="Fast and Delicious" sections={sections}/>
+        <Header title="The Cork" sections={sections}/>
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
