@@ -6,7 +6,7 @@
 
 - This project is being deployed using [**Guinicorn**](https://gunicorn.org/)
 
-- Database system is [**MySQL**](https://www.mysql.com/)
+- Database system is [**MariaDB**](https://mariadb.org/)
 
 ## Scheme of the network
 
@@ -153,9 +153,10 @@ server {
 ## VM4 - Database
 
 #### Network manager
+
 ```
-### On VM4
 $ sudo cat /etc/netplan/01-network-manager-all.yaml
+### On VM4
 network:
   version: 2
   renderer: NetworkManager
@@ -170,15 +171,15 @@ network:
               addresses: [8.8.8.8, 8.8.4.4]
 ```
 
-#### Running MySQL
+#### Running MariaDB
 
-- [**MySQL**](https://www.mysql.com/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
+- [**MariaDB**](https://mariadb.org/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
 ```
-$ sudo systemctl start mysql
-$ sudo systemctl enable mysql
+$ sudo systemctl start mariadb
+$ sudo systemctl enable mariadb
 ```
 
-- Set the `bind-address` of `mysql.conf.d` to `0.0.0.0`
+- Set the `bind-address` of `mariadb.conf.d` to `0.0.0.0`
 
 - After creating a proper user and password, the database (named `thecork`) is populated using
-`mysql thecork < schema.sql`
+`mariadb thecork < schema.sql`
