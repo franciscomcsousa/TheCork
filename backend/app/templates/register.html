@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Register User</title>
+  </head>
+  <body>
+        <form action="/register" method="post">
+            <input name="name" placeholder="Username">
+            <input name="email" placeholder="Email">
+            <input type="password" name="password" placeholder="Password">
+            <input type="submit" value="Register">
+        </form>
+        {% for post in posts %}
+            <div> {{ post }}</div>
+        {% endfor %}
+        <p>Already have an account? <a href="/login">Login</a></p>
+          <button type="button" onclick="window.location.href='/'">Homepage</button>
+      </p>
+  </body>

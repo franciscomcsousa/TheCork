@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gift Cards</title>
+  </head>
+  <body>
+        <form action="/gift_cards" method="post">
+            <input name="amount" placeholder="Amount">
+            <input name="email"  placeholder="Your Email">
+            <input type="password" name="password"  placeholder="Your Password">
+            <input type="submit" value="Submit">
+        </form>
+        {% for post in posts %}
+            <div> {{ post }}</div>
+        {% endfor %}
+        <p>
+            <button type="button" onclick="window.location.href='/'">Homepage</button>
+        </p>
+  </body>
