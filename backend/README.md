@@ -10,7 +10,7 @@
 
 ## Scheme of the network
 
-![image info](/Server/images/network.png)
+![image info](/backend/images/network.png)
 
 ## VM1 - Internal Client
 
