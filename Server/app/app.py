@@ -62,7 +62,7 @@ def register_user():
         name = data['name']
         email = data['email']
         password = data['password']
-        create_user(name, email, hashlib.sha256(password.encode()).digest())
+        create_user(name, email, hashlib.sha256(password.encode('ascii')).hexdigest())
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -87,4 +87,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='127.0.0.1', debug=True)
