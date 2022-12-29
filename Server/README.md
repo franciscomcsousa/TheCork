@@ -32,6 +32,12 @@ network:
               addresses: [8.8.8.8, 8.8.4.4]
 ```
 
+- **Note** - after changing the `network-manager`, netplan must be reapplied
+```
+sudo netplan try
+sudo netplan apply
+```
+
 ## VM2 - Firewall
 
 #### Network manager
@@ -89,7 +95,7 @@ iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-s
 
 #### ufw
 
-- Still trying to figure out if this is needed (the default config from ufw seems good to block most conections)
+- Still trying to figure out if this is needed (the default config from ufw seems good to block most connections)
 
 ## VM3 - Server
 
@@ -109,6 +115,12 @@ network:
                 via: 192.168.10.254
           nameservers:
               addresses: [8.8.8.8, 8.8.4.4]
+```
+
+- **Note** - after changing the `network-manager`, netplan must be reapplied
+```
+sudo netplan try
+sudo netplan apply
 ```
 
 #### Running nginx
@@ -171,6 +183,12 @@ network:
               addresses: [8.8.8.8, 8.8.4.4]
 ```
 
+- **Note** - after changing the `network-manager`, netplan must be reapplied
+```
+sudo netplan try
+sudo netplan apply
+```
+
 #### Running MariaDB
 
 - [**MariaDB**](https://mariadb.org/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
@@ -179,7 +197,34 @@ $ sudo systemctl start mariadb
 $ sudo systemctl enable mariadb
 ```
 
-- Set the `bind-address` of `mariadb.conf.d` to `0.0.0.0`
+- Set the `bind-address` of `/etc/mysql/mariadb.conf.d/50-server.cnf` to `0.0.0.0`
 
 - After creating a proper user and password, the database (named `thecork`) is populated using
 `mariadb thecork < schema.sql`
+
+#### Create certificate for the database (might work for nginx)
+
+- On the SQL server, generate SSL certificates and keys for the certificate authority, server, and client:
+
+- **Note** - these files must be generated in `/etc/mysql/ssl`, other locations might not work and mariadb doesn't know how to properly complaint.
+
+```
+mkdir /etc/mysql/ssl
+cd /etc/mysql/ssl
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 > ./ca-key.pem
+openssl req -new -x509 -nodes -days 365 -key ./ca-key.pem -out ./ca-cert.pem -subj "/C=PT/ST=Portugal/L=Lisbon/O=IST/CN=Group 51 Certification Authority"
+openssl req -newkey rsa:4096 -nodes -keyout ./server-key.pem -out ./server-req.pem -subj "/C=PT/ST=Portugal/L=Lisbon/O=IST/CN=thecork.pt"
+openssl x509 -req -in ./server-req.pem -days 365 -CA ./ca-cert.pem -CAkey ./ca-key.pem -CAcreateserial -out ./server-cert.pem
+openssl req -newkey rsa:4096 -nodes -keyout ./client-key.pem -out ./client-req.pem -subj "/C=PT/ST=Portugal/L=Lisbon/O=IST/CN=thecorkclient.pt"
+openssl x509 -req -in ./client-req.pem -days 365 -CA ./ca-cert.pem -CAkey ./ca-key.pem -CAcreateserial -out ./client-cert.pem 
+```
+
+- Convert the server's private key to plain RSA format and change its owner to MariaDB's user
+```
+openssl rsa -in ./server-key.pem -out ./server-key-rsa.pem
+chown mysql: ./server-key-rsa.pem 
+```
+
+- Change values of `ssl-ca`, `ssl-cert` and `ssl-key` to the right ones in `/etc/mysql/mariadb.conf.d/50-server.cnf`
+
+- Restart mariadb `systemctl restart mariadb`
