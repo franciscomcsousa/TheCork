@@ -5,10 +5,9 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import RedeemIcon from '@mui/icons-material/Redeem';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -16,19 +15,15 @@ import {useNavigate} from 'react-router-dom'
 
 const theme = createTheme();
 
-export default function RegisterForm({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
+export default function RedeemForm({ cardInput, emailInput, onFormChangeCard, onFormChangeEmail, onFormSubmit }) {
     const navigate = useNavigate();
   
-    const handleChangeName = (event) => {
-       onFormChangeName(event.target.value)
+    const handleChangeCard = (event) => {
+       onFormChangeCard(event.target.value)
     }
 
     const handleChangeEmail = (event) => {
         onFormChangeEmail(event.target.value)
-    }
-
-    const handleChangePassword = (event) => {
-        onFormChangePassword(event.target.value)
     }
 
     const handleSubmit = (event) => {
@@ -37,7 +32,7 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
     }
 
 
-  return (
+  return(
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
         <CssBaseline />
@@ -53,7 +48,7 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
             display="flex"
             justifyContent="flex-start"
             alignItems="flex-start"
-            paddingTop={1}
+            paddingTop={1.3}
           >
           <Button size="large" variant="text" color="inherit" onClick={() => navigate('/', {replace: true})}>The Cork</Button>
           </Box>
@@ -61,27 +56,27 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
             m={1} //margin
             paddingTop={2}
           >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 3, bgcolor: 'blueviolet', width: 60, height: 60}}>
+            <RedeemIcon />
           </Avatar>
           </Box>
           <Typography component="h1" variant="h5">
-            Register
+            Redeem Cards
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
               <Grid item xs={12}>
                 <TextField
-                  autoComplete="given-name"
-                  name="name"
+                  autoComplete="card-code"
+                  name="card-code"
                   type="text"
                   required
                   fullWidth
-                  id="name"
-                  label="Name"
+                  id="card-code"
+                  label="Card Code"
                   autoFocus
-                  value={nameInput}
-                  onChange={handleChangeName}
+                  value={cardInput}
+                  onChange={handleChangeCard}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -98,41 +93,20 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
                 />
               </Grid>
               <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                  value={passwordInput}
-                  onChange={handleChangePassword}
-                />
-              </Grid>
-              <Grid item xs={12}>
                 <FormControlLabel
                   control={<Checkbox value="allowExtraEmails" color="primary" />}
-                  label="I want to receive inspiration, marketing promotions and updates via email."
+                  label="I want to receive new gift card notifications through email."
                 />
               </Grid>
             </Grid>
             <Button
               type="submit"
-              fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-              onClick={() => window.location.href = '/'}
+              sx={{ mt: 3, mb: 2, width: 200, padding: 1, margin: 2}}
+              onClick={() => window.location.href = '/redeem_cards'}
             >
-              Register
+              Redeem
             </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="#" variant="body2">
-                  Already have an account? Login
-                </Link>
-              </Grid>
-            </Grid>
           </Box>
         </Box>
       </Container>

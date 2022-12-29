@@ -29,13 +29,12 @@ def gift_cards():
         pass
     
     if request.method == 'POST':
-        amount = request.form.get('amount')
-        email = request.form.get('email')
-        password = request.form.get('password')
-        create_gift_card(int(amount), email, hashlib.sha256(password.encode()).digest())
-
-    gift_cards = get_all_gift_cards()
-    return render_template('gift_cards.html', posts=gift_cards)
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
+        amount = data['amount']
+        create_gift_card(int(amount), email, hashlib.sha256(password.encode('ascii')).hexdigest())
+    return {'200': 'Created Successfully'}
 
 
 @app.route('/redeem_cards', methods=['GET', 'POST'])
@@ -62,8 +61,8 @@ def register_user():
         name = data['name']
         email = data['email']
         password = data['password']
-        create_user(name, email, hashlib.sha256(password.encode()).digest())
-
+        create_user(name, email, hashlib.sha256(password.encode('ascii')).hexdigest())
+    return {'200': 'Registered Successfully'}
 
 @app.route('/login', methods=['GET', 'POST'])
 def user_login():
@@ -73,7 +72,7 @@ def user_login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        user = login(email, hashlib.sha256(password.encode()).digest())
+        user = login(email, hashlib.sha256(password.encode('ascii')).hexdigest())
         if user is not None:
             session['user'] = user
             return render_template('login.html', posts=user)

@@ -1,13 +1,14 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
+//import * as React from 'react';
+import React, { useState, useEffect } from 'react';
+//import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+//import FormControlLabel from '@mui/material/FormControlLabel';
+//import Checkbox from '@mui/material/Checkbox';
+//import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
-import AppBar from '@mui/material/AppBar';
+//import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -16,12 +17,12 @@ import CardHeader from '@mui/material/CardHeader';
 import CssBaseline from '@mui/material/CssBaseline';
 import Grid from '@mui/material/Grid';
 import StarIcon from '@mui/icons-material/StarBorder';
-import Toolbar from '@mui/material/Toolbar';
+//import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+//import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
-import Popover from '@mui/material/Popover'
+//import Popover from '@mui/material/Popover'
 import {useNavigate} from 'react-router-dom'
 
 
@@ -39,57 +40,29 @@ const sections = [
     { title: 'French', url: '#' },
   ];
 
-  
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
 
 const tiers = [
   {
     title: '',
     price: '15',
-    description: [
-      '10 users included',
-      '2 GB of storage',
-      'Help center access',
-      'Email support',
-    ],
+    description: [],
     buttonText: 'Choose this one',
-    buttonVariant: 'outlined',
+    currentButtonVariant: 'outlined',
   },
   {
     title: '',
     subheader: 'Most Popular',
     price: '25',
-    description: [
-      '20 users included',
-      '10 GB of storage',
-      'Help center access',
-      'Priority email support',
-    ],
+    description: [],
     buttonText: 'Choose this one',
-    buttonVariant: 'contained',
+    currentButtonVariant: 'outlined',
   },
   {
     title: '',
     price: '50',
-    description: [
-      '50 users included',
-      '30 GB of storage',
-      'Help center access',
-      'Phone & email support',
-    ],
+    description: [],
     buttonText: 'Choose this one',
-    buttonVariant: 'outlined',
+    currentButtonVariant: 'outlined',
   },
 ];
   
@@ -132,8 +105,27 @@ const tiers = [
 
 const theme = createTheme();
 
-export default function Gift({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
-  const navigate = useNavigate();
+export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, onFormChangeCard }) {
+  //const navigate = useNavigate();
+
+  
+  const handleChangeEmail = (event) => {
+    onFormChangeEmail(event.target.value)
+  }
+
+  const handleChangePassword = (event) => {
+    onFormChangePassword(event.target.value)
+  }
+
+  const handleChangeCard = (event) => {
+    onFormChangeCard(event.target.value)
+  }
+
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    onFormSubmit()
+  }
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -185,15 +177,10 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
         </Toolbar>
       </AppBar> */}
       {/* Hero unit */}
-      <Box
-        m={1} //margin
-        display="flex"
-        justifyContent="flex-start"
-        alignItems="flex-start"
-      >
-      <Button variant="outlined" color="error" onClick={() => navigate(-1)}>Go back</Button>
-      </Box>
       <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 1, pb: 5 }}>
+        <Box
+          paddingTop={2}
+        ></Box>
         <Typography
           component="h1"
           variant="h2"
@@ -216,9 +203,9 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
             // Enterprise card is full width at sm breakpoint
             <Grid
               item
-              key={tier.title}
+              key={tier.price}
               xs={12}
-              sm={tier.title === 'Enterprise' ? 12 : 6}
+              //sm={tier.title === 'Enterprise' ? 12 : 6}
               md={4}
             >
               <Card>
@@ -266,7 +253,7 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.buttonVariant}>
+                  <Button fullWidth variant={tier.currentButtonVariant} value={tier.price} onClick={handleChangeCard}>
                     {tier.buttonText}
                   </Button>
                 </CardActions>
@@ -275,6 +262,68 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
           ))}
         </Grid>
       </Container>
+      
+      
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Box
+            m={1} //margin
+            display="flex"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            paddingTop={1}
+          ></Box>
+        </Box>
+        <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                id="email"
+                type="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={emailInput}
+                onChange={handleChangeEmail}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                value={passwordInput}
+                onChange={handleChangePassword}
+              />
+            </Grid>
+        </Grid>
+          <Button
+          type="submit"
+          fullWidth
+          variant="contained"
+          sx={{ height: 40, width: 200 }}
+          // onClick={() => window.location.href = '/'}
+          /* PoP over */
+        >
+          Buy!
+        </Button>
+      </Box>
+    </Container>
+
+      
       {/* Footer */}
       {/* <Container
         maxWidth="md"
