@@ -22,6 +22,7 @@ import Link from '@mui/material/Link';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
 import Popover from '@mui/material/Popover'
+import {useNavigate} from 'react-router-dom'
 
 
 //TODO
@@ -132,12 +133,13 @@ const tiers = [
 const theme = createTheme();
 
 export default function Gift({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
-  
+  const navigate = useNavigate();
+
   return (
     <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container maxWidth="lg">
-          <Header title="" sections={sections}/>
+          <Header title="The Cork" sections={sections}/>
         <React.Fragment>
       <GlobalStyles styles={{ ul: { margin: 0, padding: 0, listStyle: 'none' } }} />
       <CssBaseline />
@@ -183,7 +185,15 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
         </Toolbar>
       </AppBar> */}
       {/* Hero unit */}
-      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 8, pb: 6 }}>
+      <Box
+        m={1} //margin
+        display="flex"
+        justifyContent="flex-start"
+        alignItems="flex-start"
+      >
+      <Button variant="outlined" color="error" onClick={() => navigate(-1)}>Go back</Button>
+      </Box>
+      <Container disableGutters maxWidth="sm" component="main" sx={{ pt: 1, pb: 5 }}>
         <Typography
           component="h1"
           variant="h2"
@@ -191,7 +201,7 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
           color="text.primary"
           gutterBottom
         >
-          Gift
+          Gift Cards
         </Typography>
         <Typography variant="h5" align="center" color="text.secondary" component="p">
           {/* Quickly build an effective pricing table for your potential customers with
@@ -223,7 +233,7 @@ export default function Gift({ nameInput, emailInput, passwordInput, onFormChang
                   sx={{
                     backgroundColor: (theme) =>
                       theme.palette.mode === 'light'
-                        ? theme.palette.grey[200]
+                        ? theme.palette.grey[300]
                         : theme.palette.grey[700],
                   }}
                 />

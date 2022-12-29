@@ -1,16 +1,13 @@
 .App {
   text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  background-image: 
+  url(
+  "https://img.freepik.com/free-photo/abstract-luxury-plain-blur-grey-black-gradient-used-as-background-studio-wall-display-your-products_1258-63644.jpg?w=1380&t=st=1672345905~exp=1672346505~hmac=6f95f1240e4e9e843f66fe37a58f39e006d4a99df77471a6549715efee292aa6");
+  height: 100vh;
+  font-size:50px;
+  background-size:cover;
+  background-repeat:repeat;
+  background-position: center;
 }
 
 .App-header {

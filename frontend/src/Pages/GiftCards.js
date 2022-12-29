@@ -4,7 +4,7 @@ import Gift from '../Components/Gift';
 export const GiftCards = () => {
     
      useEffect(() => {
-        fetch('/')
+        fetch('/gift_cards')
         .then(console.log("fetching"))
     }, [])
 

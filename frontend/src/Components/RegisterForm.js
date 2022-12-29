@@ -12,6 +12,7 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useNavigate} from 'react-router-dom'
 
 function Copyright(props) {
     return (
@@ -29,6 +30,7 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function RegisterForm({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
+    const navigate = useNavigate();
   
     const handleChangeName = (event) => {
        onFormChangeName(event.target.value)
@@ -54,15 +56,28 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
         <CssBaseline />
         <Box
           sx={{
-            marginTop: 8,
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
           }}
         >
+          <Box
+            m={1} //margin
+            display="flex"
+            justifyContent="flex-start"
+            alignItems="flex-start"
+            paddingTop={1.3}
+          >
+          <Button variant="outlined" color="error" onClick={() => navigate(-1)}>Go back</Button>
+          </Box>
+          <Box
+            m={1} //margin
+            paddingTop={2}
+          >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
+          </Box>
           <Typography component="h1" variant="h5">
             Register
           </Typography>
@@ -133,7 +148,6 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
             </Grid>
           </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
       </Container>
     </ThemeProvider>
   );
