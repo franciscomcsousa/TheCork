@@ -64,6 +64,7 @@ def register_user():
         create_user(name, email, hashlib.sha256(password.encode('ascii')).hexdigest())
     return {'200': 'Registered Successfully'}
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def user_login():
     if request.method == 'GET':
@@ -86,4 +87,4 @@ def logout():
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='127.0.0.1', debug=True)

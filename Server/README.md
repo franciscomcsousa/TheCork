@@ -6,11 +6,37 @@
 
 - This project is being deployed using [**Guinicorn**](https://gunicorn.org/)
 
-- Database system is [**MySQL**](https://www.mysql.com/)
+- Database system is [**MariaDB**](https://mariadb.org/)
 
 ## Scheme of the network
 
 ![image info](/Server/images/network.png)
+
+## VM1 - Internal Client
+
+#### Network manager
+
+```
+### On VM1
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+      enp0s3:    # or enp0s8, if you have it enabled instead
+          addresses:
+              - 192.168.20.100/24
+          routes:
+              - to: 0.0.0.0/0
+                via: 192.168.20.254
+          nameservers:
+              addresses: [8.8.8.8, 8.8.4.4]
+```
+
+- **Note** - after changing the `network-manager`, netplan must be reapplied
+```
+sudo netplan try
+sudo netplan apply
+```
 
 ## VM2 - Firewall
 
@@ -60,12 +86,16 @@ iptables -I FORWARD -p tcp -i enp0s8 -o enp0s9 -d 192.168.11.1 --dport 3306 -j A
 iptables -t nat -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.10.1:80
 iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 80 -j SNAT --to-source 192.168.20.1
 ```
-
+- This time allowing https requests (port 443)
+```
+iptables -t nat -I PREROUTING -p tcp --dport 443 -j DNAT --to-destination 192.168.10.1:443
+iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-source 192.168.20.1
+```
 - TODO - easier to provide the file with the iptables rules
 
 #### ufw
 
-- Still trying to figure out if this is needed (the default config from ufw seems good to block most conections)
+- Still trying to figure out if this is needed (the default config from ufw seems good to block most connections)
 
 ## VM3 - Server
 
@@ -87,17 +117,34 @@ network:
               addresses: [8.8.8.8, 8.8.4.4]
 ```
 
+- **Note** - after changing the `network-manager`, netplan must be reapplied
+```
+sudo netplan try
+sudo netplan apply
+```
+
 #### Running nginx
 
 - Start by installing [**Nginx**](https://www.nginx.com/)
 
-- Change the default file to the following one:
+- Change the default file to the following one
+`sudo unlink /etc/nginx/sites-enabled/default`
 
 ```
-$ cat vim /etc/nginx/sites-enabled/sirs_project
+$ cat /etc/nginx/sites-enabled/sirs_project
 server {
-    listen 80;
-    
+    listen 80 default_server;
+    server_name 192.168.68.128;
+    return 301 https://$server_name$request_uri;
+}
+
+server {
+    listen 443 ssl;
+    server_name 192.168.68.128;
+
+    ssl_certificate /etc/nginx/ssl/thecork.crt;
+    ssl_certificate_key /etc/nginx/ssl/thecork.key;    
+
     location / {
         proxy_pass http://127.0.0.1:8000;
         proxy_set_header Host $host;
@@ -118,9 +165,10 @@ server {
 ## VM4 - Database
 
 #### Network manager
+
 ```
-### On VM4
 $ sudo cat /etc/netplan/01-network-manager-all.yaml
+### On VM4
 network:
   version: 2
   renderer: NetworkManager
@@ -135,9 +183,48 @@ network:
               addresses: [8.8.8.8, 8.8.4.4]
 ```
 
-#### Running MySQL
+- **Note** - after changing the `network-manager`, netplan must be reapplied
+```
+sudo netplan try
+sudo netplan apply
+```
 
-- [**MySQL**](https://www.mysql.com/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
+#### Running MariaDB
+
+- [**MariaDB**](https://mariadb.org/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
+```
+$ sudo systemctl start mariadb
+$ sudo systemctl enable mariadb
+```
+
+- Set the `bind-address` of `/etc/mysql/mariadb.conf.d/50-server.cnf` to `0.0.0.0`
 
 - After creating a proper user and password, the database (named `thecork`) is populated using
-`mysql thecork < schema.sql`
+`mariadb thecork < schema.sql`
+
+#### Create certificate for the database (might work for nginx)
+
+- On the SQL server, generate SSL certificates and keys for the certificate authority, server, and client:
+
+- **Note** - these files must be generated in `/etc/mysql/ssl`, other locations might not work and mariadb doesn't know how to properly complaint.
+
+```
+mkdir /etc/mysql/ssl
+cd /etc/mysql/ssl
+openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:4096 > ./ca-key.pem
+openssl req -new -x509 -nodes -days 365 -key ./ca-key.pem -out ./ca-cert.pem -subj "/C=PT/ST=Portugal/L=Lisbon/O=IST/CN=Group 51 Certification Authority"
+openssl req -newkey rsa:4096 -nodes -keyout ./server-key.pem -out ./server-req.pem -subj "/C=PT/ST=Portugal/L=Lisbon/O=IST/CN=thecork.pt"
+openssl x509 -req -in ./server-req.pem -days 365 -CA ./ca-cert.pem -CAkey ./ca-key.pem -CAcreateserial -out ./server-cert.pem
+openssl req -newkey rsa:4096 -nodes -keyout ./client-key.pem -out ./client-req.pem -subj "/C=PT/ST=Portugal/L=Lisbon/O=IST/CN=thecorkclient.pt"
+openssl x509 -req -in ./client-req.pem -days 365 -CA ./ca-cert.pem -CAkey ./ca-key.pem -CAcreateserial -out ./client-cert.pem 
+```
+
+- Convert the server's private key to plain RSA format and change its owner to MariaDB's user
+```
+openssl rsa -in ./server-key.pem -out ./server-key-rsa.pem
+chown mysql: ./server-key-rsa.pem 
+```
+
+- Change values of `ssl-ca`, `ssl-cert` and `ssl-key` to the right ones in `/etc/mysql/mariadb.conf.d/50-server.cnf`
+
+- Restart mariadb `systemctl restart mariadb`

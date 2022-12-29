@@ -1,6 +1,6 @@
 drop table if exists posts;
     create table posts(
-        id integer primary key autoincrement,
+        id integer primary key AUTO_INCREMENT,
         name text not null,
         content text not null
     );
@@ -17,7 +17,7 @@ drop table if exists users;
     create table users (
         user_id integer AUTO_INCREMENT primary key not null,
         name text not null,
-        email text not null unique,
+        email text not null,
         password text not null,
         wallet real not null
     );
