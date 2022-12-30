@@ -122,7 +122,7 @@ def redeem_gift_card(card_number, email):
 def create_user(name,email,password):
     #con = connect() 
     cur = con.cursor()
-    data = (name, email, password, 0)
+    data = (name, email, password, 50)
     query = 'insert into users (name, email, password, wallet) values (%s, %s, %s, %s)'
     cur.execute(query, data)
     con.commit()

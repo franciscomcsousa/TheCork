@@ -315,11 +315,14 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
           fullWidth
           variant="contained"
           sx={{ height: 40, width: 200 }}
-          // onClick={() => window.location.href = '/'}
+          onClick={() => window.location.href = '/gift_cards'}
           /* PoP over */
         >
           Buy!
         </Button>
+        <Box
+          padding={3}
+        ></Box>
       </Box>
     </Container>
 
