@@ -134,19 +134,19 @@ sudo netplan apply
 $ cat /etc/nginx/sites-enabled/sirs_project
 server {
     listen 80 default_server;
-    server_name 192.168.68.128;
+    server_name 192.168.20.1;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl;
-    server_name 192.168.68.128;
+    server_name 192.168.20.1;
 
     ssl_certificate /etc/nginx/ssl/thecork.crt;
-    ssl_certificate_key /etc/nginx/ssl/thecork.key;    
+    ssl_certificate_key /etc/nginx/ssl/thecork.key;
 
     location / {
-        proxy_pass http://127.0.0.1:8000;
+        proxy_pass http://127.0.0.1:3000;
         proxy_set_header Host $host;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
     }
