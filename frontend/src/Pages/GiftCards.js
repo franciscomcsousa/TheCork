@@ -22,7 +22,7 @@ export const GiftCards = () => {
     const handleFormSubmit = () => {
         fetch('/gift_cards', {
             method: 'POST',
-            body: JSON.stringify({email: addEmailInput, password: addPasswordInput, tier: addTierInput}),
+            body: JSON.stringify({email: addEmailInput, password: addPasswordInput, amount: addTierInput}),
             headers: {
                 'Content-Type': 'application/json'
             }
