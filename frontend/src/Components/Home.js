@@ -60,13 +60,13 @@ const featuredPosts = [
     link: "/redeem_cards"
   },
   {
-    title: 'Do you have a Gift Card?',
-    date: 'Redeem it here!',
+    title: 'My Profile!',
+    date: 'Check it here!',
     description:
-      'Someone thought of you and gave you a Cork Gift Card? Well, now is the time to redeem it! You dont want to leave them hanging, do you?',
-    image: 'https://media.istockphoto.com/id/183764681/photo/3d-gift-card.jpg?b=1&s=170667a&w=0&k=20&c=cwQcCegtVu9kfjrm9adhQvLHhV8vbZQjA-yjbzr1q8E=',
+      'wallet text :D',
+    image: 'https://cdn.discordapp.com/attachments/434458510408024090/1057674178280566784/20221227_185903.jpg',
     imageLabel: 'Image Text',
-    link: "/redeem_cards"
+    link: "/profile"
   },
   {
     title: 'Do you have a Gift Card?',

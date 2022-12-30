@@ -3,7 +3,8 @@ import React from 'react'
 import { Register } from './Pages/Register'
 import { Homepage } from './Pages/Homepage'
 import { GiftCards } from './Pages/GiftCards'
-import { RedeemCards} from './Pages/Redeem'
+import { RedeemCards} from './Pages/RedeemCards'
+import { Profilepage} from './Pages/Profilepage'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 
@@ -17,6 +18,7 @@ function App() {
             <Route exact path="/register" element={ <Register/> }/>
             <Route exact path="/gift_cards" element={ <GiftCards/> }/>
             <Route exact path="/redeem_cards" element={ <RedeemCards/> }/>
+            <Route exact path="/profile" element={ <Profilepage/> }/>
           </Routes>
       </Router>
     </div>

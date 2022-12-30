@@ -263,7 +263,7 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
         </Grid>
       </Container>
       
-      
+      {/* user input stuff */}
       <Container component="main" maxWidth="xs">
         <CssBaseline />
         <Box

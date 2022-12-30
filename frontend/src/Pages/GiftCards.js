@@ -31,7 +31,6 @@ export const GiftCards = () => {
 
 return (
     <div>
-        {/* <RegisterForm userInput={userInput} onFormChange={handleFormChange} onFormSubmit={handleFormSubmit}/> */}
         <Gift emailInput={ addEmailInput } passwordInput={ addPasswordInput } tierInput={ addTierInput}
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} onFormChangeCard={handleFormChangeTier}
         onFormSubmit={handleFormSubmit}/>
