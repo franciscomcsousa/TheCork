@@ -24,16 +24,17 @@ export const Profilepage = () => {
                 'Content-Type': 'application/json'
             }
         })
-        // .then(response => {
-        //     if (!response.ok) {
-        //         throw new Error(`This is an HTTP error: The status is ${response.status}`)
-        //     }   
-        // return response.json();
-        
-        // })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`This is an HTTP error: The status is ${response.status}`)
+            }   
+        return response.json();
+         })
         .then(data => {
-                console.log(data)
                 setData(data)
+        })
+        .catch(error => {
+            console.log(error)
         })
     };
 
@@ -43,8 +44,16 @@ return (
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
         onFormSubmit={handleFormSubmit}/>
 
+        <div className='item-container'>
+
+              <div className='user'>
+                <h3> {data.name} </h3>
+                <h3> {data.email} </h3>
+                <h3> {data.wallet} </h3>
+              </div>
+        </div>
         {/* <p> {data} </p> */}
-        {/* {data.map(data => <div>{data.name}, {data.email}, {data.wallet}</div>)} */}
+        {/* {data.map((data) => <div>{data.name}, {data.email}, {data.wallet}</div>)} */}
     </div>
     )
 }

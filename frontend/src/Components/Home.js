@@ -69,7 +69,7 @@ const featuredPosts = [
     link: "/profile"
   },
   {
-    title: 'Do you have a Gift Card?',
+    title: 'Wanna book a restaurant?',
     date: 'Redeem it here!',
     description:
       'Someone thought of you and gave you a Cork Gift Card? Well, now is the time to redeem it! You dont want to leave them hanging, do you?',

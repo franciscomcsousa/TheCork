@@ -33,7 +33,6 @@ def gift_cards():
         email = data['email']
         password = data['password']
         amount = data['amount']
-        print(f"THE AMOUNT NUMBER IS {amount}")
         create_gift_card(int(amount), email, hashlib.sha256(password.encode('ascii')).hexdigest())
     return {'200': 'Created Successfully'}
 
@@ -86,15 +85,15 @@ def profile():
         pass
     
     if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
         user = get_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
         # TODO - maybe send differently from models.py
-        if user is not None:
+        if user:
             money = user[0][4]
             name = user[0][1]
             return {"name": name,"email": email, "wallet": money}
-    
     return {'400': 'User not found'}
 
 
