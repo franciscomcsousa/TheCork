@@ -46,9 +46,27 @@ const featuredPosts = [
     date: 'Your friends will be happy...',
     description:
       'Give the gift of choice with a Cork Gift Card. Choose from a variety of amounts so you can give the perfect gift to that special someone.',
-    image: 'https://www.westend61.de/images/0001475646pw/woman-giving-gift-to-female-friend-at-table-in-restaurant-VYF00213.jpg',
+    image: 'https://images.unsplash.com/photo-1635166304779-8ebcfe8e57bd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80',
     imageLabel: 'Image Text',
     link: "/gift_cards",
+  },
+  {
+    title: 'Do you have a Gift Card?',
+    date: 'Redeem it here!',
+    description:
+      'Someone thought of you and gave you a Cork Gift Card? Well, now is the time to redeem it! You dont want to leave them hanging, do you?',
+    image: 'https://media.istockphoto.com/id/183764681/photo/3d-gift-card.jpg?b=1&s=170667a&w=0&k=20&c=cwQcCegtVu9kfjrm9adhQvLHhV8vbZQjA-yjbzr1q8E=',
+    imageLabel: 'Image Text',
+    link: "/redeem_cards"
+  },
+  {
+    title: 'Do you have a Gift Card?',
+    date: 'Redeem it here!',
+    description:
+      'Someone thought of you and gave you a Cork Gift Card? Well, now is the time to redeem it! You dont want to leave them hanging, do you?',
+    image: 'https://media.istockphoto.com/id/183764681/photo/3d-gift-card.jpg?b=1&s=170667a&w=0&k=20&c=cwQcCegtVu9kfjrm9adhQvLHhV8vbZQjA-yjbzr1q8E=',
+    imageLabel: 'Image Text',
+    link: "/redeem_cards"
   },
   {
     title: 'Do you have a Gift Card?',
