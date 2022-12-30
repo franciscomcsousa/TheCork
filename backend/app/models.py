@@ -1,6 +1,7 @@
 import mariadb
 import os
 from os import path
+import secrets
 
 ROOT = path.dirname(path.relpath(__file__))
 
@@ -70,7 +71,8 @@ def create_gift_card(amount, email, password):
         cur.close()
         #con.close()
         return
-    card_number = os.urandom(16).hex()
+    # secrets module is more cryptographically secure than random module
+    card_number = secrets.token_hex(16) 
     data = (email, card_number, amount)
     query = 'insert into gift_cards (user_email, card_number, amount) values(%s, %s, %s)'
     cur.execute(query, data)
