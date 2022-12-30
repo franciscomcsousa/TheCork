@@ -80,6 +80,24 @@ def user_login():
     return render_template('login.html')
 
 
+@app.route('/profile', methods=['GET', 'POST'])
+def profile():
+    if request.method == 'GET':
+        pass
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = get_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        # TODO - maybe send differently from models.py
+        if user is not None:
+            money = user[0][4]
+            name = user[0][1]
+            return {"name": name,"email": email, "wallet": money}
+    
+    return {'400': 'User not found'}
+
+
 @app.route('/logout')
 def logout():
     session.pop('logged_in', None)

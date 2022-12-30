@@ -23,20 +23,28 @@ export const Profilepage = () => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        }).then(response => response.json())
-        .then(data => {
-            console.log(data)
-            setData(data)
         })
-    }
+        // .then(response => {
+        //     if (!response.ok) {
+        //         throw new Error(`This is an HTTP error: The status is ${response.status}`)
+        //     }   
+        // return response.json();
+        
+        // })
+        .then(data => {
+                console.log(data)
+                setData(data)
+        })
+    };
 
 return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
         onFormSubmit={handleFormSubmit}/>
-    
-        {data.map(data => <div>{data.name}, {data.email}, {data.wallet}</div>)}
+
+        {/* <p> {data} </p> */}
+        {/* {data.map(data => <div>{data.name}, {data.email}, {data.wallet}</div>)} */}
     </div>
     )
 }

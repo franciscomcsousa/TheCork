@@ -139,6 +139,19 @@ def get_all_users():
     #con.close()
     return users
 
+
+def get_profile(email, password):
+    #con = connect() 
+    cur = con.cursor()
+    data = (email, password)
+    query = 'select * from users where email = %s and password = %s'
+    cur.execute(query, data)
+    user = cur.fetchall()
+    cur.close()
+    #con.close()
+    return user
+
+
 def login(email, password):
     #con = connect() 
     cur = con.cursor()
