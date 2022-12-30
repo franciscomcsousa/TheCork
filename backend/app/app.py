@@ -89,10 +89,14 @@ def profile():
         email = data['email']
         password = data['password']
         user = get_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
+
         # TODO - maybe send differently from models.py
+        # TODO - it will probbly only show 1 card even if there are more
         if user:
             money = user[0][4]
             name = user[0][1]
+            if user[0][3]:                
+                return {"name": name,"email": email, "wallet": money, "card": user[0][3]}
             return {"name": name,"email": email, "wallet": money}
     return {'400': 'User not found'}
 

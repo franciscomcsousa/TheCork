@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom'
 import Header from './Header';
+import Popover from '@mui/material/Popover';
 
 
 const sections = [
@@ -31,7 +32,9 @@ const sections = [
 
   const theme = createTheme();
 
-export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
+export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, userData }) {
+
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
     const handleChangeEmail = (event) => {
         onFormChangeEmail(event.target.value)
@@ -44,7 +47,15 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
     const handleSubmit = (event) => {
         event.preventDefault()
         onFormSubmit()
+        setAnchorEl(event.currentTarget);
     }
+
+    const handleClose = () => {
+        setAnchorEl(null);
+      };
+
+    const open = Boolean(anchorEl);
+    const id = open ? 'simple-popover' : undefined;
 
   return (
     <ThemeProvider theme={theme}>
@@ -109,6 +120,26 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
         >
           See my profile!
         </Button>
+        <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+      >
+        <Grid container spacing={2}>
+            <Grid item xs={12}>
+        <Typography sx={{ p: 10 }}> Name:{userData.name}</Typography>
+        <Typography sx={{ p: 10 }}>Email:{userData.email} </Typography>
+        <Typography sx={{ p: 10 }}>Wallet:{userData.wallet} </Typography>
+        <Typography sx={{ p: 10 }}>Cards:{userData.card} </Typography>
+            
+            </Grid>
+        </Grid>
+      </Popover>
         <Box
           padding={3}
         ></Box>

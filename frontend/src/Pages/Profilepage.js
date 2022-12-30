@@ -42,18 +42,18 @@ return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit}/>
+        onFormSubmit={handleFormSubmit} userData={data}/>
 
-        <div className='item-container'>
+        {/* <div className='item-container'>
 
               <div className='user'>
                 <h3> {data.name} </h3>
                 <h3> {data.email} </h3>
                 <h3> {data.wallet} </h3>
               </div>
-        </div>
-        {/* <p> {data} </p> */}
-        {/* {data.map((data) => <div>{data.name}, {data.email}, {data.wallet}</div>)} */}
+        </div> */}
+
+
     </div>
     )
 }
