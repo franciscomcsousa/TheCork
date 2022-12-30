@@ -103,7 +103,7 @@ export default function RedeemForm({ cardInput, emailInput, onFormChangeCard, on
               type="submit"
               variant="contained"
               sx={{ mt: 3, mb: 2, width: 200, padding: 1, margin: 2}}
-              onClick={() => window.location.href = '/redeem_cards'}
+              onClick={() => window.location.href = '/'}
             >
               Redeem
             </Button>

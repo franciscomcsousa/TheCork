@@ -1,4 +1,4 @@
-import React, {useState,  useEffect } from 'react';
+import React, {useState } from 'react';
 import RedeemForm from '../Components/RedeemForm';
 
 export const RedeemCards = () => {
@@ -7,10 +7,12 @@ export const RedeemCards = () => {
     const [addEmailInput, setEmailInput] = useState('')
 
     const handleFormChangeCard = (cardInput) => {
+        console.log(cardInput)
         setCardInput(cardInput)
     }
 
     const handleFormChangeEmail = (emailInput) => {
+        console.log(emailInput)
         setEmailInput(emailInput)
     }
 

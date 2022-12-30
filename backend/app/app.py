@@ -43,12 +43,11 @@ def redeem_cards():
         pass
     
     if request.method == 'POST':
-        card_number = request.form.get('number')
-        email = request.form.get('email')
+        data = request.get_json()
+        card_number = data['card']
+        email = data['email']
         redeem_gift_card(card_number, email)
-
-    gift_cards = get_all_gift_cards()
-    return render_template('redeem_cards.html', posts=gift_cards)
+    return {'200': 'Redeemed Successfully'}
 
 
 @app.route('/register', methods=['GET', 'POST'])
