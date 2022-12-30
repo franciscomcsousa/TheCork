@@ -70,9 +70,9 @@ def create_gift_card(amount, email, password):
         cur.close()
         #con.close()
         return
-    card_number = os.urandom(32).hex()
+    card_number = os.urandom(16).hex()
     data = (email, card_number, amount)
-    query = 'insert into gift_cards (email, card_number, amount) values(%s, %s, %s)'
+    query = 'insert into gift_cards (user_email, card_number, amount) values(%s, %s, %s)'
     cur.execute(query, data)
     # update the user's wallet, subtract the amount
     new_amount = user[0][4] - amount
@@ -106,7 +106,7 @@ def redeem_gift_card(card_number, email):
         con.close()
         return
     # update the user's wallet, add the amount
-    new_amount = user[0][4] + gift_card[0][2]
+    new_amount = user[0][4] + gift_card[0][3]
     data = (new_amount, email)
     query = 'update users set wallet = %s where email = %s'
     cur.execute(query, data)

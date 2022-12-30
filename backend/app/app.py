@@ -33,6 +33,7 @@ def gift_cards():
         email = data['email']
         password = data['password']
         amount = data['amount']
+        print(f"THE AMOUNT NUMBER IS {amount}")
         create_gift_card(int(amount), email, hashlib.sha256(password.encode('ascii')).hexdigest())
     return {'200': 'Created Successfully'}
 
