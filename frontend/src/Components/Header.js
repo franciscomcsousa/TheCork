@@ -4,7 +4,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import SearchIcon from '@mui/icons-material/Search';
-import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom'
@@ -16,20 +15,24 @@ function Header(props) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small">Bookings</Button>
+        <Button size="small" onClick={() => window.location.href = '/book'}>Bookings </Button>
         <Box
         m={1} //margin
         display="flex"
         justifyContent="center"
         alignItems="center"
-        paddingLeft={51}
-        paddingRight={45}
-      >
-      <Button size="large" variant="text" color="inherit" onClick={() => navigate('/', {replace: true})}>{title}</Button>
-      </Box>
-        <IconButton>
-          <SearchIcon />
-        </IconButton>
+        paddingLeft={52}
+        paddingRight={41}
+        >
+        <Button size="large" variant="text" color="inherit" onClick={() => navigate('/', {replace: true})}>{title}</Button>
+        </Box>
+        <Box
+          paddingRight={3}
+          paddingBottom={0.5}
+        > <IconButton>
+            <SearchIcon />
+          </IconButton>
+        </Box>
         <Button variant="outlined" size="small" onClick={() => window.location.href = '/register'}>
           Register
         </Button>

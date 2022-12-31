@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import RedeemForm from '../Components/RedeemForm';
 
 export const RedeemCards = () => {

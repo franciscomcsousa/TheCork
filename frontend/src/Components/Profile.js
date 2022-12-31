@@ -8,7 +8,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -78,8 +78,12 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
             display="flex"
             justifyContent="flex-start"
             alignItems="flex-start"
-            paddingTop={1}
-          ></Box>
+            paddingTop={4}
+          >
+          <Avatar sx={{ m: 3, bgcolor: 'blueviolet', width: 60, height: 60}}>
+            <AccountCircleIcon />
+          </Avatar>
+          </Box>
         </Box>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>

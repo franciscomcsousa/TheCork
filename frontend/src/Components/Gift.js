@@ -106,9 +106,7 @@ const tiers = [
 const theme = createTheme();
 
 export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, onFormChangeCard }) {
-  //const navigate = useNavigate();
 
-  
   const handleChangeEmail = (event) => {
     onFormChangeEmail(event.target.value)
   }

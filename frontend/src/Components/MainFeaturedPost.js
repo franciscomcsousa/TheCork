@@ -35,12 +35,12 @@ function MainFeaturedPost(props) {
         }}
       />
       <Grid container>
-        <Grid item md={6}>
+        <Grid item>
           <Box
             sx={{
               position: 'relative',
               p: { xs: 3, md: 6 },
-              pr: { md: 0 },
+              pr: { md: 6 },
             }}
           >
             <Typography component="h1" variant="h3" align="center" color="inherit" gutterBottom>
