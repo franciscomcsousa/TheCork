@@ -3,34 +3,17 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom'
 import Header from './Header';
 import Popover from '@mui/material/Popover';
 
 
-const sections = [
-    { title: 'Chinese', url: '#' },
-    { title: 'Indian', url: '#' },
-    { title: 'Italian', url: '#' },
-    { title: 'Portuguese', url: '#' },
-    { title: 'Greek', url: '#' },
-    { title: 'Spanish', url: '#' },
-    { title: 'Moroccan', url: '#' },
-    { title: 'Turkish', url: '#' },
-    { title: 'Thai', url: '#' },
-    { title: 'French', url: '#' },
-  ];
-
-  const theme = createTheme();
+const theme = createTheme();
 
 export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, userData }) {
 
@@ -61,7 +44,7 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="The Cork" sections={sections}/>
+        <Header title="The Cork"/>
       <CssBaseline />
 
       <Container component="main" maxWidth="xs">
@@ -78,11 +61,18 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
             display="flex"
             justifyContent="flex-start"
             alignItems="flex-start"
-            paddingTop={4}
+            paddingTop={3}
           >
-          <Avatar sx={{ m: 3, bgcolor: 'blueviolet', width: 60, height: 60}}>
+          <Avatar sx={{ m: 2, bgcolor: 'blueviolet', width: 50, height: 50}}>
             <AccountCircleIcon />
           </Avatar>
+          </Box>
+          <Box
+            paddingBottom={1}
+          >
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
           </Box>
         </Box>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -122,7 +112,7 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
           //onClick={() => window.location.href = '/profile'}
           /* PoP over */
         >
-          See my profile!
+          See my profile
         </Button>
         <Popover
         id={id}

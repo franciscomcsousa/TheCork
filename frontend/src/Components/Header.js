@@ -8,8 +8,21 @@ import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom'
 
+const sections = [
+  { title: 'Chinese', url: '/book' },
+  { title: 'Indian', url: '/book' },
+  { title: 'Italian', url: '/book' },
+  { title: 'Portuguese', url: '/book' },
+  { title: 'Greek', url: '/book' },
+  { title: 'Spanish', url: '/book' },
+  { title: 'Moroccan', url: '/book' },
+  { title: 'Turkish', url: '/book' },
+  { title: 'Thai', url: '/book' },
+  { title: 'French', url: '/book' },
+];
+
 function Header(props) {
-  const { sections, title } = props;
+  const { title } = props;
   const navigate = useNavigate();
 
   return (

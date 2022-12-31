@@ -12,21 +12,7 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Header from './Header';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom'
 
-//TODO
-const sections = [
-    { title: 'Chinese', url: '#' },
-    { title: 'Indian', url: '#' },
-    { title: 'Italian', url: '#' },
-    { title: 'Portuguese', url: '#' },
-    { title: 'Greek', url: '#' },
-    { title: 'Spanish', url: '#' },
-    { title: 'Moroccan', url: '#' },
-    { title: 'Turkish', url: '#' },
-    { title: 'Thai', url: '#' },
-    { title: 'French', url: '#' },
-  ];
 
 const theme = createTheme();
 
@@ -50,7 +36,7 @@ export default function RedeemForm({ cardInput, emailInput, onFormChangeCard, on
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <Container maxWidth="lg">
-          <Header title="The Cork" sections={sections}/>
+          <Header title="The Cork"/>
         <CssBaseline />
         </Container>
         <Container component="main" maxWidth="xs">

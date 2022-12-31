@@ -10,19 +10,6 @@ import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
 
-//TODO
-const sections = [
-  { title: 'Chinese', url: '#' },
-  { title: 'Indian', url: '#' },
-  { title: 'Italian', url: '#' },
-  { title: 'Portuguese', url: '#' },
-  { title: 'Greek', url: '#' },
-  { title: 'Spanish', url: '#' },
-  { title: 'Moroccan', url: '#' },
-  { title: 'Turkish', url: '#' },
-  { title: 'Thai', url: '#' },
-  { title: 'French', url: '#' },
-];
 
 const mainFeaturedPost = {
   title: 'The Cork',
@@ -91,7 +78,7 @@ export default function Home() {
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <Container maxWidth="lg">
-        <Header title="The Cork" sections={sections}/>
+        <Header title="The Cork"/>
         <main>
           <MainFeaturedPost post={mainFeaturedPost} />
           <Grid container spacing={4}>
@@ -99,15 +86,6 @@ export default function Home() {
               <FeaturedPost key={post.title} post={post} />
             ))}
           </Grid>
-          {/* <Grid container spacing={5} sx={{ mt: 3 }}>
-            <Main title="From the firehose" posts={posts}/>
-            <Sidebar
-              title={sidebar.title}
-              description={sidebar.description}
-              archives={sidebar.archives}
-              social={sidebar.social}
-            />
-          </Grid> */}
         </main>
       </Container>
       <Box

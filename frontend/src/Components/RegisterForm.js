@@ -14,6 +14,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import {useNavigate} from 'react-router-dom'
 
+
 const theme = createTheme();
 
 export default function RegisterForm({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
@@ -59,14 +60,15 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
           </Box>
           <Box
             m={1} //margin
-            paddingTop={2}
+            paddingTop={1}
+            paddingBottom={1}
           >
           <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
             <LockOutlinedIcon />
           </Avatar>
           </Box>
           <Typography component="h1" variant="h5">
-            Register
+            Register now to receive a bonus of 50€ in your account!
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
@@ -121,16 +123,19 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
               onClick={() => window.location.href = '/'}
             >
               Register
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
+                <Box
+                  sx={{ mt: -4 }}
+                >
                 <Link href="#" variant="body2">
                   Already have an account? Login
                 </Link>
+                </Box>
               </Grid>
             </Grid>
           </Box>
