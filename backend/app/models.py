@@ -141,7 +141,7 @@ def get_user_id(email):
     print(user)
     cur.close()
     #con.close()
-    return user
+    return user[0][0]
       
 def get_next_user_id():
     #con = connect() 
@@ -152,7 +152,7 @@ def get_next_user_id():
     print(user)
     cur.close()
     #con.close()
-    return user
+    return user[0][0]
         
 def get_all_users():
     #con = connect() 
