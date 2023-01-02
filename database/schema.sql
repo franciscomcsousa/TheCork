@@ -1,10 +1,3 @@
-drop table if exists posts;
-    create table posts(
-        id integer primary key AUTO_INCREMENT,
-        name text not null,
-        content text not null
-    );
-
 drop table if exists gift_cards;
     create table gift_cards(
         id integer primary key AUTO_INCREMENT,

@@ -130,6 +130,16 @@ def create_user(name,email,password):
     con.commit()
     cur.close()
     #con.close()
+
+def get_user_id(email):
+    #con = connect() 
+    cur = con.cursor()
+    query = 'select user_id from users where email = %s'
+    cur.execute(query, email)
+    users = cur.fetchall()
+    cur.close()
+    #con.close()
+    return users
       
         
 def get_all_users():

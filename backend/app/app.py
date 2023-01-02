@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, session, url_for, redirect
 from flask_cors import CORS
 from models import *
 import hashlib
+from utils import *
 
 app = Flask(__name__)
 
@@ -33,7 +34,7 @@ def gift_cards():
         email = data['email']
         password = data['password']
         amount = data['amount']
-        create_gift_card(int(amount), email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        create_gift_card(int(amount), email, salt_password(get_user_id(email), password))
     return {'200': 'Created Successfully'}
 
 
@@ -60,7 +61,8 @@ def register_user():
         name = data['name']
         email = data['email']
         password = data['password']
-        create_user(name, email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        # TODO - This is not protected perhaps
+        create_user(name, email, salt_password(get_user_id(email), password))
     return {'200': 'Registered Successfully'}
 
 
@@ -72,7 +74,7 @@ def user_login():
     if request.method == 'POST':
         email = request.form.get('email')
         password = request.form.get('password')
-        user = login(email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        user = login(email, salt_password(get_user_id(email), password))
         if user is not None:
             session['user'] = user
             return render_template('login.html', posts=user)
@@ -88,7 +90,7 @@ def profile():
         data = request.get_json()
         email = data['email']
         password = data['password']
-        user = get_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        user = get_profile(email, salt_password(get_user_id(email), password))
 
         # TODO - maybe send differently from models.py
         # TODO - it will probbly only show 1 card even if there are more
