@@ -134,8 +134,9 @@ def create_user(name,email,password):
 def get_user_id(email):
     #con = connect() 
     cur = con.cursor()
+    data = (email)
     query = 'select user_id from users where email = %s'
-    cur.execute(query, email)
+    cur.execute(query, data)
     users = cur.fetchall()
     cur.close()
     #con.close()
