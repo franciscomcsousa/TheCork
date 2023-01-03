@@ -4,9 +4,9 @@ import { Register } from './Pages/Register'
 import { Homepage } from './Pages/Homepage'
 import { GiftCards } from './Pages/GiftCards'
 import { RedeemCards } from './Pages/RedeemCards'
-import { UserProfilepage } from './Pages/UserProfilepage'
+import { UserProfilePage } from './Pages/UserProfilePage'
 import { UserPage } from './Pages/UserPage'
-import { RestaurantProfilepage } from './Pages/RestaurantProfilepage'
+import { RestaurantProfilePage } from './Pages/RestaurantProfilePage'
 import { RestaurantPage } from './Pages/RestaurantPage'
 import { Book } from './Pages/Book'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
@@ -22,9 +22,9 @@ function App() {
             <Route exact path="/register" element={ <Register/> }/>
             <Route exact path="/gift_cards" element={ <GiftCards/> }/>
             <Route exact path="/redeem_cards" element={ <RedeemCards/> }/>
-            <Route exact path="/profile" element={ <UserProfilepage/> }/>
+            <Route exact path="/profile" element={ <UserProfilePage/> }/>
             <Route exact path="/profile/:name" element={ <UserPage/> }/>
-            <Route exact path="/restaurant" element={ <RestaurantProfilepage/> }/>
+            <Route exact path="/restaurant" element={ <RestaurantProfilePage/> }/>
             <Route exact path="/restaurant/:name" element={ <RestaurantPage/> }/>
             <Route exact path="/book" element={ <Book/> }/>
           </Routes>
