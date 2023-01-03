@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react';
 import Profile from '../Components/Profile';
-import {Link, useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 
 export const Profilepage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
-    const [data, setData] = useState([])
+    //const [data, setData] = useState([])
 
     const navigate = useNavigate();
 
     // Loads the page with the name of the user TODO: make it so that the email has to be an email
+    // TODO: change the url to the email before the @, it needs to be checked when registering
     const urlName = addEmailInput//.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
@@ -38,7 +38,7 @@ export const Profilepage = () => {
         return response.json();
          })
         .then(data => {
-                setData(data)
+                //setData(data)
                 navigate(`/profile/${urlName}`,{ state:{data} })
         })
         .catch(error => {

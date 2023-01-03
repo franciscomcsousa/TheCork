@@ -12,7 +12,7 @@ import {useLocation} from 'react-router-dom';
 
 const theme = createTheme();
 
-export default function User({  }) {
+export default function User() {
 
 const location = useLocation();
 
@@ -26,7 +26,7 @@ if (!location.state) {
 }
 
 const userData = location.state.data
-console.log(userData)
+//console.log(userData)
 
 return (
     <ThemeProvider theme={theme}>
@@ -65,10 +65,14 @@ return (
         </Box>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    <Typography sx={{ p: 10 }}>Name:{userData.name}</Typography>
-                    <Typography sx={{ p: 10 }}>Email:{userData.email} </Typography>
-                    <Typography sx={{ p: 10 }}>Wallet:{userData.wallet} </Typography>
-                    <Typography sx={{ p: 10 }}>Cards:{userData.card} </Typography>
+                    {/* TODO: beautify */}
+                    <Typography sx={{ p: 2 }}>Name:{userData.name}</Typography>
+                    <Typography sx={{ p: 2 }}>Email:{userData.email} </Typography>
+                    <Typography sx={{ p: 2 }}>Wallet:{userData.wallet} </Typography>
+                    <Typography sx={{ p: 2 }} component={'div'}>Cards:{userData.cards.map( (card) =>
+                      <li key={card}> CardNumber: {card}, Amount: {card[1]}€</li>
+                      )}
+                    </Typography>
                         
                 </Grid>
             </Grid>

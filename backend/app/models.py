@@ -127,6 +127,7 @@ def create_user(name,email,password):
     cur.close()
     #con.close()
 
+
 def get_user_id(email):
     #con = connect() 
     cur = con.cursor()
@@ -139,6 +140,7 @@ def get_user_id(email):
     #con.close()
     return user[0][0]
       
+      
 def get_next_user_id():
     #con = connect() 
     cur = con.cursor()
@@ -148,6 +150,7 @@ def get_next_user_id():
     cur.close()
     #con.close()
     return user[0][0]
+       
         
 def get_all_users():
     #con = connect() 
@@ -166,9 +169,13 @@ def get_profile(email, password):
     query = 'select * from users where email = %s and password = %s'
     cur.execute(query, data)
     user = cur.fetchall()
+    data = (email,)
+    query = 'select card_number, amount from gift_cards where user_email = %s'
+    cur.execute(query, data)
+    cards = cur.fetchall()
     cur.close()
     #con.close()
-    return user
+    return [user, cards]
 
 
 def login(email, password):

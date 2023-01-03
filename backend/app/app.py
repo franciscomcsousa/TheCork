@@ -76,17 +76,17 @@ def profile():
         data = request.get_json()
         email = data['email']
         password = data['password']
-        user = get_profile(email, salt_password(get_user_id(email), password))
-
+        info = get_profile(email, salt_password(get_user_id(email), password))
+        
+        user = info[0][0]
+        cards = info[1]
         # TODO - maybe send differently from models.py
         # TODO - it will probbly only show 1 card even if there are more
         if user:
-            money = user[0][4]
-            name = user[0][1]
-            if user[0][3]:                
-                return {"name": name,"email": email, "wallet": money, "card": user[0][3]}
-            return {"name": name,"email": email, "wallet": money}
-    return {'400': 'User not found'}
+            if cards:
+                return {"name": user[1],"email": user[2], "wallet": user[4], "cards": cards}
+            return {"name": user[1],"email": user[2], "wallet": user[4]}
+    return {'400': 'User or Password is incorrect'}
 
 
 # @app.route('/restaurants', methods=['GET', 'POST'])
