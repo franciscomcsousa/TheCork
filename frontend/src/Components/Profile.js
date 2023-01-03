@@ -10,35 +10,24 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
-import Popover from '@mui/material/Popover';
 
 
 const theme = createTheme();
 
-export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, userData }) {
+export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
 
-    const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleChangeEmail = (event) => {
+    onFormChangeEmail(event.target.value)
+  }
 
-    const handleChangeEmail = (event) => {
-        onFormChangeEmail(event.target.value)
-    }
+  const handleChangePassword = (event) => {
+    onFormChangePassword(event.target.value)
+  }
 
-    const handleChangePassword = (event) => {
-        onFormChangePassword(event.target.value)
-    }
-
-    const handleSubmit = (event) => {
-        event.preventDefault()
-        onFormSubmit()
-        setAnchorEl(event.currentTarget);
-    }
-
-    const handleClose = () => {
-        setAnchorEl(null);
-      };
-
-    const open = Boolean(anchorEl);
-    const id = open ? 'simple-popover' : undefined;
+  const handleSubmit = (event) => {
+    event.preventDefault()
+    onFormSubmit()
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -63,16 +52,16 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
             alignItems="flex-start"
             paddingTop={3}
           >
-          <Avatar sx={{ m: 2, bgcolor: 'blueviolet', width: 50, height: 50}}>
-            <AccountCircleIcon />
-          </Avatar>
+            <Avatar sx={{ m: 2, bgcolor: 'blueviolet', width: 50, height: 50}}>
+              <AccountCircleIcon />
+            </Avatar>
           </Box>
           <Box
             paddingBottom={1}
           >
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
+            <Typography component="h1" variant="h5">
+              Sign in
+            </Typography>
           </Box>
         </Box>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -103,47 +92,20 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
                 onChange={handleChangePassword}
               />
             </Grid>
-        </Grid>
+          </Grid>
           <Button
           type="submit"
           fullWidth
           variant="contained"
           sx={{ height: 40, width: 200 }}
-          //onClick={() => window.location.href = '/profile'}
-          /* PoP over */
-        >
+          >
           See my profile
-        </Button>
-        <Popover
-        id={id}
-        open={open}
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left',
-        }}
-      >
-        <Grid container spacing={2}>
-            <Grid item xs={12}>
-        <Typography sx={{ p: 10 }}> Name:{userData.name}</Typography>
-        <Typography sx={{ p: 10 }}>Email:{userData.email} </Typography>
-        <Typography sx={{ p: 10 }}>Wallet:{userData.wallet} </Typography>
-        <Typography sx={{ p: 10 }}>Cards:{userData.card} </Typography>
-            
-            </Grid>
-        </Grid>
-      </Popover>
-        <Box
-          padding={3}
-        ></Box>
-      </Box>
-    </Container>
-    </Container>
-      {/* <Footer
-        title="Footer"
-        description="Something here to give the footer a purpose!"
-      /> */}
+          </Button>
+          <Box padding={3}>
+          </Box>
+        </Box>
+      </Container>
+      </Container>
     </ThemeProvider>
   );
 }
