@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 CORS(app)
 
-app.secret_key = os.urandom(32)
+app.secret_key = os.urandom(32) # TODO - what is this? is it related to cookies?
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -42,13 +42,14 @@ def gift_cards():
 def redeem_cards():
     if request.method == 'GET':
         pass
-    
-    if request.method == 'POST':
-        data = request.get_json()
-        card_number = data['card']
-        email = data['email']
-        redeem_gift_card(card_number, email)
-    return {'200': 'Redeemed Successfully'}
+    # This sections has to be protected from concurrency
+    with get_lock('redeem_cards'):
+        if request.method == 'POST':
+            data = request.get_json()
+            card_number = data['card']
+            email = data['email']
+            redeem_gift_card(card_number, email)
+        return {'200': 'Redeemed Successfully'}
 
 
 @app.route('/register', methods=['GET', 'POST'])
