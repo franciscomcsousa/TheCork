@@ -2,10 +2,9 @@ import mariadb
 import os
 from os import path
 import secrets
+from utils import aes_encrypt, aes_decrypt
 
 ROOT = path.dirname(path.relpath(__file__))
-
-AES_PATH = "../../secret/database_key.pem"
 
 con = mariadb.connect(
         host = "192.168.11.1",
@@ -17,26 +16,6 @@ con = mariadb.connect(
         ssl_cert='/etc/mysql/ssl/client-cert.pem',
         ssl_ca='/etc/mysql/ssl/ca-cert.pem'
         )
-
-def create_post(name, content):
-    #con = connect() 
-    cur = con.cursor()
-    data = (name, content)
-    query = 'insert into posts (name, content) values (%s, %s)'
-    cur.execute(query, data)
-    con.commit()
-    cur.close()
-    #con.close()
-
-def get_posts():
-    #con = connect() 
-    cur = con.cursor()
-    cur.execute('select * from posts')
-    posts = cur.fetchall()
-    cur.close()
-    #con.close()
-    return posts
-
 
 def get_all_gift_cards():
     #con = connect() 
