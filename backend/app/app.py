@@ -67,21 +67,6 @@ def register_user():
     return {'200': 'Registered Successfully'}
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def user_login():
-    if request.method == 'GET':
-        pass
-    
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        user = login(email, salt_password(get_user_id(email), password))
-        if user is not None:
-            session['user'] = user
-            return render_template('login.html', posts=user)
-    return render_template('login.html')
-
-
 @app.route('/profile', methods=['GET', 'POST'])
 def profile():
     if request.method == 'GET':
@@ -102,6 +87,35 @@ def profile():
                 return {"name": name,"email": email, "wallet": money, "card": user[0][3]}
             return {"name": name,"email": email, "wallet": money}
     return {'400': 'User not found'}
+
+
+# @app.route('/restaurants', methods=['GET', 'POST'])
+# def restaurants():
+#     if request.method == 'GET':
+#         pass
+    
+#     if request.method == 'POST':
+#         data = request.get_json()
+#         email = data['email']
+#         password = data['password']
+#         # restaurants = get_restaurants(email, salt_password(get_user_id(email), password))
+#         return {"restaurants": restaurants}
+#     return {'400': 'User not found'}
+
+
+@app.route('/login', methods=['GET', 'POST'])
+def user_login():
+    if request.method == 'GET':
+        pass
+    
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = login(email, salt_password(get_user_id(email), password))
+        if user is not None:
+            session['user'] = user
+            return render_template('login.html', posts=user)
+    return render_template('login.html')
 
 
 @app.route('/logout')

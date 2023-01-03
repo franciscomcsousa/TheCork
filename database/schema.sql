@@ -14,3 +14,15 @@ drop table if exists users;
         password varchar(255) not null,
         wallet real not null
     );
+
+-- drop table if exists restaurants
+-- create table restaurants (
+--     restaurant_id integer AUTO_INCREMENT primary key not null,
+--     name text not null,
+--     address text not null,
+--     phone_number text not null,
+--     email text not null,
+--     password text not null,
+--     table_count integer not null,
+--     disponibility boolean not null
+-- );

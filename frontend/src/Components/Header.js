@@ -28,7 +28,7 @@ function Header(props) {
   return (
     <React.Fragment>
       <Toolbar sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Button size="small" onClick={() => window.location.href = '/book'}>Bookings </Button>
+        <Button size="small" onClick={() => window.location.href = '/restaurant'}>Restaurant Owner </Button>
         <Box
         m={1} //margin
         display="flex"

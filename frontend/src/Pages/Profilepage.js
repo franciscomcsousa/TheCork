@@ -1,5 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import Profile from '../Components/Profile';
+import {Link, useNavigate} from 'react-router-dom';
+
 
 export const Profilepage = () => {
     
@@ -7,6 +10,10 @@ export const Profilepage = () => {
     const [addPasswordInput, setPasswordInput] = useState('') 
     const [data, setData] = useState([])
 
+    const navigate = useNavigate();
+
+    // Loads the page with the name of the user TODO: make it so that the email has to be an email
+    const urlName = addEmailInput//.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -32,6 +39,7 @@ export const Profilepage = () => {
          })
         .then(data => {
                 setData(data)
+                navigate(`/profile/${urlName}`,{ state:{data} })
         })
         .catch(error => {
             console.log(error)
@@ -42,18 +50,7 @@ return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} userData={data}/>
-
-        {/* <div className='item-container'>
-
-              <div className='user'>
-                <h3> {data.name} </h3>
-                <h3> {data.email} </h3>
-                <h3> {data.wallet} </h3>
-              </div>
-        </div> */}
-
-
+        onFormSubmit={handleFormSubmit} />
     </div>
     )
 }
