@@ -35,7 +35,6 @@ def create_gift_card(amount, email, password):
     query = 'select wallet from users where email = %s and password = %s'
     cur.execute(query, data)
     user_wallet = cur.fetchall()
-    print(f"user_wallet: {user_wallet}")
     if len(user_wallet) == 0:
         cur.close()
         #con.close()
@@ -46,7 +45,6 @@ def create_gift_card(amount, email, password):
         return
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
-    print(card_number)
     data = (email, card_number, amount)
     query = 'insert into gift_cards (user_email, card_number, amount) values(%s, %s, %s)'
     cur.execute(query, data)
@@ -67,7 +65,6 @@ def redeem_gift_card(card_number, email):
     query = 'select amount from gift_cards where card_number = %s'
     cur.execute(query, data)
     gift_card_number = cur.fetchall()
-    print(f"gift_card: {gift_card_number}")
     #if there is no gift card with that number
     if len(gift_card_number) == 0:
         cur.close()
@@ -83,7 +80,7 @@ def redeem_gift_card(card_number, email):
         con.close()
         return
     # update the user's wallet, add the amount
-    new_amount = user_wallet[0] + gift_card_number[0]
+    new_amount = user_wallet[0][0] + gift_card_number[0][0]
     data = (new_amount, email)
     query = 'update users set wallet = %s where email = %s'
     cur.execute(query, data)
@@ -115,7 +112,6 @@ def get_user_id(email):
     cur.execute(query, data)
     user = cur.fetchall()
     cur.close()
-    print(f"user {user}")
     #con.close()
     return user[0][0]
       
