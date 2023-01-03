@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 import Gift from '../Components/Gift';
+import { useNavigate } from 'react-router-dom';
 
 export const GiftCards = () => {
 
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('')
     const [addTierInput, setTierInput] = useState('')
+
+    const navigate = useNavigate();
+
+    // Loads the page with the name of the user TODO: make it so that the email has to be an email
+    // TODO: change the url to the email before the @, it needs to be checked when registering
+    const urlName = addEmailInput//.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -26,6 +33,19 @@ export const GiftCards = () => {
             headers: {
                 'Content-Type': 'application/json'
             }
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`This is an HTTP error: The status is ${response.status}`)
+            }
+        return response.json();
+        })
+        .then(data => {
+                //setData(data)
+                navigate(`/gift_cards/${urlName}`,{ state:{data} })
+        })
+        .catch(error => {
+            console.log(error)
         })
     }
 

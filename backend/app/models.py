@@ -4,8 +4,6 @@ from os import path
 import secrets
 from utils import aes_encrypt, aes_decrypt
 
-ROOT = path.dirname(path.relpath(__file__))
-
 con = mariadb.connect(
         host = "192.168.11.1",
         user = "sirs",
@@ -39,11 +37,11 @@ def create_gift_card(amount, email, password):
     if len(user_wallet) == 0:
         cur.close()
         #con.close()
-        return
+        return {'400': 'User does not exist or password is incorrect'}
     elif user_wallet[0][0] < amount:
         cur.close()
         #con.close()
-        return
+        return {'400': 'Insufficient funds'}
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
     print(card_number)
@@ -57,6 +55,7 @@ def create_gift_card(amount, email, password):
     cur.execute(query, data)
     con.commit()
     cur.close()
+    return {'200': 'Gift Card Created Successfully'}
     #con.close()
     
     
@@ -72,7 +71,7 @@ def redeem_gift_card(card_number, email):
     if len(gift_card_number) == 0:
         cur.close()
         con.close()
-        return
+        return {'400': 'Gift Card does not exist'}
     # if there is a user with that email
     data = (email,)
     query = 'select wallet from users where email = %s'
@@ -81,7 +80,7 @@ def redeem_gift_card(card_number, email):
     if len(user_wallet) == 0:
         cur.close()
         con.close()
-        return
+        return {'400': 'User does not exist'}
     # update the user's wallet, add the amount
     new_amount = user_wallet[0] + gift_card_number[0]
     data = (new_amount, email)
@@ -93,6 +92,7 @@ def redeem_gift_card(card_number, email):
     cur.execute(query, data)
     con.commit()
     cur.close()
+    return {'200': 'Gift Card Redeemed Successfully'}
     #con.close()
     
     
@@ -104,6 +104,7 @@ def create_user(name,email,password):
     cur.execute(query, data)
     con.commit()
     cur.close()
+    return {'200': 'User Created Successfully'}
     #con.close()
 
 

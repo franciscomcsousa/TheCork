@@ -24,5 +24,5 @@ drop table if exists users;
 --     email text not null,
 --     password text not null,
 --     table_count integer not null,
---     disponibility boolean not null
+--     availability boolean not null
 -- );

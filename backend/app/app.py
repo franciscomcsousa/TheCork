@@ -10,20 +10,6 @@ CORS(app)
 
 app.secret_key = os.urandom(32) # TODO - what is this? is it related to cookies?
 
-@app.route('/', methods=['GET', 'POST'])
-def index():
-    if request.method == 'GET':
-        pass
-
-    if request.method == 'POST':
-        name = request.form['name']
-        post = request.form['post']
-        create_post(name, post)
-
-    posts = get_posts()
-    return render_template('index.html', posts=posts)
-
-
 @app.route('/gift_cards', methods=['GET', 'POST'])
 def gift_cards():
     if request.method == 'GET':
@@ -34,22 +20,22 @@ def gift_cards():
         email = data['email']
         password = data['password']
         amount = data['amount']
-        create_gift_card(int(amount), email, salt_password(get_user_id(email), password))
-    return {'200': 'Created Successfully'}
+        response = create_gift_card(int(amount), email, salt_password(get_user_id(email), password))
+    return response
 
 
 @app.route('/redeem_cards', methods=['GET', 'POST'])
 def redeem_cards():
     if request.method == 'GET':
         pass
-    # This sections has to be protected from concurrency
+    # This section has to be protected from concurrency
     with get_lock('redeem_cards'):
         if request.method == 'POST':
             data = request.get_json()
             card_number = data['card']
             email = data['email']
-            redeem_gift_card(card_number, email)
-        return {'200': 'Redeemed Successfully'}
+            response = redeem_gift_card(card_number, email)
+        return response
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -63,8 +49,8 @@ def register_user():
         email = data['email']
         password = data['password']
         # TODO - This is not protected perhaps
-        create_user(name, email, salt_password(get_next_user_id(), password))
-    return {'200': 'Registered Successfully'}
+        response = create_user(name, email, salt_password(get_next_user_id(), password))
+    return response
 
 
 @app.route('/profile', methods=['GET', 'POST'])
@@ -114,8 +100,9 @@ def user_login():
         user = login(email, salt_password(get_user_id(email), password))
         if user is not None:
             session['user'] = user
-            return render_template('login.html', posts=user)
-    return render_template('login.html')
+            return {'200': 'User logged in'}
+        else:
+            return {'400': 'User or Password is incorrect'}
 
 
 @app.route('/logout')

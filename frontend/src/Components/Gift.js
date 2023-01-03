@@ -45,6 +45,8 @@ const theme = createTheme();
 
 export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, onFormChangeCard }) {
 
+  const [newTiers, setTiers] = React.useState(tiers);
+
   const handleChangeEmail = (event) => {
     onFormChangeEmail(event.target.value)
   }
@@ -53,8 +55,27 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
     onFormChangePassword(event.target.value)
   }
 
-  const handleChangeCard = (event) => {
+  const handleChangeCard = (event, price) => {
     onFormChangeCard(event.target.value)
+    switch (price) {
+      case '15': 
+        if(newTiers[0].currentButtonVariant === 'outlined') { 
+          newTiers[0].currentButtonVariant = 'contained'; newTiers[1].currentButtonVariant = 'outlined'; newTiers[2].currentButtonVariant = 'outlined'; 
+          newTiers[0].buttonText = 'Tier selected'; newTiers[1].buttonText = 'Choose this one'; newTiers[2].buttonText = 'Choose this one'}
+        else { newTiers[0].currentButtonVariant = 'outlined'; } break;
+      case '25': 
+        if(newTiers[1].currentButtonVariant === 'outlined') { 
+          newTiers[1].currentButtonVariant = 'contained'; newTiers[0].currentButtonVariant = 'outlined'; newTiers[2].currentButtonVariant = 'outlined'; 
+          newTiers[1].buttonText = 'Tier selected'; newTiers[0].buttonText = 'Choose this one'; newTiers[2].buttonText = 'Choose this one'} 
+        else { newTiers[1].currentButtonVariant = 'outlined'; } break;
+      case '50': 
+        if(newTiers[2].currentButtonVariant === 'outlined') { 
+          newTiers[2].currentButtonVariant = 'contained'; newTiers[0].currentButtonVariant = 'outlined'; newTiers[1].currentButtonVariant = 'outlined'; 
+          newTiers[2].buttonText = 'Tier selected'; newTiers[0].buttonText = 'Choose this one'; newTiers[1].buttonText = 'Choose this one'} 
+        else { newTiers[2].currentButtonVariant = 'outlined'; } break;
+      default: break;
+    }
+    setTiers(newTiers)
   }
 
   const handleSubmit = (event) => {
@@ -89,7 +110,7 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
       </Container>
       <Container maxWidth="md" component="main">
         <Grid container spacing={5} alignItems="flex-end">
-          {tiers.map((tier) => (
+          {newTiers.map((tier) => (
             <Grid
               item
               key={tier.price}
@@ -141,7 +162,8 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
                   </ul>
                 </CardContent>
                 <CardActions>
-                  <Button fullWidth variant={tier.currentButtonVariant} value={tier.price} onClick={handleChangeCard}>
+                  {/* Make button variant change when clicked*/}
+                  <Button fullWidth value={tier.price} onClick={(event)=>handleChangeCard(event, tier.price)} variant={tier.currentButtonVariant}>
                     {tier.buttonText}
                   </Button>
                 </CardActions>

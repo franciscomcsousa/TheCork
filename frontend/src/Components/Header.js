@@ -34,8 +34,8 @@ function Header(props) {
         display="flex"
         justifyContent="center"
         alignItems="center"
-        paddingLeft={52}
-        paddingRight={41}
+        paddingLeft={42}
+        paddingRight={42}
         >
         <Button size="large" variant="text" color="inherit" onClick={() => navigate('/', {replace: true})}>{title}</Button>
         </Box>
