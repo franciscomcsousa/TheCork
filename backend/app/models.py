@@ -64,7 +64,7 @@ def redeem_gift_card(card_number, email):
     #con = connect() 
     cur = con.cursor()
     data = (card_number,)
-    query = 'select card_number from gift_cards where card_number = %s'
+    query = 'select amount from gift_cards where card_number = %s'
     cur.execute(query, data)
     gift_card_number = cur.fetchall()
     print(f"gift_card: {gift_card_number}")

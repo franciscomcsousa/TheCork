@@ -30,5 +30,5 @@ drop table if exists restaurants;
 
 -- Populate the restaurants table
 -- banana as password
-insert into restaurants (name, address, phone, email, password, tables, disponibility) values ('La Pizzeria', 'Rotunda das oliveiras', '1234567890', 'mogulmobil@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e',10, 1);
-insert into restaurants (name, address, phone, email, password, tables, disponibility) values ('La Pasta', 'Rua alves redol', '0987654321', 'cocozilde@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e',20, 1);
+insert into restaurants (name, address, phone, email, password, tables, disponibility) values ('La Pizzeria', 'Rotunda das oliveiras', '913456111', 'mogulmobil@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 10, 1);
+insert into restaurants (name, address, phone, email, password, tables, disponibility) values ('La Pasta', 'Rua alves redol', '913444555', 'cocozilde@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 20, 1);
