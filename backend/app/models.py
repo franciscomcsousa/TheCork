@@ -157,13 +157,23 @@ def get_profile(email, password):
     return [user, cards]
 
 
-def login(email, password):
-    #con = connect() 
+def get_restaurant_profile(email, password):
     cur = con.cursor()
     data = (email, password)
-    query = 'select * from users where email = %s and password = %s'
+    query = 'select * from restaurants where email = ? and password = ?'
     cur.execute(query, data)
-    user = cur.fetchall()
+    restaurant = cur.fetchall()
     cur.close()
-    #con.close()
-    return user
+    return restaurant
+
+
+# def login(email, password):
+#     #con = connect() 
+#     cur = con.cursor()
+#     data = (email, password)
+#     query = 'select * from users where email = %s and password = %s'
+#     cur.execute(query, data)
+#     user = cur.fetchall()
+#     cur.close()
+#     #con.close()
+#     return user

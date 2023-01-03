@@ -86,42 +86,49 @@ def profile():
             if cards:
                 return {"name": user[1],"email": user[2], "wallet": user[4], "cards": cards}
             return {"name": user[1],"email": user[2], "wallet": user[4]}
-    return {'400': 'User or Password is incorrect'}
+        return {'400': 'User or Password is incorrect'}
+    return {'400': 'Not allowed'}
 
 
-# @app.route('/restaurants', methods=['GET', 'POST'])
-# def restaurants():
+# TODO - password is hashed because its populated from the database with the hash
+# password is banana
+@app.route('/restaurant', methods=['GET', 'POST'])
+def restaurant_profile():
+    if request.method == 'GET':
+        pass
+        
+    if request.method == 'POST':
+        data = request.get_json()
+        email = data['email']
+        password = data['password']
+        restaurant = get_restaurant_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        print(f"restaurant: {restaurant}")
+
+        if restaurant:
+            return {"name": restaurant[0][1],"address": restaurant[0][2],"phone": restaurant[0][3] ,"email": restaurant[0][4],"tables": restaurant[0][6], "disponibility": restaurant[0][7]}
+        return {'400': 'User or Password is incorrect'}
+    return {'400': 'Not allowed'}
+
+
+# @app.route('/login', methods=['GET', 'POST'])
+# def user_login():
 #     if request.method == 'GET':
 #         pass
     
 #     if request.method == 'POST':
-#         data = request.get_json()
-#         email = data['email']
-#         password = data['password']
-#         # restaurants = get_restaurants(email, salt_password(get_user_id(email), password))
-#         return {"restaurants": restaurants}
-#     return {'400': 'User not found'}
+#         email = request.form.get('email')
+#         password = request.form.get('password')
+#         user = login(email, salt_password(get_user_id(email), password))
+#         if user is not None:
+#             session['user'] = user
+#             return render_template('login.html', posts=user)
+#     return render_template('login.html')
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def user_login():
-    if request.method == 'GET':
-        pass
-    
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        user = login(email, salt_password(get_user_id(email), password))
-        if user is not None:
-            session['user'] = user
-            return render_template('login.html', posts=user)
-    return render_template('login.html')
-
-
-@app.route('/logout')
-def logout():
-    session.pop('logged_in', None)
-    return redirect(url_for('index'))
+# @app.route('/logout')
+# def logout():
+#     session.pop('logged_in', None)
+#     return redirect(url_for('index'))
 
 
 if __name__ == '__main__':

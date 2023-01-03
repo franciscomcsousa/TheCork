@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Profile from '../Components/Profile';
+import Profile from '../Components/UserProfile';
 import { useNavigate } from 'react-router-dom';
 
 
-export const Profilepage = () => {
+export const UserProfilepage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
