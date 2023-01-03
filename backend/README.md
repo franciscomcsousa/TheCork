@@ -1,5 +1,24 @@
 # Backend Guide
 
+## Table of contents
+1. [Project Overview](#project-overview)
+2. [Scheme of the network](#scheme-of-the-network)
+3. [VM1 - Internal Client](#vm1---internal-client)
+    1. [Network manager](#network-manager-vm1) 
+4. [VM2 - Firewall](#vm2---firewall)
+    1. [Network manager](#network-manager-vm2)
+    2. [iptables](#iptables)
+    3. [ufw](#ufw)
+5. [VM3 - Server](#vm3---server)
+    1. [Network manager](#network-manager-vm3)
+    2. [Running nginx](#running-nginx)
+    3. [Deploying the backend](#deploying-the-backend)
+6. [VM4 - Database](#vm4---database)
+    1. [Network manager](#network-manager-vm4)
+    2. [Running mariadb](#running-mariadb)
+
+## Project Overview
+
 - Backend's framework is [**Flask**](https://flask.palletsprojects.com/en/2.2.x/)
 
 - Web server is [**Nginx**](https://www.nginx.com/)
@@ -14,7 +33,7 @@
 
 ## VM1 - Internal Client
 
-#### Network manager
+### Network manager (VM1)
 
 ```
 ### On VM1
@@ -40,7 +59,7 @@ sudo netplan apply
 
 ## VM2 - Firewall
 
-#### Network manager
+### Network manager (VM2)
 ```
 $ sudo cat /etc/netplan/01-network-manager-all.yaml
 ### On VM2
@@ -73,7 +92,7 @@ sudo netplan try
 sudo netplan apply
 ```
 
-#### ipables
+### iptables
 
 - Backend connects to the firewall instead of directly to the database, because of this the firewall needs prerouting and forward configurations
 ```
@@ -93,13 +112,13 @@ iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-s
 ```
 - TODO - easier to provide the file with the iptables rules
 
-#### ufw
+### ufw
 
 - Still trying to figure out if this is needed (the default config from ufw seems good to block most connections)
 
 ## VM3 - Server
 
-#### Network manager
+### Network manager (VM3)
 ```
 $ sudo cat /etc/netplan/01-network-manager-all.yaml
 ### On VM3
@@ -123,7 +142,7 @@ sudo netplan try
 sudo netplan apply
 ```
 
-#### Running nginx
+### Running nginx
 
 - Start by installing [**Nginx**](https://www.nginx.com/)
 
@@ -153,6 +172,16 @@ server {
 }
 ```
 
+- Reload nginx `nginx -s reload`
+
+- Test nginx config file `nginx -t`
+
+- Generating nginx SSL certificates
+
+`sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/thecork.key -out /etc/nginx/ssl/thecork.crt`
+
+### Deploying the backend
+
 - Test the server by deploying with [**Flask's**](https://flask.palletsprojects.com/en/2.2.x/) development mode
 `python3 app.py`
 
@@ -164,7 +193,7 @@ server {
 
 ## VM4 - Database
 
-#### Network manager
+### Network manager (VM4)
 
 ```
 $ sudo cat /etc/netplan/01-network-manager-all.yaml
@@ -189,7 +218,7 @@ sudo netplan try
 sudo netplan apply
 ```
 
-#### Running MariaDB
+### Running mariadb
 
 - [**MariaDB**](https://mariadb.org/) should run as a service, after adding it to the services of the operating system, it automatically runs on start up
 ```
