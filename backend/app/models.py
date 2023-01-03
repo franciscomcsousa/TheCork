@@ -5,6 +5,7 @@ import secrets
 
 ROOT = path.dirname(path.relpath(__file__))
 
+AES_PATH = "../../secret/database_key.pem"
 
 con = mariadb.connect(
         host = "192.168.11.1",
@@ -52,24 +53,26 @@ def create_gift_card(amount, email, password):
     cur = con.cursor()
     # verify if the user exists and has correct password
     data = (email, password)
-    query = 'select * from users where email = %s and password = %s'
+    query = 'select wallet from users where email = %s and password = %s'
     cur.execute(query, data)
-    user = cur.fetchall()
-    if len(user) == 0:
+    user_wallet = cur.fetchall()
+    print(f"user_wallet: {user_wallet}")
+    if len(user_wallet) == 0:
         cur.close()
         #con.close()
         return
-    elif user[0][4] < amount:
+    elif user_wallet[0][0] < amount:
         cur.close()
         #con.close()
         return
     # secrets module is more cryptographically secure than random module
-    card_number = secrets.token_hex(16) 
+    card_number = secrets.token_hex(8) 
+    print(card_number)
     data = (email, card_number, amount)
     query = 'insert into gift_cards (user_email, card_number, amount) values(%s, %s, %s)'
     cur.execute(query, data)
     # update the user's wallet, subtract the amount
-    new_amount = user[0][4] - amount
+    new_amount = user_wallet[0][0] - amount
     data = (new_amount, email)
     query = 'update users set wallet = %s where email = %s'
     cur.execute(query, data)
@@ -82,25 +85,26 @@ def redeem_gift_card(card_number, email):
     #con = connect() 
     cur = con.cursor()
     data = (card_number,)
-    query = 'select * from gift_cards where card_number = %s'
+    query = 'select card_number from gift_cards where card_number = %s'
     cur.execute(query, data)
-    gift_card = cur.fetchall()
+    gift_card_number = cur.fetchall()
+    print(f"gift_card: {gift_card_number}")
     #if there is no gift card with that number
-    if len(gift_card) == 0:
+    if len(gift_card_number) == 0:
         cur.close()
         con.close()
         return
     # if there is a user with that email
     data = (email,)
-    query = 'select * from users where email = %s'
+    query = 'select wallet from users where email = %s'
     cur.execute(query, data)
-    user = cur.fetchall()
-    if len(user) == 0:
+    user_wallet = cur.fetchall()
+    if len(user_wallet) == 0:
         cur.close()
         con.close()
         return
     # update the user's wallet, add the amount
-    new_amount = user[0][4] + gift_card[0][3]
+    new_amount = user_wallet[0] + gift_card_number[0]
     data = (new_amount, email)
     query = 'update users set wallet = %s where email = %s'
     cur.execute(query, data)
@@ -130,8 +134,8 @@ def get_user_id(email):
     query = 'select user_id from users where email = %s'
     cur.execute(query, data)
     user = cur.fetchall()
-    print(user)
     cur.close()
+    print(f"user {user}")
     #con.close()
     return user[0][0]
       
@@ -141,7 +145,6 @@ def get_next_user_id():
     query = 'select auto_increment from information_schema.tables where table_name = \'users\' and table_schema = database();'
     cur.execute(query)
     user = cur.fetchall()
-    print(user)
     cur.close()
     #con.close()
     return user[0][0]
