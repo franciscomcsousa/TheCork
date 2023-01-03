@@ -25,7 +25,7 @@ if (!location.state) {
     )
 }
 
-const userData = location.state.data
+const adminData = location.state.data
 //console.log(userData)
 
 return (
@@ -59,21 +59,19 @@ return (
             paddingBottom={1}
           >
           <Typography component="h1" variant="h5">
-            Welcome {userData.name}!
+            Welcome Restaurant {adminData.name}!
           </Typography>
           </Box>
         </Box>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
                     {/* TODO: beautify, or just make it more readable */}
-                    <Typography sx={{ p: 2 }}>Name:{userData.name}</Typography>
-                    <Typography sx={{ p: 2 }}>Email:{userData.email} </Typography>
-                    <Typography sx={{ p: 2 }}>Wallet:{userData.wallet} </Typography>
-                    <Typography sx={{ p: 2 }} component={'div'}>Cards:{userData.cards.map( (card) =>
-                      <li key={card}> CardNumber: {card}, Amount: {card[1]}€</li>
-                      )}
-                    </Typography>
-                        
+                    <Typography sx={{ p: 2 }}>Name:{adminData.name}</Typography>
+                    <Typography sx={{ p: 2 }}>Address:{adminData.address} </Typography>
+                    <Typography sx={{ p: 2 }}>Phone:{adminData.phone} </Typography>
+                    <Typography sx={{ p: 2 }}>Email:{adminData.email} </Typography>
+                    <Typography sx={{ p: 2 }}>Tables Left:{adminData.tables} </Typography>
+                    <Typography sx={{ p: 2 }}>Disponibility: {adminData.disponibility === 1 ? 'Open' : 'Closed'} </Typography>                        
                 </Grid>
             </Grid>
         </Container>
