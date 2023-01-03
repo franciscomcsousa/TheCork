@@ -134,14 +134,25 @@ def create_user(name,email,password):
 def get_user_id(email):
     #con = connect() 
     cur = con.cursor()
-    data = (email)
+    data = (email,)
     query = 'select user_id from users where email = %s'
     cur.execute(query, data)
-    users = cur.fetchall()
+    user = cur.fetchall()
+    print(user)
     cur.close()
     #con.close()
-    return users
+    return user[0][0]
       
+def get_next_user_id():
+    #con = connect() 
+    cur = con.cursor()
+    query = 'select auto_increment from information_schema.tables where table_name = \'users\' and table_schema = database();'
+    cur.execute(query)
+    user = cur.fetchall()
+    print(user)
+    cur.close()
+    #con.close()
+    return user[0][0]
         
 def get_all_users():
     #con = connect() 

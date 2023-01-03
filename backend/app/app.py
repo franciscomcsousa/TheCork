@@ -62,7 +62,7 @@ def register_user():
         email = data['email']
         password = data['password']
         # TODO - This is not protected perhaps
-        create_user(name, email, salt_password(get_user_id(email), password))
+        create_user(name, email, salt_password(get_next_user_id(), password))
     return {'200': 'Registered Successfully'}
 
 
