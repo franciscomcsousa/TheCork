@@ -17,14 +17,6 @@ con = mariadb.connect(
         ssl_ca='/etc/mysql/ssl/ca-cert.pem'
         )
 
-#def connect():
-#    return mysql.connector.connect(
-#            host =   "192.168.2.4",
-#            user = "sirs",
-#            passwd = "TimekeeperCookie10!",
-#            database = "thecork"
-#            )
-
 def create_post(name, content):
     #con = connect() 
     cur = con.cursor()
