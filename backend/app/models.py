@@ -51,9 +51,7 @@ def create_gift_card(amount, email, password):
         return {'400': 'Insufficient funds'}
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
-    print(f"create card (card number) {card_number}")
     card_number_hash = hash_card(card_number)
-    print(f"create card (card number hash) {card_number_hash}")
     # for any _enc variable, index 0 is the cipher and index 1 is the iv
     card_number_enc = aes_encrypt(str(card_number))
     amount_enc = aes_encrypt(str(amount))
@@ -75,10 +73,8 @@ def create_gift_card(amount, email, password):
 def redeem_gift_card(card_number, email):
     #con = connect() 
     cur = con.cursor()
-    print(f"card_number {card_number}")
     card_number_hash = hash_card(card_number)
     data = (card_number_hash,)
-    print(f"redeem (card number) {card_number_hash}")
     query = 'select amount_cipher, amount_iv from gift_cards where card_number_hash = %s'
     cur.execute(query, data)
     amount_enc = cur.fetchall()
@@ -224,7 +220,6 @@ def get_profile(email, password):
     # Decrypt all of the gift card values (var named amount)
     for enc_card in enc_cards:
         cards.append([aes_decrypt(enc_card[1], enc_card[2]).decode(), aes_decrypt(enc_card[3], enc_card[4]).decode()])
-        print(f"profile cards {cards}")
     cur.close()
     #con.close()
     return [user, cards]
