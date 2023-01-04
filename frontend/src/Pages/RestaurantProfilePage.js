@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import RestaurantProfile from '../Components/RestaurantProfile';
 
-export const RestaurantProfilepage = () => {
+export const RestaurantProfilePage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 

@@ -3,7 +3,7 @@ import Profile from '../Components/UserProfile';
 import { useNavigate } from 'react-router-dom';
 
 
-export const UserProfilepage = () => {
+export const UserProfilePage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
