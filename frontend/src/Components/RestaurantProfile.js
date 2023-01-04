@@ -5,7 +5,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -28,6 +28,12 @@ export default function RestaurantProfile({ emailInput, passwordInput, onFormCha
     event.preventDefault()
     onFormSubmit()
   }
+
+  let re = /\S+@\S+\.\S+/;
+
+  const validate = () => {
+    return re.test(emailInput) && passwordInput.length > 0;
+  };
 
   return (
     <ThemeProvider theme={theme}>
@@ -53,14 +59,14 @@ export default function RestaurantProfile({ emailInput, passwordInput, onFormCha
             paddingTop={3}
           >
             <Avatar sx={{ m: 2, bgcolor: 'blueviolet', width: 50, height: 50}}>
-              <AccountCircleIcon />
+              <AdminPanelSettingsIcon />
             </Avatar>
           </Box>
           <Box
             paddingBottom={1}
           >
             <Typography component="h1" variant="h5">
-              Update restaurant information
+              Admin Sign in
             </Typography>
           </Box>
         </Box>
@@ -98,6 +104,7 @@ export default function RestaurantProfile({ emailInput, passwordInput, onFormCha
           fullWidth
           variant="contained"
           sx={{ height: 40, width: 200 }}
+          disabled={!validate()}
           >
           Restaurant details
           </Button>

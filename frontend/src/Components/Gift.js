@@ -83,6 +83,12 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
     onFormSubmit()
   }
 
+  let re = /\S+@\S+\.\S+/;
+
+  const validate = () => {
+    return re.test(emailInput) && passwordInput.length > 0;
+  };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -224,6 +230,7 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
           variant="contained"
           sx={{ height: 40, width: 200 }}
           onClick={() => window.location.href = '/gift_cards'}
+          disabled={!validate()}
         >
           Buy
         </Button>

@@ -31,6 +31,12 @@ export default function BookForm({ emailInput, passwordInput, restaurantInput, o
         onFormSubmit()
     }
 
+    let re = /\S+@\S+\.\S+/;
+
+    const validate = () => {
+      return re.test(emailInput) && passwordInput.length > 0 && restaurantInput.length > 0;
+    };
+
 
     return(
       <ThemeProvider theme={theme}>
@@ -104,6 +110,7 @@ export default function BookForm({ emailInput, passwordInput, restaurantInput, o
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: 200, padding: 1, margin: 2}}
                 onClick={() => window.location.href = '/book'}
+                disabled={!validate()}
               >
                 Book
               </Button>

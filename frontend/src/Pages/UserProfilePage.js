@@ -7,13 +7,12 @@ export const UserProfilePage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
-    //const [data, setData] = useState([])
+    const [data, setData] = useState(['hello world'])
 
     const navigate = useNavigate();
 
-    // Loads the page with the name of the user TODO: make it so that the email has to be an email
-    // TODO: change the url to the email before the @, it needs to be checked when registering
-    const urlName = addEmailInput//.substring(0, addEmailInput.indexOf('@'))
+    // Loads the page with the user's email address in the URL
+    const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -38,7 +37,7 @@ export const UserProfilePage = () => {
         return response.json();
          })
         .then(data => {
-                //setData(data)
+                setData(data)
                 navigate(`/profile/${urlName}`,{ state:{data} })
         })
         .catch(error => {
@@ -50,7 +49,7 @@ return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} />
+        onFormSubmit={handleFormSubmit} data = { data } />
     </div>
     )
 }
