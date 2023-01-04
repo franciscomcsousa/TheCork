@@ -35,6 +35,7 @@ def redeem_cards():
         if request.method == 'POST':
             data = request.get_json()
             card_number = data['card']
+            print(f"APP CARD NUMBER {card_number}")
             email = data['email']
             response = redeem_gift_card(card_number, email)
         return response
@@ -87,6 +88,8 @@ def profile():
         
         user = info[0]
         cards = info[1]
+
+        print(f"app cards {cards}")
         
         #if len(user) > 0:
         if len(cards) > 0:

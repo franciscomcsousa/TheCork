@@ -19,6 +19,9 @@ def salt_password(user_id: str, password: str):
     salt:str = str(user_id) + str(password)
     return hashlib.sha256(salt.encode('ascii')).hexdigest()
 
+def hash_card(card_number:str):
+    return hashlib.sha256(card_number.encode('ascii')).hexdigest()
+
 def aes_encrypt(data):
     with open(AES_PATH, 'rb') as db_aes_file:
         key = db_aes_file.read()

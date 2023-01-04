@@ -26,7 +26,7 @@ if (!location.state) {
 }
 
 const userData = location.state.data
-//console.log(userData)
+console.log(userData)
 
 return (
     <ThemeProvider theme={theme}>
@@ -70,7 +70,7 @@ return (
                     <Typography sx={{ p: 2 }}>Email:{userData.email} </Typography>
                     <Typography sx={{ p: 2 }}>Wallet:{userData.wallet} </Typography>
                     <Typography sx={{ p: 2 }} component={'div'}>Cards:{userData.cards.map( (card) =>
-                      <li key={card}> CardNumber: {card}, Amount: {card[1]}€</li>
+                      <li key={card}> CardNumber: {card[0]}, Amount: {card[1]}€</li>
                       )}
                     </Typography>
                         

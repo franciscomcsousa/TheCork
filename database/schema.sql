@@ -2,7 +2,9 @@ drop table if exists gift_cards;
     create table gift_cards(
         id integer primary key AUTO_INCREMENT,
         user_email varchar(255) not null,
-        card_number varchar(16) not null,
+        card_number_hash varchar(32) not null,
+        card_number_cipher varchar(64) not null,
+        card_number_iv varchar(64) not null,
         amount_cipher varchar(32) not null,
         amount_iv varchar(32) not null
     );
