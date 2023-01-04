@@ -74,11 +74,10 @@ def profile():
         user = info[0]
         cards = info[1]
         
-        if len(user) > 0:
-            if len(cards) > 0:
-                return {"name": user[0],"email": user[1], "wallet": user[2], "cards": cards}
-            return {"name": user[0],"email": user[1], "wallet": user[2], "cards": []}
-        return {'400': 'User or Password is incorrect'}
+        #if len(user) > 0:
+        if len(cards) > 0:
+            return {"name": user[0],"email": user[1], "wallet": user[2], "cards": cards}
+        return {"name": user[0],"email": user[1], "wallet": user[2], "cards": []}
     return {'400': 'Not allowed'}
 
 
