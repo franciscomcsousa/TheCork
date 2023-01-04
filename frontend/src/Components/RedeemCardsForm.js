@@ -16,7 +16,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-export default function RedeemForm({ cardInput, emailInput, onFormChangeCard, onFormChangeEmail, onFormSubmit }) {
+export default function RedeemCardsForm({ cardInput, emailInput, onFormChangeCard, onFormChangeEmail, onFormSubmit }) {
   
     const handleChangeCard = (event) => {
        onFormChangeCard(event.target.value)

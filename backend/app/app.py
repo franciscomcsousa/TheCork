@@ -35,8 +35,23 @@ def redeem_cards():
         if request.method == 'POST':
             data = request.get_json()
             card_number = data['card']
+            print(f"APP CARD NUMBER {card_number}")
             email = data['email']
             response = redeem_gift_card(card_number, email)
+        return response
+
+@app.route('/redeem_points', methods=['GET', 'POST'])
+def redeem_points():
+    if request.method == 'GET':
+        pass
+    # This section has to be protected from concurrency
+    with get_lock('gift_cards'):
+        if request.method == 'POST':
+            data = request.get_json()
+            email = data['email']
+            password = data['password']
+            amount = data['amount']
+            response = redeem_user_points(int(amount), email, salt_password(get_user_id(email), password))
         return response
 
 
@@ -73,6 +88,8 @@ def profile():
         
         user = info[0]
         cards = info[1]
+
+        print(f"app cards {cards}")
         
         #if len(user) > 0:
         if len(cards) > 0:
