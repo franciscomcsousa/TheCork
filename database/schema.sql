@@ -3,7 +3,8 @@ drop table if exists gift_cards;
         id integer primary key AUTO_INCREMENT,
         user_email varchar(255) not null,
         card_number varchar(16) not null,
-        amount real not null
+        amount_cipher varchar(32) not null,
+        amount_iv varchar(32) not null
     );
 
 drop table if exists users;
