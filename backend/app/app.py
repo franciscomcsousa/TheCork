@@ -100,25 +100,18 @@ def restaurant_profile():
     return {'400': 'Not allowed'}
 
 
-# @app.route('/login', methods=['GET', 'POST'])
-# def user_login():
-#     if request.method == 'GET':
-#         pass
-    
-#     if request.method == 'POST':
-#         email = request.form.get('email')
-#         password = request.form.get('password')
-#         user = login(email, salt_password(get_user_id(email), password))
-#         if user is not None:
-#             session['user'] = user
-#             return render_template('login.html', posts=user)
-#     return render_template('login.html')
-
-
-# @app.route('/logout')
-# def logout():
-#     session.pop('logged_in', None)
-#     return redirect(url_for('index'))
+@app.route('/login', methods=['GET', 'POST'])
+def user_login():
+    if request.method == 'GET':
+        pass
+  
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+        user = login(email, salt_password(get_user_id(email), password))
+        if user is not None:
+            return {'200': 'User successfully logged in'}
+    return {'400': 'User or Password is incorrect'}
 
 
 if __name__ == '__main__':

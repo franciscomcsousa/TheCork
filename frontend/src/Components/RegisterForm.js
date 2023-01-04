@@ -36,6 +36,7 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
         event.preventDefault()
         onFormSubmit()
     }
+
     if (userData) {
       //console.log(userData) For some reason only alerts when its submitted twice ## 
       //problem when redirecting  TODO, fix the user interface 
@@ -151,7 +152,7 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
                 <Box
                   sx={{ mt: -4 }}
                 >
-                <Link href="#" variant="body2">
+                <Link href="/login" variant="body2">
                   Already have an account? Login
                 </Link>
                 </Box>

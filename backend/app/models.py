@@ -204,13 +204,13 @@ def get_restaurant_profile(email, password):
     return restaurant
 
 
-# def login(email, password):
-#     #con = connect() 
-#     cur = con.cursor()
-#     data = (email, password)
-#     query = 'select * from users where email = %s and password = %s'
-#     cur.execute(query, data)
-#     user = cur.fetchall()
-#     cur.close()
-#     #con.close()
-#     return user
+def login(email, password):
+    #con = connect() 
+    cur = con.cursor()
+    data = (email, password)
+    query = 'select * from users where email = %s and password = %s'
+    cur.execute(query, data)
+    user = cur.fetchall()
+    cur.close()
+    #con.close()
+    return user

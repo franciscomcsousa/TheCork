@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
-import Profile from '../Components/UserProfile';
+import LoginForm from '../Components/LoginForm';
 import { useNavigate } from 'react-router-dom';
 
+export const Login = () => {
 
-export const UserProfilePage = () => {
-    
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
-    //const [data, setData] = useState([])
 
     const navigate = useNavigate();
 
-    // Loads the page with the user's email address in the URL
+    //Loads the page with the user's email address in the URL
     const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
@@ -23,7 +21,7 @@ export const UserProfilePage = () => {
     }
 
     const handleFormSubmit = () => {
-        fetch('/profile', {
+        fetch('/login', {
             method: 'POST',
             body: JSON.stringify({email: addEmailInput, password: addPasswordInput}),
             headers: {
@@ -37,7 +35,6 @@ export const UserProfilePage = () => {
         return response.json();
          })
         .then(data => {
-                //setData(data)
                 navigate(`/profile/${urlName}`,{ state:{data} })
         })
         .catch(error => {
@@ -47,9 +44,9 @@ export const UserProfilePage = () => {
 
 return (
     <div>
-        <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
-        onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} /*data = { data }*/ />
+        <LoginForm emailInput={ addEmailInput } passwordInput={ addPasswordInput }
+        onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword}
+        onFormSubmit={handleFormSubmit} />
     </div>
     )
 }
