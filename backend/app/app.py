@@ -68,14 +68,16 @@ def profile():
         password = data['password']
         info = get_profile(email, salt_password(get_user_id(email), password))
         
+        if len(info) == 0:
+            return {'400': "User and/or Password is incorrect"}
+        
         user = info[0]
         cards = info[1]
-        # TODO - maybe send differently from models.py
-        # TODO - it will probbly only show 1 card even if there are more
-        if user:
-            if cards:
+        
+        if len(user) > 0:
+            if len(cards) > 0:
                 return {"name": user[0],"email": user[1], "wallet": user[2], "cards": cards}
-            return {"name": user[0],"email": user[1], "wallet": user[2]}
+            return {"name": user[0],"email": user[1], "wallet": user[2], "cards": []}
         return {'400': 'User or Password is incorrect'}
     return {'400': 'Not allowed'}
 

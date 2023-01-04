@@ -175,8 +175,11 @@ def get_profile(email, password):
     cur.execute(query, data)
     # user_raw is a mixed of the encrypted wallet and regular fields
     user_raw = cur.fetchall()
+    if len(user_raw) == 0:
+        cur.close()
+        return []
+    
     user = [user_raw[0][0], user_raw[0][1]]
-
     wallet_enc = [user_raw[0][2], user_raw[0][3]]
     wallet = float(aes_decrypt(wallet_enc[0], wallet_enc[1]).decode())
     user.append(wallet)
