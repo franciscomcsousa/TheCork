@@ -3,6 +3,8 @@ import os
 from os import path
 import secrets
 from utils import aes_encrypt, aes_decrypt
+from http_response import *
+
 
 PASS_PATH = '../../secret/database.pass'
 
@@ -110,6 +112,17 @@ def redeem_gift_card(card_number, email):
 def create_user(name,email,password):
     #con = connect() 
     cur = con.cursor()
+    # Verify if the user already exists
+    data = (email,)
+    query = 'select * from users where email = %s'
+    cur.execute(query, data)
+    user = cur.fetchall()
+    if len(user) > 0:
+        cur.close()
+        con.close()
+        return USER_ALREADY_EXISTS_STATUS
+    
+    # Create the user
     base_amount = 200
     enc = aes_encrypt(str(base_amount))
     data = (name, email, password, enc[0], enc[1])
@@ -117,7 +130,7 @@ def create_user(name,email,password):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'User Created Successfully'}
+    return OK_STATUS
     #con.close()
 
 

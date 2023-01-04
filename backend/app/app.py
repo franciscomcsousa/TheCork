@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, url_for, redirect
+from flask import Flask, make_response, render_template, request, session, url_for, redirect
 from flask_cors import CORS
 from models import *
 import hashlib
@@ -51,8 +51,10 @@ def register_user():
         email = data['email']
         password = data['password']
         # TODO - This is not protected perhaps
-        response = create_user(name, email, salt_password(get_next_user_id(), password))
-    return response
+        status = create_user(name, email, salt_password(get_next_user_id(), password))
+        # TODO - also pass as param the status message :facepalm: 
+        return make_response({"status":status}, status)
+    return make_response({"status":'Not allowed'}, 400)
 
 
 @app.route('/profile', methods=['GET', 'POST'])
