@@ -31,6 +31,12 @@ export default function RedeemForm({ cardInput, emailInput, onFormChangeCard, on
         onFormSubmit()
     }
 
+    let re = /\S+@\S+\.\S+/;
+
+    const validate = () => {
+      return re.test(emailInput) && cardInput.length > 0;
+    };
+
 
     return(
       <ThemeProvider theme={theme}>
@@ -100,6 +106,7 @@ export default function RedeemForm({ cardInput, emailInput, onFormChangeCard, on
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: 200, padding: 1, margin: 2}}
                 onClick={() => window.location.href = '/redeem_cards'}
+                disabled={!validate()}
               >
                 Redeem
               </Button>

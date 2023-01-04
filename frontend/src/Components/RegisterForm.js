@@ -37,6 +37,12 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
         onFormSubmit()
     }
 
+    let re = /\S+@\S+\.\S+/;
+
+    const validate = () => {
+      return re.test(emailInput) && passwordInput.length > 0 && nameInput.length > 0;
+    };
+
 
   return (
     <ThemeProvider theme={theme}>
@@ -124,6 +130,7 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
               fullWidth
               variant="contained"
               onClick={() => window.location.href = '/'}
+              disabled={!validate()}
             >
               Register
             </Button>

@@ -29,6 +29,12 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
     onFormSubmit()
   }
 
+  let re = /\S+@\S+\.\S+/;
+
+  const validate = () => {
+    return re.test(emailInput) && passwordInput.length > 0;
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -98,6 +104,7 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
           fullWidth
           variant="contained"
           sx={{ height: 40, width: 200 }}
+          disabled={!validate()}
           >
           See my profile
           </Button>

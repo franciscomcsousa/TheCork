@@ -9,17 +9,14 @@ export const RedeemCards = () => {
 
     const navigate = useNavigate();
 
-    // Loads the page with the name of the user TODO: make it so that the email has to be an email
-    // TODO: change the url to the email before the @, it needs to be checked when registering
-    const urlName = addEmailInput//.substring(0, addEmailInput.indexOf('@'))
+    // Loads the page with the user's email address in the URL
+    const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeCard = (cardInput) => {
-        console.log(cardInput)
         setCardInput(cardInput)
     }
 
     const handleFormChangeEmail = (emailInput) => {
-        console.log(emailInput)
         setEmailInput(emailInput)
     }
 
@@ -38,7 +35,6 @@ export const RedeemCards = () => {
         return response.json();
         })
         .then(data => {
-            console.log(data)
             navigate(`/redeem_cards/${urlName}`,{ state:{data} })
         })
         .catch(error => {

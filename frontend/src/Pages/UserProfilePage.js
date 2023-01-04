@@ -11,9 +11,8 @@ export const UserProfilePage = () => {
 
     const navigate = useNavigate();
 
-    // Loads the page with the name of the user TODO: make it so that the email has to be an email
-    // TODO: change the url to the email before the @, it needs to be checked when registering
-    const urlName = addEmailInput//.substring(0, addEmailInput.indexOf('@'))
+    // Loads the page with the user's email address in the URL
+    const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
