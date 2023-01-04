@@ -12,14 +12,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme();
 
-export default function BookForm({ emailInput, passwordInput, restaurantInput, onFormChangeEmail, onFormChangePassword, onFormChangeRestaurant, onFormSubmit }) {
+export default function BookForm({ emailInput, peopleCountInput, restaurantInput, onFormChangeEmail, onFormChangePeopleCount, onFormChangeRestaurant, onFormSubmit }) {
   
     const handleChangeEmail = (event) => {
        onFormChangeEmail(event.target.value)
     }
 
-    const handleChangePassword = (event) => {
-        onFormChangePassword(event.target.value)
+    const handleChangePeopleCount = (event) => {
+        onFormChangePeopleCount(event.target.value)
     }
 
     const handleChangeRestaurant = (event) => {
@@ -34,7 +34,7 @@ export default function BookForm({ emailInput, passwordInput, restaurantInput, o
     let re = /\S+@\S+\.\S+/;
 
     const validate = () => {
-      return re.test(emailInput) && passwordInput.length > 0 && restaurantInput.length > 0;
+      return restaurantInput.length > 0 && re.test(emailInput) && peopleCountInput > 0;
     };
 
 
@@ -95,13 +95,13 @@ export default function BookForm({ emailInput, passwordInput, restaurantInput, o
                   <TextField
                     required
                     fullWidth
-                    id="password"
-                    type="password"
-                    label="Password"
-                    name="password"
-                    autoComplete="new-password"
-                    value={passwordInput}
-                    onChange={handleChangePassword}
+                    id="people-count"
+                    type="people-count"
+                    label="For how many people"
+                    name="people-count"
+                    autoComplete="people-count"
+                    value={peopleCountInput}
+                    onChange={handleChangePeopleCount}
                   />
                 </Grid>
               </Grid>

@@ -93,10 +93,9 @@ def restaurant_profile():
         email = data['email']
         password = data['password']
         restaurant = get_restaurant_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
-        print(f"restaurant: {restaurant}")
-
+        
         if restaurant:
-            return {"name": restaurant[0][1],"address": restaurant[0][2],"phone": restaurant[0][3] ,"email": restaurant[0][4],"tables": restaurant[0][6], "disponibility": restaurant[0][7]}
+            return {"name": restaurant[0][1],"address": restaurant[0][2],"phone": restaurant[0][3] ,"email": restaurant[0][4],"available_seats": restaurant[0][6], "availability": restaurant[0][7]}
         return {'400': 'User or Password is incorrect'}
     return {'400': 'Not allowed'}
 
@@ -113,6 +112,22 @@ def user_login():
         if user is not None:
             return {'200': 'User successfully logged in'}
     return {'400': 'User or Password is incorrect'}
+
+
+@app.route('/book', methods=['GET', 'POST'])
+def book():
+    if request.method == 'GET':
+        pass
+    
+    if request.method == 'POST':
+        data = request.get_json()
+        restaurant_name = data['restaurant_name']
+        user_email = data['user_email']
+        people_count = data['people_count']
+        status = book_table(restaurant_name, user_email, people_count)
+        return {'200': status}
+    return {'400': 'Not allowed'}
+
 
 
 if __name__ == '__main__':

@@ -70,7 +70,7 @@ return (
                     <Typography sx={{ p: 2 }}>Address:{adminData.address} </Typography>
                     <Typography sx={{ p: 2 }}>Phone:{adminData.phone} </Typography>
                     <Typography sx={{ p: 2 }}>Email:{adminData.email} </Typography>
-                    <Typography sx={{ p: 2 }}>Tables Left:{adminData.tables} </Typography>
+                    <Typography sx={{ p: 2 }}>Available Seats:{adminData.available_seats} </Typography>
                     <Typography sx={{ p: 2 }}>Disponibility: {adminData.disponibility === 1 ? 'Open' : 'Closed'} </Typography>                        
                 </Grid>
             </Grid>

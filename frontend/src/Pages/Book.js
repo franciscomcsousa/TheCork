@@ -5,30 +5,32 @@ import { useNavigate } from 'react-router-dom';
 export const Book = () => {
 
     const [addEmailInput, setEmailInput] = useState('')
-    const [addPasswordInput, setPasswordInput] = useState('')
+    const [addPeopleCountInput, setPeopleCountInput] = useState('')
     const [addRestaurantInput, setRestaurantInput] = useState('')
 
     const navigate = useNavigate();
 
     // Loads the page with the user's email address in the URL
-    const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
+    const urlName = addRestaurantInput.replace(/\s+/g, '-').toLowerCase();
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
     }
 
-    const handleFormChangePassword = (passwordInput) => {
-        setPasswordInput(passwordInput)
+    const handleFormChangePeopleCount = (peopleCountInput) => {
+        setPeopleCountInput(peopleCountInput)
     }
 
     const handleFormChangeRestaurant = (restaurantInput) => {
         setRestaurantInput(restaurantInput)
     }
+    
+    console.log("user_email:" ,{addEmailInput}, "people_count:" ,{addPeopleCountInput}, "restaurant_name:" ,{addRestaurantInput})
 
     const handleFormSubmit = () => {
         fetch('/book', {
             method: 'POST',
-            body: JSON.stringify({email: addEmailInput, password: addPasswordInput, restaurant: addRestaurantInput}),
+            body: JSON.stringify({user_email: addEmailInput, people_count: addPeopleCountInput, restaurant_name: addRestaurantInput}),
             headers: {
                 'Content-Type': 'application/json'
             }
@@ -50,8 +52,8 @@ export const Book = () => {
 
 return (
     <div>
-       <BookForm emailInput={ addEmailInput } passwordInput={ addPasswordInput } restaurantInput={ addRestaurantInput}
-        onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} onFormChangeRestaurant={handleFormChangeRestaurant}
+       <BookForm emailInput={ addEmailInput } peopleCountInput={ addPeopleCountInput } restaurantInput={ addRestaurantInput}
+        onFormChangeEmail={handleFormChangeEmail} onFormChangePeopleCount={handleFormChangePeopleCount} onFormChangeRestaurant={handleFormChangeRestaurant}
         onFormSubmit={handleFormSubmit}/>
     </div>
     )

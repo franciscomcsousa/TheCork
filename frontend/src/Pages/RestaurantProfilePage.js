@@ -36,8 +36,6 @@ export const RestaurantProfilePage = () => {
         return response.json();
          })
         .then(data => {
-                //setData(data)
-                //console.log(data)
                 navigate(`/restaurant/${urlName}`,{ state:{data} })
         })
         .catch(error => {

@@ -217,3 +217,40 @@ def login(email, password):
     cur.close()
     #con.close()
     return user
+
+
+def book_table(restaurant_name, user_email, people_count):
+    #con = connect() 
+    cur = con.cursor()
+    
+    data = (user_email,)
+    query = 'select * from users where email = %s'
+    cur.execute(query, data)
+    user = cur.fetchall()
+    if len(user) == 0:
+        cur.close()
+        con.close()
+        return USER_DOES_NOT_EXIST_STATUS
+    
+    data = (restaurant_name,)
+    query = 'select available_seats from restaurants where name = %s'
+    cur.execute(query, data)
+    restaurant_capacity = cur.fetchall()
+    if len(restaurant_capacity) == 0 or restaurant_capacity[0][0] < int(people_count):
+        cur.close()
+        con.close()
+        return {'400': 'Restaurant does not exist or does not have enough seats'}
+    
+    data = (restaurant_name, user_email, people_count)
+    query = 'insert into reservations (restaurant_name, user_email, people_count) values (%s, %s, %s)'
+    cur.execute(query, data)
+    
+    # Update the restaurant's table count
+    data = (people_count, restaurant_name)
+    query = 'update restaurants set available_seats = available_seats - %s where name = %s'
+    cur.execute(query, data)
+    
+    con.commit()
+    cur.close()
+    #con.close()
+    return OK_STATUS
