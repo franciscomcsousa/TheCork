@@ -7,7 +7,7 @@ export const UserProfilePage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
-    //const [data, setData] = useState([])
+    const [data, setData] = useState(['hello world'])
 
     const navigate = useNavigate();
 
@@ -37,7 +37,7 @@ export const UserProfilePage = () => {
         return response.json();
          })
         .then(data => {
-                //setData(data)
+                setData(data)
                 navigate(`/profile/${urlName}`,{ state:{data} })
         })
         .catch(error => {
@@ -49,7 +49,7 @@ return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} />
+        onFormSubmit={handleFormSubmit} data = { data } />
     </div>
     )
 }

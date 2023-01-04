@@ -14,7 +14,7 @@ import Header from './Header';
 
 const theme = createTheme();
 
-export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
+export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, data }) {
 
   const handleChangeEmail = (event) => {
     onFormChangeEmail(event.target.value)
@@ -70,6 +70,16 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
             </Typography>
           </Box>
         </Box>
+        {/*data && (
+          <div className='form-group'>
+              <div
+                className={data ? 'alert alert-success' : 'alert alert-danger'}
+                role='alert'
+              >
+                {data.message}
+              </div>
+          </div>
+        )*/}
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
             <Grid item xs={12}>
