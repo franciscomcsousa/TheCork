@@ -13,7 +13,8 @@ drop table if exists users;
         name varchar(255) not null,
         email varchar(255) not null,
         password varchar(255) not null,
-        wallet real not null
+        wallet_cipher varchar(32) not null,
+        wallet_iv varchar(32)
     );
 
 drop table if exists restaurants;

@@ -34,27 +34,30 @@ def create_gift_card(amount, email, password):
     cur = con.cursor()
     # verify if the user exists and has correct password
     data = (email, password)
-    query = 'select wallet from users where email = %s and password = %s'
+    query = 'select wallet_cipher, wallet_iv from users where email = %s and password = %s'
     cur.execute(query, data)
-    user_wallet = cur.fetchall()
-    if len(user_wallet) == 0:
+    wallet_enc = cur.fetchall()
+    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
+    # TODO - is this okay?
+    if not wallet_enc[0]:
         cur.close()
         #con.close()
         return {'400': 'User does not exist or password is incorrect'}
-    elif user_wallet[0][0] < amount:
+    elif wallet < amount:
         cur.close()
         #con.close()
         return {'400': 'Insufficient funds'}
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
-    cipher = aes_encrypt(str(amount))
-    data = (email, card_number, cipher[0], cipher[1])
+    amount_enc = aes_encrypt(str(amount))
+    data = (email, card_number, amount_enc[0], amount_enc[1])
     query = 'insert into gift_cards (user_email, card_number, amount_cipher, amount_iv) values(%s, %s, %s, %s)'
     cur.execute(query, data)
     # update the user's wallet, subtract the amount
-    new_amount = user_wallet[0][0] - amount
-    data = (new_amount, email)
-    query = 'update users set wallet = %s where email = %s'
+    new_amount = wallet - amount
+    new_amount_enc = aes_encrypt(str(new_amount))
+    data = (new_amount_enc[0], new_amount_enc[1], email)
+    query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
     con.commit()
     cur.close()
@@ -68,27 +71,31 @@ def redeem_gift_card(card_number, email):
     data = (card_number,)
     query = 'select amount_cipher, amount_iv from gift_cards where card_number = %s'
     cur.execute(query, data)
-    amount_cipher = cur.fetchall()
-    amount = float(aes_decrypt(amount_cipher[0][0], amount_cipher[0][1]).decode())
+    amount_enc = cur.fetchall()
+    print(f"amount_enc {amount_enc}")
+    amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
     # if there is no gift card with that number
     # TODO - the lenght in minimum 1 even if nothing is return, check if its empty
-    if not amount_cipher[0]:
+    if not amount_enc[0]:
         cur.close()
         con.close()
         return {'400': 'Gift Card does not exist'}
     # if there is a user with that email
     data = (email,)
-    query = 'select wallet from users where email = %s'
+    query = 'select wallet_cipher, wallet_iv from users where email = %s'
     cur.execute(query, data)
-    user_wallet = cur.fetchall()
-    if len(user_wallet) == 0:
+    wallet_enc = cur.fetchall()
+    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
+    # TODO - is this okay?
+    if not wallet_enc[0]:
         cur.close()
         con.close()
         return {'400': 'User does not exist'}
     # update the user's wallet, add the amount
-    new_amount = user_wallet[0][0] + amount
-    data = (new_amount, email)
-    query = 'update users set wallet = %s where email = %s'
+    new_amount = wallet + amount
+    new_amount_enc = aes_encrypt(str(new_amount))
+    data = (new_amount_enc[0], new_amount_enc[1], email)
+    query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
     # delete the gift card
     data = (card_number,)
@@ -103,8 +110,10 @@ def redeem_gift_card(card_number, email):
 def create_user(name,email,password):
     #con = connect() 
     cur = con.cursor()
-    data = (name, email, password, 50)
-    query = 'insert into users (name, email, password, wallet) values (%s, %s, %s, %s)'
+    base_amount = 200
+    enc = aes_encrypt(str(base_amount))
+    data = (name, email, password, enc[0], enc[1])
+    query = 'insert into users (name, email, password, wallet_cipher, wallet_iv) values (%s, %s, %s, %s, %s)'
     cur.execute(query, data)
     con.commit()
     cur.close()
@@ -149,17 +158,24 @@ def get_profile(email, password):
     #con = connect() 
     cur = con.cursor()
     data = (email, password)
-    query = 'select * from users where email = %s and password = %s'
+    query = 'select name, email, wallet_cipher, wallet_iv from users where email = %s and password = %s'
     cur.execute(query, data)
-    user = cur.fetchall()
+    # user_raw is a mixed of the encrypted wallet and regular fields
+    user_raw = cur.fetchall()
+    user = [user_raw[0][0], user_raw[0][1]]
+
+    wallet_enc = [user_raw[0][2], user_raw[0][3]]
+    wallet = float(aes_decrypt(wallet_enc[0], wallet_enc[1]).decode())
+    user.append(wallet)
+
     data = (email,)
     query = 'select card_number, amount_cipher, amount_iv from gift_cards where user_email = %s'
     cur.execute(query, data)
-    cipher_cards = cur.fetchall()
+    enc_cards = cur.fetchall()
     cards = []
     # Decrypt all of the gift card values (var named amount)
-    for cipher_card in cipher_cards:
-        cards.append([cipher_card[0], aes_decrypt(cipher_card[1], cipher_card[2]).decode()])
+    for enc_card in enc_cards:
+        cards.append([enc_card[0], aes_decrypt(enc_card[1], enc_card[2]).decode()])
     cur.close()
     #con.close()
     return [user, cards]
