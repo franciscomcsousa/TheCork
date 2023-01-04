@@ -9,6 +9,7 @@ import FeaturedPost from './FeaturedPost';
 import { Box } from '@mui/system';
 import Typography from '@mui/material/Typography';
 import Link from '@mui/material/Link';
+import { Button } from '@mui/material';
 
 
 const mainFeaturedPost = {
@@ -88,8 +89,16 @@ export default function Home() {
           </Grid>
         </main>
       </Container>
+      {/*Redeem points*/}
       <Box
-        paddingTop={4.5}
+        paddingTop={4}
+      >
+      <Button size="large" variant="contained" color="primary" href="/redeem_points">
+        Redeem Your Points Here!
+      </Button>
+      </Box>
+      <Box
+        paddingTop={4}
         paddingBottom={3}
       >
       <Copyright />
