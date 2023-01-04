@@ -11,7 +11,7 @@ drop table if exists users;
     create table users (
         user_id integer AUTO_INCREMENT primary key not null,
         name varchar(255) not null,
-        email varchar(255) not null,
+        email varchar(255) unique not null,
         password varchar(255) not null,
         wallet_cipher varchar(32) not null,
         wallet_iv varchar(32)

@@ -107,6 +107,31 @@ def redeem_gift_card(card_number, email):
     cur.close()
     return {'200': 'Gift Card Redeemed Successfully'}
     #con.close()
+
+
+def redeem_user_points(amount, email):
+    #con = connect()
+    cur = con.cursor()
+    # verify if the user exists and has correct password
+    data = (email,)
+    query = 'select wallet_cipher, wallet_iv from users where email = %s'
+    cur.execute(query, data)
+    wallet_enc = cur.fetchall()
+    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
+    # TODO - is this okay?
+    if not wallet_enc[0]:
+        cur.close()
+        con.close()
+        return {'400': 'User does not exist or password is incorrect'}
+    new_amount = wallet + (amount / 20)
+    new_amount_enc = aes_encrypt(str(new_amount))
+    data = (new_amount_enc[0], new_amount_enc[1], email)
+    query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
+    cur.execute(query, data)
+    con.commit()
+    cur.close()
+    return {'200': 'Points Redeemed Successfully'}
+    #con.close()
     
     
 def create_user(name,email,password):
