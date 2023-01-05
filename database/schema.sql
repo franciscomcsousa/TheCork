@@ -36,6 +36,7 @@ drop table if exists reservations;
     create table reservations(
         id integer AUTO_INCREMENT primary key not null,
         restaurant_name varchar(255) not null,
+        restaurant_email varchar(255) not null,
         user_email varchar(255) not null,
         people_count integer not null
     );

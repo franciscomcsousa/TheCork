@@ -244,13 +244,29 @@ def get_restaurant_keywords():
 
 
 def get_restaurant_profile(email, password):
+    #con = connect() 
     cur = con.cursor()
+    
     data = (email, password)
-    query = 'select * from restaurants where email = ? and password = ?'
+    query = 'select * from restaurants where email = %s and password = %s'
     cur.execute(query, data)
-    restaurant = cur.fetchall()
+    restaurant_data = cur.fetchall()
+    
+    if len(restaurant_data) == 0:
+        cur.close()
+        #con.close()
+        return []
+    
+    restaurant = [restaurant_data[0][1], restaurant_data[0][2], restaurant_data[0][3], restaurant_data[0][4], restaurant_data[0][6], restaurant_data[0][7]]
+    
+    data = (email,)
+    query = 'select user_email, people_count from reservations where restaurant_email = %s'
+    cur.execute(query, data)
+    reservations = cur.fetchall()
+
     cur.close()
-    return restaurant
+    #con.close()
+    return [restaurant, reservations]
 
 
 def login(email, password):
@@ -279,16 +295,16 @@ def book_table(restaurant_name, user_email, people_count):
         return USER_DOES_NOT_EXIST_STATUS
     
     data = (restaurant_name,)
-    query = 'select available_seats from restaurants where name = %s'
+    query = 'select email, available_seats from restaurants where name = %s'
     cur.execute(query, data)
-    restaurant_capacity = cur.fetchall()
-    if len(restaurant_capacity) == 0 or restaurant_capacity[0][0] < int(people_count):
+    restaurant_info = cur.fetchall()
+    if len(restaurant_info) == 0 or restaurant_info[0][1] < int(people_count):
         cur.close()
         con.close()
         return {'400': 'Restaurant does not exist or does not have enough seats'}
     
-    data = (restaurant_name, user_email, people_count)
-    query = 'insert into reservations (restaurant_name, user_email, people_count) values (%s, %s, %s)'
+    data = (restaurant_name, restaurant_info[0][0], user_email, people_count)
+    query = 'insert into reservations (restaurant_name, restaurant_email, user_email, people_count) values (%s, %s, %s, %s)'
     cur.execute(query, data)
     
     # Update the restaurant's table count
