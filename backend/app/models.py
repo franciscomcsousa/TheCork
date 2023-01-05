@@ -282,3 +282,36 @@ def book_table(restaurant_name, user_email, people_count):
     cur.close()
     #con.close()
     return OK_STATUS
+
+
+# def change_available_seats(restaurant_name, available_seats):
+#     #con = connect() 
+#     cur = con.cursor()
+#     data = (available_seats, restaurant_name)
+#     query = 'update restaurants set available_seats = %s where name = %s'
+#     cur.execute(query, data)
+#     con.commit()
+#     cur.close()
+#     #con.close()
+#     return OK_STATUS
+
+def change_availability(restaurant_name, availability):
+    #con = connect() 
+    cur = con.cursor()
+    data = (restaurant_name,)
+    query = 'select * from restaurants where name = %s'
+    cur.execute(query, data)
+    restaurant = cur.fetchall()
+    
+    if len(restaurant) == 0:
+        cur = con.cursor()
+        con.close()
+        return RESTAURANT_DOES_NOT_EXIST_STATUS
+    
+    data = (availability, restaurant_name)
+    query = 'update restaurants set availability = %s where name = %s'
+    cur.execute(query, data)
+    con.commit()
+    cur.close()
+    #con.close()
+    return OK_STATUS

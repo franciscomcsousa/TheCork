@@ -9,10 +9,11 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
 import {useLocation} from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 const theme = createTheme();
 
-export default function User() {
+export default function Restaurant(onFormChangeAvailability) {
 
 const location = useLocation();
 
@@ -27,6 +28,13 @@ if (!location.state) {
 
 const adminData = location.state.data
 //console.log(userData)
+//availability = adminData.availability
+
+const handleAvailability = (event) => {
+  event.preventDefault()
+  console.log("Availability changed")
+  onFormChangeAvailability()
+}
 
 return (
     <ThemeProvider theme={theme}>
@@ -71,7 +79,17 @@ return (
                     <Typography sx={{ p: 2 }}>Phone:{adminData.phone} </Typography>
                     <Typography sx={{ p: 2 }}>Email:{adminData.email} </Typography>
                     <Typography sx={{ p: 2 }}>Available Seats:{adminData.available_seats} </Typography>
-                    <Typography sx={{ p: 2 }}>Disponibility: {adminData.disponibility === 1 ? 'Open' : 'Closed'} </Typography>                        
+                    <Typography sx={{ p: 2 }}>Availability: {adminData.availability === 1 ? 'Open' : 'Closed'} </Typography>                        
+                    <Button
+                      type="submit"
+                      onClick={handleAvailability}
+                      //value={availability}
+                      fullWidth
+                      variant="contained"
+                      sx={{ height: 40, width: 200, ml:60}}
+                      >
+                      Change availability
+                    </Button>
                 </Grid>
             </Grid>
         </Container>
