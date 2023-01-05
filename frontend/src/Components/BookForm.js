@@ -7,10 +7,18 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Header from './Header';
+import Autocomplete from '@mui/material/Autocomplete';
+import Avatar from '@mui/material/Avatar';
+import BookIcon from '@mui/icons-material/Book';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 
 const theme = createTheme();
+
+const restaurants = [
+  { label: 'La Pizzeria' },
+  { label: 'La Pasta'},
+];
 
 export default function BookForm({ emailInput, peopleCountInput, restaurantInput, onFormChangeEmail, onFormChangePeopleCount, onFormChangeRestaurant, onFormSubmit }) {
   
@@ -53,10 +61,11 @@ export default function BookForm({ emailInput, peopleCountInput, restaurantInput
               flexDirection: 'column',
               alignItems: 'center',
             }}
-          >
+          > <Avatar sx={{ m: 2, bgcolor: 'blueviolet' }}>
+              <BookIcon />
+            </Avatar>
             <Box
               m={1} //margin
-              paddingTop={8}
             >
             </Box>
             <Typography component="h1" variant="h5">
@@ -65,17 +74,24 @@ export default function BookForm({ emailInput, peopleCountInput, restaurantInput
             <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
               <Grid container spacing={2}>
                 <Grid item xs={12}>
-                  <TextField
-                    autoComplete="restaurant-name"
-                    name="restaurant-name"
-                    type="text"
-                    required
-                    fullWidth
-                    id="restaurant-name"
-                    label="Restaurant Name"
-                    autoFocus
-                    value={restaurantInput}
-                    onChange={handleChangeRestaurant}
+                  <Autocomplete
+                    id='restaurant-names'
+                    options={restaurants}
+                    renderInput={(params) => (
+                      <TextField
+                        {...params}
+                        autoComplete="restaurant-name"
+                        name="restaurant-name"
+                        type="text"
+                        required
+                        fullWidth
+                        id="restaurant-name"
+                        label="Restaurant Name"
+                        autoFocus
+                        value={restaurantInput}
+                        onChange={handleChangeRestaurant}
+                      />
+                    )}
                   />
                 </Grid>
                 <Grid item xs={12}>

@@ -25,8 +25,6 @@ export const Book = () => {
         setRestaurantInput(restaurantInput)
     }
     
-    console.log("user_email:" ,{addEmailInput}, "people_count:" ,{addPeopleCountInput}, "restaurant_name:" ,{addRestaurantInput})
-
     const handleFormSubmit = () => {
         fetch('/book', {
             method: 'POST',
