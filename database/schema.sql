@@ -38,7 +38,8 @@ drop table if exists reservations;
         restaurant_name varchar(255) not null,
         restaurant_email varchar(255) not null,
         user_email varchar(255) not null,
-        people_count integer not null
+        people_count integer not null,
+        status boolean not null
     );
 
 -- Populate the restaurants table

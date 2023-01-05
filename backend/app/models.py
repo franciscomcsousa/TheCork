@@ -228,9 +228,15 @@ def get_profile(email, password):
     redeemed_cards = []
     for enc_card in enc_redeemed_cards:
         redeemed_cards.append([aes_decrypt(enc_card[1], enc_card[2]).decode(), aes_decrypt(enc_card[3], enc_card[4]).decode(), enc_card[5]])
+        
+    data = (email,)
+    query = 'select restaurant_name, people_count, status from reservations where user_email = %s'
+    cur.execute(query, data)
+    reservations = cur.fetchall()
+    
     cur.close()
     #con.close()
-    return [user, sent_cards, redeemed_cards]
+    return [user, sent_cards, redeemed_cards, reservations]
 
 
 def get_restaurant_profile(email, password):
@@ -249,6 +255,7 @@ def get_restaurant_profile(email, password):
     
     restaurant = [restaurant_data[0][1], restaurant_data[0][2], restaurant_data[0][3], restaurant_data[0][4], restaurant_data[0][6], restaurant_data[0][7]]
     
+    # TODO: get status
     data = (email,)
     query = 'select user_email, people_count from reservations where restaurant_email = %s'
     cur.execute(query, data)
@@ -294,7 +301,7 @@ def book_table(restaurant_name, user_email, people_count):
         return {'400': 'Restaurant does not exist or does not have enough seats'}
     
     data = (restaurant_name, restaurant_info[0][0], user_email, people_count)
-    query = 'insert into reservations (restaurant_name, restaurant_email, user_email, people_count) values (%s, %s, %s, %s)'
+    query = 'insert into reservations (restaurant_name, restaurant_email, user_email, people_count, status) values (%s, %s, %s, %s, false)'
     cur.execute(query, data)
     
     # Update the restaurant's table count
@@ -307,17 +314,6 @@ def book_table(restaurant_name, user_email, people_count):
     #con.close()
     return OK_STATUS
 
-
-# def change_available_seats(restaurant_name, available_seats):
-#     #con = connect() 
-#     cur = con.cursor()
-#     data = (available_seats, restaurant_name)
-#     query = 'update restaurants set available_seats = %s where name = %s'
-#     cur.execute(query, data)
-#     con.commit()
-#     cur.close()
-#     #con.close()
-#     return OK_STATUS
 
 def change_availability(restaurant_name, availability):
     #con = connect() 

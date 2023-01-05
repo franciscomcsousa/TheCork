@@ -96,7 +96,6 @@ return (
         <Button
           type="submit"
           onClick={handleAvailability}
-          //value={availability}
           variant="contained"
           sx={{ height: 40, width: 200}}
           >
