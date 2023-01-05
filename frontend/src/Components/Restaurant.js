@@ -10,12 +10,14 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
 import {useLocation} from 'react-router-dom';
 import Button from '@mui/material/Button';
+import { useState } from 'react';
 
 const theme = createTheme();
 
-export default function Restaurant(onFormChangeAvailability) {
+export default function Restaurant() {
 
 const location = useLocation();
+const [available, setAvailability] = useState('')
 
 if (!location.state) {
     return (
@@ -27,13 +29,33 @@ if (!location.state) {
 }
 
 const adminData = location.state.data
-//console.log(userData)
-//availability = adminData.availability
+const availability = available ? "Open" : "Closed"
+
+const urlName = window.location.pathname.substring(12)
+
 
 const handleAvailability = (event) => {
   event.preventDefault()
-  console.log("Availability changed")
-  onFormChangeAvailability()
+  fetch(`/restaurant/${urlName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      availability: !available,
+      restaurant_name: adminData.name
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`This is an HTTP error: The status is ${response.status}`)
+    }
+    return response.json();
+  })
+  .catch(error => {
+    console.log(error)
+  })
+  setAvailability(!available)
 }
 
 return (
@@ -71,7 +93,17 @@ return (
           </Typography>
           </Box>
         </Box>
+        <Button
+          type="submit"
+          onClick={handleAvailability}
+          //value={availability}
+          variant="contained"
+          sx={{ height: 40, width: 200, ml:60}}
+          >
+          Change availability
+        </Button>
             <Grid container spacing={2}>
+              
                 <Grid item xs={12}>
                     {/* TODO: beautify, or just make it more readable */}
                     <Typography sx={{ p: 2 }}>Name:{adminData.name}</Typography>
@@ -79,21 +111,12 @@ return (
                     <Typography sx={{ p: 2 }}>Phone:{adminData.phone} </Typography>
                     <Typography sx={{ p: 2 }}>Email:{adminData.email} </Typography>
                     <Typography sx={{ p: 2 }}>Available Seats:{adminData.available_seats} </Typography>
-                    <Typography sx={{ p: 2 }}>Availability: {adminData.availability === 1 ? 'Open' : 'Closed'} </Typography>
+                    <Typography sx={{ p: 2 }}>Availability: {availability} </Typography>
                     <Typography sx={{ p: 2 }} component={'div'}>Current Reservations:{adminData.reservations.map( (reservation) =>
                       <li key={reservation}> UserEmail: {reservation[0]}, How many people: {reservation[1]}</li>
                       )}
                     </Typography>                       
-                    <Button
-                      type="submit"
-                      onClick={handleAvailability}
-                      //value={availability}
-                      fullWidth
-                      variant="contained"
-                      sx={{ height: 40, width: 200, ml:60}}
-                      >
-                      Change availability
-                    </Button>
+                    
                 </Grid>
             </Grid>
         </Container>

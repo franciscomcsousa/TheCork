@@ -89,8 +89,10 @@ def profile():
         sent_cards = info[1]
         redeemed_cards = info[2]
         
-        return {"name": user[0],"email": user[1], "wallet": user[2], "sent_cards": (sent_cards if len(sent_cards) > 0 else []),\
-             "redeemed_cards": (redeemed_cards if len(redeemed_cards) > 0 else [])}
+        return {"name": user[0],"email": user[1], 
+                "wallet": user[2], "sent_cards": sent_cards,
+                "redeemed_cards": redeemed_cards
+                }
         
     return {'400': 'Not allowed'}
 
@@ -115,17 +117,30 @@ def restaurant_profile():
         restaurant = info[0]
         reservations = info[1]
         
-        if len(reservations) > 0:
-            return {"name": restaurant[0],"address": restaurant[1], 
-                    "phone": restaurant[2], "email": restaurant[3],
-                    "available_seats": restaurant[4], "availability": restaurant[5], 
-                    "reservations": reservations
-                    }
         return {"name": restaurant[0],"address": restaurant[1], 
                 "phone": restaurant[2], "email": restaurant[3],
                 "available_seats": restaurant[4], 
-                "availability": restaurant[5]
+                "availability": restaurant[5],
+                "reservations": reservations
                 }
+    return {'400': 'Not allowed'}
+
+
+@app.route('/restaurant/<string:Name>', methods=['GET', 'POST'])
+def restaurant_update(Name):
+    if request.method == 'GET':
+        pass
+        
+    # TODO: change what is sent in the front end to open or close p.ex
+    if request.method == 'POST'and "availability" in request.json:
+        
+        data = request.get_json()
+        availability = data['availability']
+        restaurant_name = data['restaurant_name']
+
+        status = change_availability(restaurant_name, availability)
+        
+        return make_response({"status":status}, status)
     return {'400': 'Not allowed'}
 
 
