@@ -7,6 +7,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom'
+import {useState} from 'react'
+import {useEffect} from 'react'
 
 const sections = [
   { title: 'Chinese', url: '/book' },
@@ -55,6 +57,18 @@ const usefulKeywords = [
 function Header(props) {
   const { title } = props;
   const navigate = useNavigate();
+  const [jsonResults, setJsonResults] = useState([]);
+
+  useEffect(() => {
+    fetch('/restaurant/keywords', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.json())
+      .then(json => setJsonResults(json.data));
+  }, []);
 
   return (
     <React.Fragment>
@@ -74,11 +88,13 @@ function Header(props) {
           paddingRight={4}
           paddingBottom={0.5}
         > <Autocomplete
+            id="combo-box-demo"
             disablePortal
             size='small'
-            id="combo-box-demo"
-            options={usefulKeywords}
+            getOptionLabel={(jsonResults) => `${jsonResults.restaurants}`}
+            options={jsonResults}
             sx={{ width: 215, height: 37 }}
+            isOptionEqualToValue={(option, value) => option.label === value.label}
             renderInput={(params) => <TextField {...params} label="Search" />}
           />
         </Box>
