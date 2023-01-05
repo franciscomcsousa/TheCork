@@ -7,8 +7,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Link from '@mui/material/Link';
 import Box from '@mui/material/Box';
 import {useNavigate} from 'react-router-dom'
-import {useState} from 'react'
-import {useEffect} from 'react'
+
 
 const sections = [
   { title: 'Chinese', url: '/book' },
@@ -24,51 +23,38 @@ const sections = [
 ];
 
 const usefulKeywords = [
-  { label: 'The Cork' },
-  { label: 'Cork' },
-  { label: 'Restaurant' },
-  { label: 'Login'},
-  { label: 'Register'},
-  { label: 'Book'},
-  { label: 'User'},
-  { label: 'Owner'},
-  { label: 'Redeem Voucher'},
-  { label: 'Voucher'},
-  { label: 'Reedem Gift Card'},
-  { label: 'Gift Card'},
-  { label: 'Points'},
-  { label: 'Redeem Points'},
-  { label: 'Redeem'},
-  { label: 'Profile'},
-  { label: 'Table'},
-  { label: 'Chinese'},
-  { label: 'Indian'},
-  { label: 'Italian'},
-  { label: 'Portuguese'},
-  { label: 'Greek'},
-  { label: 'Spanish'},
-  { label: 'Moroccan'},
-  { label: 'Turkish'},
-  { label: 'Thai'},
-  { label: 'French'},
+  { label: 'The Cork', url: '/' },
+  { label: 'Cork', url: '/' },
+  { label: 'Restaurant', url: '/book' },
+  { label: 'Login', url: '/login' },
+  { label: 'Register', url: '/register' },
+  { label: 'Book', url: '/book' },
+  { label: 'User', url: '/profile' },
+  { label: 'Owner', url: '/restaurant' },
+  { label: 'Redeem Voucher', url: '/redeem_points' },
+  { label: 'Voucher', url: '/redeem_points' },
+  { label: 'Reedem Gift Card', url: '/redeem_cards' },
+  { label: 'Gift Card', url: '/redeem_cards' },
+  { label: 'Points', url: '/redeem_points' },
+  { label: 'Redeem Points', url: '/redeem_points' },
+  { label: 'Profile', url: '/profile' },
+  { label: 'Table', url: '/book' },
+  { label: 'Chinese', url: '/book' },
+  { label: 'Indian', url: '/book' },
+  { label: 'Italian', url: '/book' },
+  { label: 'Portuguese', url: '/book' },
+  { label: 'Greek', url: '/book' },
+  { label: 'Spanish', url: '/book' },
+  { label: 'Moroccan', url: '/book' },
+  { label: 'Turkish', url: '/book' },
+  { label: 'Thai', url: '/book'},
+  { label: 'French', url: '/book' },
 ];
 
 
 function Header(props) {
   const { title } = props;
   const navigate = useNavigate();
-  const [jsonResults, setJsonResults] = useState([]);
-
-  useEffect(() => {
-    fetch('/restaurant/keywords', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    })
-      .then(response => response.json())
-      .then(json => setJsonResults(json.data));
-  }, []);
 
   return (
     <React.Fragment>
@@ -88,14 +74,15 @@ function Header(props) {
           paddingRight={4}
           paddingBottom={0.5}
         > <Autocomplete
-            id="combo-box-demo"
             disablePortal
             size='small'
-            getOptionLabel={(jsonResults) => `${jsonResults.restaurants}`}
-            options={jsonResults}
+            id="keywords"
+            options={usefulKeywords}
             sx={{ width: 215, height: 37 }}
-            isOptionEqualToValue={(option, value) => option.label === value.label}
             renderInput={(params) => <TextField {...params} label="Search" />}
+            onChange={(event, option) => {
+              window.location.href=option.url;
+            }}
           />
         </Box>
         <Button variant="outlined" size="small" onClick={() => window.location.href = '/register'}>

@@ -233,16 +233,6 @@ def get_profile(email, password):
     return [user, sent_cards, redeemed_cards]
 
 
-def get_restaurant_keywords():
-    #con = connect() 
-    cur = con.cursor()
-    cur.execute('select name from restaurants')
-    keywords = cur.fetchall()
-    cur.close()
-    #con.close()
-    return keywords
-
-
 def get_restaurant_profile(email, password):
     #con = connect() 
     cur = con.cursor()
