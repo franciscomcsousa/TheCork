@@ -9,6 +9,7 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
 import {useLocation} from 'react-router-dom';
+import { cardActionsClasses } from '@mui/material';
 
 const theme = createTheme();
 
@@ -67,9 +68,13 @@ return (
                     {/* TODO: beautify, or just make it more readable */}
                     <Typography sx={{ p: 2 }}>Name:{userData.name}</Typography>
                     <Typography sx={{ p: 2 }}>Email:{userData.email} </Typography>
-                    <Typography sx={{ p: 2 }}>Wallet:{userData.wallet} </Typography>
-                    <Typography sx={{ p: 2 }} component={'div'}>Cards:{userData.cards.map( (card) =>
-                      <li key={card}> CardNumber: {card[0]}, Amount: {card[1]}€</li>
+                    <Typography sx={{ p: 2 }}>Wallet:{userData.wallet}€ </Typography>
+                    <Typography sx={{ p: 2 }} component={'div'}>Created Cards:{userData.sent_cards.map( (card) =>
+                      <li key={card}> CardNumber: {card[0]}, Amount: {card[1]}€, Redeemed by: {card[2]}</li>
+                      )}
+                    </Typography>
+                    <Typography sx={{ p: 2 }} component={'div'}>Redeemed Cards:{userData.redeemed_cards.map( (card) =>
+                      <li key={card}> CardNumber: {card[0]}, Amount: {card[1]}€, Sent by: {card[2]}</li>
                       )}
                     </Typography>
                         

@@ -23,7 +23,7 @@ export const RedeemCards = () => {
     const handleFormSubmit = () => {
         fetch('/redeem_cards', {
             method: 'POST',
-            body: JSON.stringify({card: addCardInput, email: addEmailInput}),
+            body: JSON.stringify({card: addCardInput, redeemer_email: addEmailInput}),
             headers: {
                 'Content-Type': 'application/json'
             }

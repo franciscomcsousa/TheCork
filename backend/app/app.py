@@ -35,9 +35,8 @@ def redeem_cards():
         if request.method == 'POST':
             data = request.get_json()
             card_number = data['card']
-            print(f"APP CARD NUMBER {card_number}")
-            email = data['email']
-            response = redeem_gift_card(card_number, email)
+            redeemer_email = data['redeemer_email']
+            response = redeem_gift_card(card_number, redeemer_email)
         return response
 
 @app.route('/redeem_points', methods=['GET', 'POST'])
@@ -87,14 +86,15 @@ def profile():
             return {'400': "User and/or Password is incorrect"}
         
         user = info[0]
-        cards = info[1]
-
-        print(f"app cards {cards}")
+        sent_cards = info[1]
+        redeemed_cards = info[2]
         
+        return {"name": user[0],"email": user[1], "wallet": user[2], "sent_cards": (sent_cards if len(sent_cards) > 0 else []),\
+             "redeemed_cards": (redeemed_cards if len(redeemed_cards) > 0 else [])}
         #if len(user) > 0:
-        if len(cards) > 0:
-            return {"name": user[0],"email": user[1], "wallet": user[2], "cards": cards}
-        return {"name": user[0],"email": user[1], "wallet": user[2], "cards": []}
+        #if len(cards) > 0:
+        #    return {"name": user[0],"email": user[1], "wallet": user[2], "sent_cards": sent_cards}
+        #return {"name": user[0],"email": user[1], "wallet": user[2], "cards": []}
     return {'400': 'Not allowed'}
 
 

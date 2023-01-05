@@ -56,7 +56,7 @@ def create_gift_card(amount, email, password):
     card_number_enc = aes_encrypt(str(card_number))
     amount_enc = aes_encrypt(str(amount))
     data = (email, card_number_hash, card_number_enc[0], card_number_enc[1], amount_enc[0], amount_enc[1])
-    query = 'insert into gift_cards (user_email, card_number_hash, card_number_cipher, card_number_iv, amount_cipher, amount_iv) values(%s, %s, %s, %s, %s, %s)'
+    query = 'insert into gift_cards (sender_email, card_number_hash, card_number_cipher, card_number_iv, amount_cipher, amount_iv) values(%s, %s, %s, %s, %s, %s)'
     cur.execute(query, data)
     # update the user's wallet, subtract the amount
     new_amount = wallet - amount
@@ -70,7 +70,7 @@ def create_gift_card(amount, email, password):
     #con.close()
     
     
-def redeem_gift_card(card_number, email):
+def redeem_gift_card(card_number, redeemer_email):
     #con = connect() 
     cur = con.cursor()
     card_number_hash = hash_card(card_number)
@@ -86,7 +86,7 @@ def redeem_gift_card(card_number, email):
     amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
     
     # if there is a user with that email
-    data = (email,)
+    data = (redeemer_email,)
     query = 'select wallet_cipher, wallet_iv from users where email = %s'
     cur.execute(query, data)
     wallet_enc = cur.fetchall()
@@ -99,12 +99,12 @@ def redeem_gift_card(card_number, email):
     # update the user's wallet, add the amount
     new_amount = wallet + amount
     new_amount_enc = aes_encrypt(str(new_amount))
-    data = (new_amount_enc[0], new_amount_enc[1], email)
+    data = (new_amount_enc[0], new_amount_enc[1], redeemer_email)
     query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
     # delete the gift card
-    data = (card_number_hash,)
-    query = 'delete from gift_cards where card_number_hash = %s'
+    data = (redeemer_email, card_number_hash)
+    query = 'update gift_cards set redeemer_email = %s where card_number_hash = %s'
     cur.execute(query, data)
     con.commit()
     cur.close()
@@ -204,6 +204,7 @@ def get_profile(email, password):
     # user_raw is a mixed of the encrypted wallet and regular fields
     user_raw = cur.fetchall()
     if len(user_raw) == 0:
+        print("why here")
         cur.close()
         return []
     
@@ -213,16 +214,23 @@ def get_profile(email, password):
     user.append(wallet)
 
     data = (email,)
-    query = 'select card_number_hash, card_number_cipher, card_number_iv, amount_cipher, amount_iv from gift_cards where user_email = %s'
+    query = 'select card_number_hash, card_number_cipher, card_number_iv, amount_cipher, amount_iv, redeemer_email from gift_cards where sender_email = %s'
     cur.execute(query, data)
-    enc_cards = cur.fetchall()
-    cards = []
+    enc_sent_cards = cur.fetchall()
+    sent_cards = []
     # Decrypt all of the gift card values (var named amount)
-    for enc_card in enc_cards:
-        cards.append([aes_decrypt(enc_card[1], enc_card[2]).decode(), aes_decrypt(enc_card[3], enc_card[4]).decode()])
+    for enc_card in enc_sent_cards:
+        sent_cards.append([aes_decrypt(enc_card[1], enc_card[2]).decode(), aes_decrypt(enc_card[3], enc_card[4]).decode(), enc_card[5]])
+    data = (email,)
+    query = 'select card_number_hash, card_number_cipher, card_number_iv, amount_cipher, amount_iv, sender_email from gift_cards where redeemer_email = %s'
+    cur.execute(query, data)
+    enc_redeemed_cards = cur.fetchall()
+    redeemed_cards = []
+    for enc_card in enc_redeemed_cards:
+        redeemed_cards.append([aes_decrypt(enc_card[1], enc_card[2]).decode(), aes_decrypt(enc_card[3], enc_card[4]).decode(), enc_card[5]])
     cur.close()
     #con.close()
-    return [user, cards]
+    return [user, sent_cards, redeemed_cards]
 
 
 def get_restaurant_profile(email, password):
