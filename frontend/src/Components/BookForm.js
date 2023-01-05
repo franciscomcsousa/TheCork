@@ -42,7 +42,7 @@ export default function BookForm({ emailInput, peopleCountInput, restaurantInput
     let re = /\S+@\S+\.\S+/;
 
     const validate = () => {
-      return re.test(emailInput) && restaurantInput.length > 0 && peopleCountInput > 0 && peopleCountInput % 1 == 0;
+      return re.test(emailInput) && restaurantInput.length > 0 && peopleCountInput > 0 && peopleCountInput % 1 === 0;
     };
 
 

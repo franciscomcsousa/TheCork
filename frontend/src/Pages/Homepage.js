@@ -5,7 +5,6 @@ export const Homepage = () => {
     
      useEffect(() => {
         fetch('/')
-        .then(console.log("fetching"))
     }, [])
 
 return (
