@@ -114,7 +114,25 @@ iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-s
 
 ### ufw
 
-- Still trying to figure out if this is needed (the default config from ufw seems good to block most connections)
+- All virtual machines will be running ufw `ufw enable` with the following configurations:
+
+- VM2 (Firwall)
+```
+ufw allow http
+ufw allow https
+ufw allow 3306
+```
+
+- VM3 (Server)
+```
+ufw allow http
+ufw allow https
+```
+
+- VM4 (Database)
+```
+ufw allow 3306
+```
 
 ## VM3 - Server
 
