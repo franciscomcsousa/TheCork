@@ -89,8 +89,10 @@ def profile():
         sent_cards = info[1]
         redeemed_cards = info[2]
         
-        return {"name": user[0],"email": user[1], "wallet": user[2], "sent_cards": (sent_cards if len(sent_cards) > 0 else []),\
-             "redeemed_cards": (redeemed_cards if len(redeemed_cards) > 0 else [])}
+        return {"name": user[0],"email": user[1], 
+                "wallet": user[2], "sent_cards": sent_cards,
+                "redeemed_cards": redeemed_cards
+                }
         
     return {'400': 'Not allowed'}
 
