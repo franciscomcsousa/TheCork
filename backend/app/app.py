@@ -115,16 +115,11 @@ def restaurant_profile():
         restaurant = info[0]
         reservations = info[1]
         
-        if len(reservations) > 0:
-            return {"name": restaurant[0],"address": restaurant[1], 
-                    "phone": restaurant[2], "email": restaurant[3],
-                    "available_seats": restaurant[4], "availability": restaurant[5], 
-                    "reservations": reservations
-                    }
         return {"name": restaurant[0],"address": restaurant[1], 
                 "phone": restaurant[2], "email": restaurant[3],
                 "available_seats": restaurant[4], 
-                "availability": restaurant[5]
+                "availability": restaurant[5],
+                "reservations": reservations
                 }
     return {'400': 'Not allowed'}
 
