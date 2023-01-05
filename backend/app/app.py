@@ -134,6 +134,24 @@ def restaurant_profile():
     return {'400': 'Not allowed'}
 
 
+@app.route('/restaurant/<string:Name>', methods=['GET', 'POST'])
+def restaurant_update(Name):
+    if request.method == 'GET':
+        pass
+        
+    # TODO: change what is sent in the front end to open or close p.ex
+    if request.method == 'POST'and "availability" in request.json:
+        
+        data = request.get_json()
+        availability = data['availability']
+        restaurant_name = data['restaurant_name']
+
+        status = change_availability(restaurant_name, availability)
+        
+        return make_response({"status":status}, status)
+    return {'400': 'Not allowed'}
+
+
 @app.route('/login', methods=['GET', 'POST'])
 def user_login():
     if request.method == 'GET':
