@@ -49,7 +49,7 @@ return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} /*data = { data }*/ />
+        onFormSubmit={handleFormSubmit} />
     </div>
     )
 }
