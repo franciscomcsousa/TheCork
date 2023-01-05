@@ -97,7 +97,7 @@ return (
           type="submit"
           onClick={handleAvailability}
           variant="contained"
-          sx={{ height: 40, width: 200, ml:60}}
+          sx={{ height: 40, width: 200}}
           >
           Change availability
         </Button>
