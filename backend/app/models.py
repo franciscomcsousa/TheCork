@@ -84,7 +84,8 @@ def redeem_gift_card(card_number, redeemer_email):
         con.close()
         return {'400': 'Gift Card does not exist'}
     amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
-    
+    if amount == 0:
+        return {'400': 'Card was already redeemed'}
     # if there is a user with that email
     data = (redeemer_email,)
     query = 'select wallet_cipher, wallet_iv from users where email = %s'
@@ -97,14 +98,16 @@ def redeem_gift_card(card_number, redeemer_email):
         con.close()
         return {'400': 'User does not exist'}
     # update the user's wallet, add the amount
-    new_amount = wallet + amount
-    new_amount_enc = aes_encrypt(str(new_amount))
-    data = (new_amount_enc[0], new_amount_enc[1], redeemer_email)
+    new_wallet = wallet + amount
+    new_wallet_enc = aes_encrypt(str(new_wallet))
+    data = (new_wallet_enc[0], new_wallet_enc[1], redeemer_email)
     query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
-    # delete the gift card
-    data = (redeemer_email, card_number_hash)
-    query = 'update gift_cards set redeemer_email = %s where card_number_hash = %s'
+    # remove value from the gift card and set redeemer email
+    new_amount = 0
+    new_amount_enc = aes_encrypt(str(new_amount))
+    data = (redeemer_email, new_amount_enc[0], new_amount_enc[1], card_number_hash)
+    query = 'update gift_cards set redeemer_email = %s, amount_cipher = %s, amount_iv = %s where card_number_hash = %s'
     cur.execute(query, data)
     con.commit()
     cur.close()
