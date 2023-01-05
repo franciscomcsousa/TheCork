@@ -76,6 +76,10 @@ return (
                       <li key={card}> CardNumber: {card[0]}, Amount: {card[1]}€, Sent by: {card[2]}</li>
                       )}
                     </Typography>
+                    <Typography sx={{ p: 2 }} component={'div'}>Reservations:{userData.reservations.map( (reservation) =>
+                      <li key={reservation}> Restaurant Name: {reservation[0]}, How many people: {reservation[1]}, Status: {reservation === 1 ? "Accepted!" : "Pending..."}</li>
+                      )}
+                    </Typography>
                         
                 </Grid>
             </Grid>

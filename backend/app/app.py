@@ -88,10 +88,11 @@ def profile():
         user = info[0]
         sent_cards = info[1]
         redeemed_cards = info[2]
+        reservations = info[3]
         
         return {"name": user[0],"email": user[1], 
                 "wallet": user[2], "sent_cards": sent_cards,
-                "redeemed_cards": redeemed_cards
+                "redeemed_cards": redeemed_cards, "reservations": reservations
                 }
         
     return {'400': 'Not allowed'}
