@@ -98,7 +98,7 @@ return (
           onClick={handleAvailability}
           //value={availability}
           variant="contained"
-          sx={{ height: 40, width: 200, ml:60}}
+          sx={{ height: 40, width: 200}}
           >
           Change availability
         </Button>
