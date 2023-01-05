@@ -34,7 +34,7 @@ export default function BookForm({ emailInput, peopleCountInput, restaurantInput
     let re = /\S+@\S+\.\S+/;
 
     const validate = () => {
-      return restaurantInput.length > 0 && re.test(emailInput) && peopleCountInput > 0;
+      return re.test(emailInput) && restaurantInput.length > 0 && peopleCountInput > 0 && peopleCountInput % 1 == 0;
     };
 
 
@@ -96,7 +96,7 @@ export default function BookForm({ emailInput, peopleCountInput, restaurantInput
                     required
                     fullWidth
                     id="people-count"
-                    type="people-count"
+                    type="number"
                     label="For how many people"
                     name="people-count"
                     autoComplete="people-count"

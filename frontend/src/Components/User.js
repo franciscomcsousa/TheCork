@@ -26,7 +26,6 @@ if (!location.state) {
 }
 
 const userData = location.state.data
-console.log(userData)
 
 return (
     <ThemeProvider theme={theme}>
