@@ -91,10 +91,7 @@ def profile():
         
         return {"name": user[0],"email": user[1], "wallet": user[2], "sent_cards": (sent_cards if len(sent_cards) > 0 else []),\
              "redeemed_cards": (redeemed_cards if len(redeemed_cards) > 0 else [])}
-        #if len(user) > 0:
-        #if len(cards) > 0:
-        #    return {"name": user[0],"email": user[1], "wallet": user[2], "sent_cards": sent_cards}
-        #return {"name": user[0],"email": user[1], "wallet": user[2], "cards": []}
+        
     return {'400': 'Not allowed'}
 
 
@@ -109,11 +106,26 @@ def restaurant_profile():
         data = request.get_json()
         email = data['email']
         password = data['password']
-        restaurant = get_restaurant_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
+        info = get_restaurant_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
         
-        if restaurant:
-            return {"name": restaurant[0][1],"address": restaurant[0][2],"phone": restaurant[0][3] ,"email": restaurant[0][4],"available_seats": restaurant[0][6], "availability": restaurant[0][7]}
-        return {'400': 'User or Password is incorrect'}
+        # TODO: handle this error in frontend
+        if len(info) == 0:
+            return {'400': "User and/or Password is incorrect"}
+        
+        restaurant = info[0]
+        reservations = info[1]
+        
+        if len(reservations) > 0:
+            return {"name": restaurant[0],"address": restaurant[1], 
+                    "phone": restaurant[2], "email": restaurant[3],
+                    "available_seats": restaurant[4], "availability": restaurant[5], 
+                    "reservations": reservations
+                    }
+        return {"name": restaurant[0],"address": restaurant[1], 
+                "phone": restaurant[2], "email": restaurant[3],
+                "available_seats": restaurant[4], 
+                "availability": restaurant[5]
+                }
     return {'400': 'Not allowed'}
 
 

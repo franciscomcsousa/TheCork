@@ -79,7 +79,11 @@ return (
                     <Typography sx={{ p: 2 }}>Phone:{adminData.phone} </Typography>
                     <Typography sx={{ p: 2 }}>Email:{adminData.email} </Typography>
                     <Typography sx={{ p: 2 }}>Available Seats:{adminData.available_seats} </Typography>
-                    <Typography sx={{ p: 2 }}>Availability: {adminData.availability === 1 ? 'Open' : 'Closed'} </Typography>                        
+                    <Typography sx={{ p: 2 }}>Availability: {adminData.availability === 1 ? 'Open' : 'Closed'} </Typography>
+                    <Typography sx={{ p: 2 }} component={'div'}>Current Reservations:{adminData.reservations.map( (reservation) =>
+                      <li key={reservation}> UserEmail: {reservation[0]}, How many people: {reservation[1]}</li>
+                      )}
+                    </Typography>                       
                     <Button
                       type="submit"
                       onClick={handleAvailability}
