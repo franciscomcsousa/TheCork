@@ -66,7 +66,7 @@ def create_gift_card(amount, email, password):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'Gift Card Created Successfully'}
+    return OK_STATUS
     #con.close()
     
     
@@ -111,7 +111,7 @@ def redeem_gift_card(card_number, redeemer_email):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'Gift Card Redeemed Successfully'}
+    return OK_STATUS
     #con.close()
 
 
@@ -136,7 +136,7 @@ def redeem_user_points(amount, email):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'Points Redeemed Successfully'}
+    return OK_STATUS
     #con.close()
     
     
