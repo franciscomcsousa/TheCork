@@ -95,6 +95,14 @@ def profile():
     return {'400': 'Not allowed'}
 
 
+@app.route('/restaurant/keywords', methods=['GET', 'POST'])
+def restaurant_keywords():
+    if request.method == 'GET':
+        restaurants = get_restaurant_keywords()
+        return {"restaurants": (restaurants if len(restaurants) > 0 else [])}
+    return {'400': 'Not allowed'}
+
+
 # TODO - password is hashed because its populated from the database with the hash
 # password is banana
 @app.route('/restaurant', methods=['GET', 'POST'])
