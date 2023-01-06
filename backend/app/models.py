@@ -109,7 +109,6 @@ def redeem_gift_card(card_number, redeemer_email):
         #con.close()
         return USER_DOES_NOT_EXIST_STATUS
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
-    # TODO - is this okay?
     if not wallet_enc:
         cur.close()
         #con.close()
@@ -140,9 +139,11 @@ def redeem_user_points(redeemed_points, email):
     query = 'select wallet_cipher, wallet_iv from users where email = %s'
     cur.execute(query, data)
     wallet_enc = cur.fetchall()
-    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
-    # TODO - is this okay?
-    
+    if not wallet_enc:
+        cur.close()
+        #con.close()
+        return USER_DOES_NOT_EXIST_STATUS
+    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())    
     if not wallet_enc:
         cur.close()
         cur_external.close()
