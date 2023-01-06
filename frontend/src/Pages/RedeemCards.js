@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import RedeemCardsForm from '../Components/RedeemCardsForm';
+import * as Error from '../Error';
+import { useNavigate } from 'react-router-dom';
 
 export const RedeemCards = () => {
 
     const [addCardInput, setCardInput] = useState('')
     const [addEmailInput, setEmailInput] = useState('')
 
-    const [data, setData] = useState('')
+    const navigate = useNavigate();
 
     const handleFormChangeCard = (cardInput) => {
         setCardInput(cardInput)
@@ -26,16 +28,15 @@ export const RedeemCards = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
             }
         return response.json();
         })
         .then(data => {
-            setData(data)
+            alert(Error.getErrorMessage(data.status))
+            if (data.status === 200) {
+                navigate(0)
+            }
         })
-        //.catch(error => {
-        //    console.log(error)
-        //})
     }
 
 
@@ -43,7 +44,7 @@ return (
     <div>
         <RedeemCardsForm cardInput={ addCardInput } emailInput={ addEmailInput }
         onFormChangeCard={handleFormChangeCard} onFormChangeEmail={handleFormChangeEmail}
-        onFormSubmit={handleFormSubmit} userData={data}/>
+        onFormSubmit={handleFormSubmit}/>
     </div>
     )
 }

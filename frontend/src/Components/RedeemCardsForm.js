@@ -12,13 +12,10 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Header from './Header';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import {useNavigate} from 'react-router-dom'
-
 
 const theme = createTheme();
 
-export default function RedeemCardsForm({ cardInput, emailInput, onFormChangeCard, onFormChangeEmail, onFormSubmit, userData }) {
-    const navigate = useNavigate();
+export default function RedeemCardsForm({ cardInput, emailInput, onFormChangeCard, onFormChangeEmail, onFormSubmit}) {
 
     const handleChangeCard = (event) => {
        onFormChangeCard(event.target.value)
@@ -31,20 +28,6 @@ export default function RedeemCardsForm({ cardInput, emailInput, onFormChangeCar
     const handleSubmit = (event) => {
         event.preventDefault()
         onFormSubmit()
-    }
-
-    if (userData) {
-      //console.log(userData) For some reason only alerts when its submitted twice ## 
-      //problem when redirecting  TODO, fix the user interface 
-      if (userData.status === 200) {
-        //navigate("/", {replace: true})
-        alert("Redeem Successful")
-        navigate(0)
-      }
-      else if (userData.status !== 200) {
-            alert("User and/or Card Number is incorrect")//TODO: also add the predefined messages 
-            navigate(0)
-      }  
     }
 
     let re = /\S+@\S+\.\S+/;
@@ -121,7 +104,6 @@ export default function RedeemCardsForm({ cardInput, emailInput, onFormChangeCar
                 type="submit"
                 variant="contained"
                 sx={{ mt: 3, mb: 2, width: 200, padding: 1, margin: 2}}
-                onClick={() => window.location.href = '/redeem_cards'}
                 disabled={!validate()}
               >
                 Redeem

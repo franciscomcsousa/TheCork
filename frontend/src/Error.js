@@ -64,6 +64,10 @@ export const errorMessages = [
     {
         key: 457,
         message: "Insufficient funds"
+    },
+    {
+        key: 458,
+        message: "Card already redeemed"
     }
 ]
 

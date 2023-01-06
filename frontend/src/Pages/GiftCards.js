@@ -36,7 +36,6 @@ export const GiftCards = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //alert(Error.getErrorMessage(response.status))
             }
         return response.json();
         })
@@ -46,6 +45,7 @@ export const GiftCards = () => {
                 navigate(0)
             }
         })
+        
     }
 
 return (
