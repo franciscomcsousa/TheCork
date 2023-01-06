@@ -68,6 +68,10 @@ export const errorMessages = [
     {
         key: 458,
         message: "Card already redeemed"
+    },
+    {
+        key: 459,
+        message: "Insufficient points"
     }
 ]
 

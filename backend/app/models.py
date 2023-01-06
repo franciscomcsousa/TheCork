@@ -145,7 +145,7 @@ def redeem_user_points(redeemed_points, email):
         cur_external.close()
         #con.close()
         #con_external.close()
-        return {'400': 'User does not exist or password is incorrect'}
+        return USER_DOES_NOT_EXIST_STATUS
     
     # verify if the user has enough points
     data = (email,)
@@ -159,7 +159,7 @@ def redeem_user_points(redeemed_points, email):
         cur_external.close()
         #con.close()
         #con_external.close()
-        return {'400': 'Insufficient points'}
+        return INSUFICIENT_POINTS_STATUS
 
     points = int(points[0])
     new_amount = wallet + (redeemed_points / 20)
@@ -178,7 +178,7 @@ def redeem_user_points(redeemed_points, email):
     cur_external.close()
     #con.close()
     #con_external.close()
-    return {'200': OK_STATUS}
+    return OK_STATUS
     
     
 def create_user(name,email,password):
