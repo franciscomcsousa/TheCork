@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import RestaurantProfile from '../Components/RestaurantProfile';
 import { useNavigate } from 'react-router-dom';
+import * as Error from '../Error';
 
 export const RestaurantProfilePage = () => {
     
@@ -31,24 +32,22 @@ export const RestaurantProfilePage = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
             }   
         return response.json();
          })
         .then(data => {
-            setData(data)
-            navigate(`/restaurant/${urlName}`,{ state:{data} })
+            alert(Error.getErrorMessage(data.status))
+            if (data.status === 200) {
+                navigate(`/restaurant/${urlName}`,{ state:{data} })
+            }
         })
-        //.catch(error => {
-        //    console.log(error)
-        //})
     };
 
 return (
     <div>
         <RestaurantProfile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} userData={data}/>
+        onFormSubmit={handleFormSubmit}/>
     </div>
     )
 }

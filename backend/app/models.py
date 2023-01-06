@@ -300,7 +300,7 @@ def get_restaurant_profile(email, password):
     if not restaurant_data:
         cur.close()
         #con.close()
-        return []
+        return RESTAURANT_IS_NOT_RESGISTERED_STATUS
     
     restaurant = [restaurant_data[0][1], restaurant_data[0][2], restaurant_data[0][3], restaurant_data[0][4], restaurant_data[0][6], restaurant_data[0][7]]
     

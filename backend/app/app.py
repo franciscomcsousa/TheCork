@@ -111,20 +111,20 @@ def restaurant_profile():
         password = data['password']
         info = get_restaurant_profile(email, hashlib.sha256(password.encode('ascii')).hexdigest())
         
-        # TODO: handle this error in frontend
-        if len(info) == 0:
-            return {'400': "User and/or Password is incorrect"}
+        if isinstance(info, int):
+            return make_response({"status":info}, info)
         
         restaurant = info[0]
         reservations = info[1]
         
-        return {"name": restaurant[0],"address": restaurant[1], 
+        return make_response(
+                {"name": restaurant[0],"address": restaurant[1], 
                 "phone": restaurant[2], "email": restaurant[3],
                 "available_seats": restaurant[4], 
                 "availability": restaurant[5],
                 "reservations": reservations
-                }
-    return {'400': 'Not allowed'}
+                }, 200)
+    return make_response({"status":400}, 400)
 
 
 @app.route('/restaurant/<string:Name>', methods=['GET', 'POST'])

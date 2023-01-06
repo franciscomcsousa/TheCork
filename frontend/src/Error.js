@@ -72,6 +72,10 @@ export const errorMessages = [
     {
         key: 459,
         message: "Insufficient points"
+    },
+    {
+        key: 460,
+        message: "Restaurant is not registered"
     }
 ]
 
