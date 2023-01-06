@@ -8,3 +8,5 @@ drop table if exists cupons;
 
 -- Populate cupons table
 insert into cupons (email, points) values ('francisco.m.c.sousa@gmail.com', 150);
+insert into cupons (email, points) values ('sara.aguincha@gmail.com', 150);
+insert into cupons (email, points) values ('miguel.porfirio@gmail.com', 150);

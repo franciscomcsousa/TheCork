@@ -18,6 +18,8 @@ const theme = createTheme();
 const restaurants = [
   { label: 'La Pizzeria' },
   { label: 'La Pasta'},
+  { label: 'Taco Bell'},
+  { label: 'Pizza Hut'},
 ];
 
 export default function BookForm({ emailInput, peopleCountInput, restaurantInput, onFormChangeEmail, onFormChangePeopleCount, onFormChangeRestaurant, onFormSubmit, userData }) {

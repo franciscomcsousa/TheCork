@@ -43,6 +43,9 @@ drop table if exists reservations;
     );
 
 -- Populate the restaurants table
--- banana as password
-insert into restaurants (name, address, phone, email, password, available_seats, availability) values ('La Pizzeria', 'Rotunda das oliveiras', '913456111', 'mogulmobil@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 10, 1);
-insert into restaurants (name, address, phone, email, password, available_seats, availability) values ('La Pasta', 'Rua alves redol', '913444555', 'cocozilde@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 20, 1);
+-- Banana as password
+insert into restaurants (name, address, phone, email, password, available_seats, availability) values ('La Pizzeria', 'Rotunda das oliveiras', '913456111', 'laPizeria@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 50, 1);
+insert into restaurants (name, address, phone, email, password, available_seats, availability) values ('La Pasta', 'Rua alves redol', '913444555', 'laPasta@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 30, 1);
+insert into restaurants (name, address, phone, email, password, available_seats, availability) values ('Taco Bell', 'Av Amarela', '913254555', 'tacoBell@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 40, 1);
+insert into restaurants (name, address, phone, email, password, available_seats, availability) values ('Pizza Hut', 'Rotunda azul', '913440355', 'pizzaHut@gmail.com', 'b493d48364afe44d11c0165cf470a4164d1e2609911ef998be868d46ade3de4e', 10, 1);
+
