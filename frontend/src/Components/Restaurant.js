@@ -84,7 +84,6 @@ const handleReservation = (event) => {
     return response.json();
   }
   ).then(data => {
-    //works, retrieves which reservation was updated and how
     alert("The reservation status was sent to the server.\n It will be updated when you log in again.")
   })
   .catch(error => {

@@ -358,16 +358,23 @@ def book_table(restaurant_name, user_email, people_count):
     if not user:
         cur.close()
         #con.close()
-        return {'453': USER_DOES_NOT_EXIST_STATUS}
+        return USER_DOES_NOT_EXIST_STATUS
     
     data = (restaurant_name,)
     query = 'select email, available_seats from restaurants where name = %s'
     cur.execute(query, data)
     restaurant_info = cur.fetchall()
-    if len(restaurant_info) == 0 or restaurant_info[0][1] < int(people_count):
+    
+    # Check if the restaurant exists 
+    if len(restaurant_info) == 0:
         cur.close()
         #con.close()
-        return {'400': 'Restaurant does not exist or does not have enough seats'}
+        return RESTAURANT_DOES_NOT_EXIST_STATUS
+    
+    if  restaurant_info[0][1] < int(people_count):
+        cur.close()
+        #con.close()
+        return RESTAURANT_IS_FULL_STATUS
     
     data = (restaurant_name, restaurant_info[0][0], user_email, people_count)
     query = 'insert into reservations (restaurant_name, restaurant_email, user_email, people_count, status) values (%s, %s, %s, %s, false)'

@@ -151,7 +151,7 @@ def restaurant_update(Name):
         status = update_reservation_status(reservation_id, reservation_status)
         return make_response({"status":status}, status)
     
-    return {'400': 'Not allowed'}
+    return make_response({"status":400}, 400)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -179,8 +179,8 @@ def book():
         user_email = data['user_email']
         people_count = data['people_count']
         status = book_table(restaurant_name, user_email, people_count)
-        return status
-    return {'400': 'Not allowed'}
+        return make_response({"status":status}, status)
+    return make_response({"status":400}, 400)
 
 
 if __name__ == '__main__':
