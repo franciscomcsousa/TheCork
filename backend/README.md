@@ -98,19 +98,19 @@ sudo netplan apply
 
 - Backend connects to the firewall instead of directly to the database, because of this the firewall needs prerouting and forward configurations
 ```
-iptables -I PREROUTING -t nat -i enp0s8 -p tcp --dport 3306 -j DNAT --to 192.168.11.1:3306
-iptables -I FORWARD -p tcp -i enp0s8 -o enp0s9 -d 192.168.11.1 --dport 3306 -j ACCEPT
+sudo iptables -I PREROUTING -t nat -i enp0s8 -p tcp --dport 3306 -j DNAT --to 192.168.11.1:3306
+sudo iptables -I FORWARD -p tcp -i enp0s8 -o enp0s9 -d 192.168.11.1 --dport 3306 -j ACCEPT
 ```
 
 - Basically redirecting http requests from the server to the firewall
 ```
-iptables -t nat -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.10.1:80
-iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 80 -j SNAT --to-source 192.168.20.1
+sudo iptables -t nat -I PREROUTING -p tcp --dport 80 -j DNAT --to-destination 192.168.10.1:80
+sudo iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 80 -j SNAT --to-source 192.168.20.1
 ```
 - This time allowing https requests (port 443)
 ```
-iptables -t nat -I PREROUTING -p tcp --dport 443 -j DNAT --to-destination 192.168.10.1:443
-iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-source 192.168.20.1
+sudo iptables -t nat -I PREROUTING -p tcp --dport 443 -j DNAT --to-destination 192.168.10.1:443
+sudo iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-source 192.168.20.1
 ```
 - TODO - easier to provide the file with the iptables rules
 
