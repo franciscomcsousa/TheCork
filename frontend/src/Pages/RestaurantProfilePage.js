@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import RestaurantProfile from '../Components/RestaurantProfile';
+import { useNavigate } from 'react-router-dom';
 
 export const RestaurantProfilePage = () => {
     
@@ -7,6 +8,10 @@ export const RestaurantProfilePage = () => {
     const [addPasswordInput, setPasswordInput] = useState('') 
 
     const [data, setData] = useState('')
+    const navigate = useNavigate();
+
+    // Loads the page with the user's email address in the URL
+    const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -32,6 +37,7 @@ export const RestaurantProfilePage = () => {
          })
         .then(data => {
             setData(data)
+            navigate(`/restaurant/${urlName}`,{ state:{data} })
         })
         //.catch(error => {
         //    console.log(error)
