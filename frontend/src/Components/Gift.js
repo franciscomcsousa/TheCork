@@ -14,6 +14,7 @@ import StarIcon from '@mui/icons-material/StarBorder';
 import Typography from '@mui/material/Typography';
 import GlobalStyles from '@mui/material/GlobalStyles';
 import Container from '@mui/material/Container';
+import { useNavigate } from 'react-router-dom';
 
 
 const tiers = [
@@ -43,7 +44,8 @@ const tiers = [
 
 const theme = createTheme();
 
-export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, onFormChangeCard }) {
+export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, onFormChangeCard, userData }) {
+  const navigate = useNavigate();
 
   const [newTiers, setTiers] = React.useState(tiers);
 
@@ -81,6 +83,20 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
   const handleSubmit = (event) => {
     event.preventDefault()
     onFormSubmit()
+  }
+
+  if (userData) {
+    //console.log(userData) For some reason only alerts when its submitted twice ## 
+    //problem when redirecting  TODO, fix the user interface 
+    if (userData.status === 200) {
+      //navigate("/", {replace: true})
+      alert("Successful Purchase")
+      navigate(0)
+    }
+    else if (userData.status !== 200) {
+          alert("User and/or Password is incorrect or Card Amount unavailable")//TODO: also add the predefined messages 
+          navigate(0)
+    }
   }
 
   let re = /\S+@\S+\.\S+/;
