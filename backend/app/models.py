@@ -20,6 +20,19 @@ with open(PASS_PATH, 'r') as db_pass_file:
             ssl_cert='/etc/mysql/ssl/client-cert.pem',
             ssl_ca='/etc/mysql/ssl/ca-cert.pem'
             )
+    
+    con_external = mariadb.connect(
+            host = "192.168.11.1",
+            user = "sirs",
+            password = db_pass,
+            port = 3306,
+            database = "external",
+            ssl_key='/etc/mysql/ssl/client-key.pem',
+            ssl_cert='/etc/mysql/ssl/client-cert.pem',
+            ssl_ca='/etc/mysql/ssl/ca-cert.pem'
+            )
+    
+    
 
 def get_all_gift_cards():
     #con = connect() 
@@ -81,7 +94,7 @@ def redeem_gift_card(card_number, redeemer_email):
     # if there is no gift card with that number
     if not amount_enc:
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'Gift Card does not exist'}
     amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
     if amount == 0:
@@ -95,7 +108,7 @@ def redeem_gift_card(card_number, redeemer_email):
     # TODO - is this okay?
     if not wallet_enc:
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'User does not exist'}
     # update the user's wallet, add the amount
     new_wallet = wallet + amount
@@ -117,7 +130,8 @@ def redeem_gift_card(card_number, redeemer_email):
 
 def redeem_user_points(amount, email):
     #con = connect()
-    cur = con.cursor()
+    cur = con_external.cursor()
+    cur_external = con_external.cursor()
     # verify if the user exists and has correct password
     data = (email,)
     query = 'select wallet_cipher, wallet_iv from users where email = %s'
@@ -125,19 +139,45 @@ def redeem_user_points(amount, email):
     wallet_enc = cur.fetchall()
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
     # TODO - is this okay?
+    
     if not wallet_enc[0]:
         cur.close()
-        con.close()
+        cur_external.close()
+        #con.close()
+        #con_external.close()
         return {'400': 'User does not exist or password is incorrect'}
+    
+    # verify if the user has enough points
+    data = (email,)
+    query = 'select points from cupons where email = %s'
+    cur_external.execute(query, data)
+    points = cur_external.fetchall()
+    points = points[0][0]
+    
+    if len(points == 0) or points < amount:
+        cur.close()
+        cur_external.close()
+        #con.close()
+        #con_external.close()
+        return {'400': 'Insufficient points'}
+    
     new_amount = wallet + (amount / 20)
     new_amount_enc = aes_encrypt(str(new_amount))
     data = (new_amount_enc[0], new_amount_enc[1], email)
     query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
+    
+    data = (points - amount, email)
+    query = 'update cupons set points = %s where email = %s'
+    cur_external.execute(query, data)
+    
     con.commit()
+    con_external.commit()
     cur.close()
-    return {'200': OK_STATUS}
+    cur_external.close()
     #con.close()
+    #con_external.close()
+    return {'200': OK_STATUS}
     
     
 def create_user(name,email,password):
@@ -150,7 +190,7 @@ def create_user(name,email,password):
     user = cur.fetchall()
     if len(user) > 0:
         cur.close()
-        con.close()
+        #con.close()
         return USER_ALREADY_EXISTS_STATUS
     
     # Create the user
@@ -278,7 +318,7 @@ def change_availability(restaurant_name, availability):
     
     if len(restaurant) == 0:
         cur = con.cursor()
-        con.close()
+        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     data = (availability, restaurant_name)
@@ -312,7 +352,7 @@ def book_table(restaurant_name, user_email, people_count):
     user = cur.fetchall()
     if len(user) == 0:
         cur.close()
-        con.close()
+        #con.close()
         return {'453': USER_DOES_NOT_EXIST_STATUS}
     
     data = (restaurant_name,)
@@ -321,7 +361,7 @@ def book_table(restaurant_name, user_email, people_count):
     restaurant_info = cur.fetchall()
     if len(restaurant_info) == 0 or restaurant_info[0][1] < int(people_count):
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'Restaurant does not exist or does not have enough seats'}
     
     data = (restaurant_name, restaurant_info[0][0], user_email, people_count)
@@ -349,7 +389,7 @@ def change_availability(restaurant_name, availability):
     
     if len(restaurant) == 0:
         cur = con.cursor()
-        con.close()
+        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     data = (availability, restaurant_name)
@@ -372,7 +412,7 @@ def update_reservation_status(reservation_id, status):
     
     if len(reservation) == 0:
         cur.close()
-        con.close()
+        #con.close()
         return RESERVATION_DOES_NOT_EXIST_STATUS
     
     data = (status, reservation_id)
