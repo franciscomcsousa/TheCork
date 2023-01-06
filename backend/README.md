@@ -112,7 +112,6 @@ sudo iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 80 -j SNAT --
 sudo iptables -t nat -I PREROUTING -p tcp --dport 443 -j DNAT --to-destination 192.168.10.1:443
 sudo iptables -t nat -I POSTROUTING -p tcp -d 192.168.10.1 --dport 443 -j SNAT --to-source 192.168.20.1
 ```
-- TODO - easier to provide the file with the iptables rules
 
 ### ufw
 
