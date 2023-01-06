@@ -104,6 +104,10 @@ def redeem_gift_card(card_number, redeemer_email):
     query = 'select wallet_cipher, wallet_iv from users where email = %s'
     cur.execute(query, data)
     wallet_enc = cur.fetchall()
+    if not wallet_enc:
+        cur.close()
+        #con.close()
+        return USER_DOES_NOT_EXIST_STATUS
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
     # TODO - is this okay?
     if not wallet_enc:
@@ -212,7 +216,6 @@ def get_user_id(email):
     query = 'select user_id from users where email = %s'
     cur.execute(query, data)
     user = cur.fetchall()
-    print(f"user {user}")
     cur.close()
     if not user:
         return USER_DOES_NOT_EXIST_STATUS
@@ -249,7 +252,7 @@ def get_profile(email, password):
     cur.execute(query, data)
     # user_raw is a mixed of the encrypted wallet and regular fields
     user_raw = cur.fetchall()
-    if len(user_raw) == 0:
+    if not user_raw:
         cur.close()
         return []
     
@@ -293,7 +296,7 @@ def get_restaurant_profile(email, password):
     cur.execute(query, data)
     restaurant_data = cur.fetchall()
     
-    if len(restaurant_data) == 0:
+    if not restaurant_data:
         cur.close()
         #con.close()
         return []
@@ -318,7 +321,7 @@ def change_availability(restaurant_name, availability):
     cur.execute(query, data)
     restaurant = cur.fetchall()
     
-    if len(restaurant) == 0:
+    if not restaurant:
         cur = con.cursor()
         #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
@@ -352,7 +355,7 @@ def book_table(restaurant_name, user_email, people_count):
     query = 'select * from users where email = %s'
     cur.execute(query, data)
     user = cur.fetchall()
-    if len(user) == 0:
+    if not user:
         cur.close()
         #con.close()
         return {'453': USER_DOES_NOT_EXIST_STATUS}
@@ -389,7 +392,7 @@ def change_availability(restaurant_name, availability):
     cur.execute(query, data)
     restaurant = cur.fetchall()
     
-    if len(restaurant) == 0:
+    if not restaurant:
         cur = con.cursor()
         #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
@@ -412,7 +415,7 @@ def update_reservation_status(reservation_id, status):
     cur.execute(query, data)
     reservation = cur.fetchall()
     
-    if len(reservation) == 0:
+    if not reservation:
         cur.close()
         #con.close()
         return RESERVATION_DOES_NOT_EXIST_STATUS
