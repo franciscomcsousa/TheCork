@@ -67,7 +67,8 @@ def register_user():
         status = create_user(name, email, salt_password(get_next_user_id(), password))
         # TODO - also pass as param the status message :facepalm: 
         return make_response({"status":status}, status)
-    return make_response({"status":'Not allowed'}, 400)
+    
+    return make_response({"status":400}, 400)
 
 
 @app.route('/profile', methods=['GET', 'POST'])

@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import RegisterForm from '../Components/RegisterForm';
+import * as Error from '../Error';
+import { useNavigate } from 'react-router-dom';
 
 export const Register = () => {
     
@@ -7,7 +9,7 @@ export const Register = () => {
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('')
     
-    const [data, setData] = useState('')
+    const navigate = useNavigate();
     
     const handleFormChangeName = (nameInput) => {
         setNameInput(nameInput)
@@ -31,16 +33,15 @@ export const Register = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
             }   
             return response.json();
         })
-         .then(data => {
-            setData(data)        
+        .then(data => {
+            alert(Error.getErrorMessage(data.status))
+            if (data.status === 200) {
+                navigate(0)
+            }
         })
-        //.catch(error => {
-        //console.log(error.message)
-        //})
     };
 
 
@@ -48,7 +49,7 @@ return (
     <div>
         <RegisterForm nameInput={ addNameInput } emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeName={handleFormChangeName} onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} userData={data}/>
+        onFormSubmit={handleFormSubmit}/>
     </div>
     )
 }
