@@ -16,6 +16,8 @@
 6. [VM4 - Database](#vm4---database)
     1. [Network manager](#network-manager-vm4)
     2. [Running mariadb](#running-mariadb)
+    3. [Create certificate for the database](#create-certificate-for-the-database)
+    4. [Creating users and databases](#creating-users-and-databases)
 
 ## Project Overview
 
@@ -249,7 +251,7 @@ $ sudo systemctl enable mariadb
 - After creating a proper user and password, the database (named `thecork`) is populated using
 `mariadb thecork < schema.sql`
 
-#### Create certificate for the database (might work for nginx)
+### Create certificate for the database
 
 - On the SQL server, generate SSL certificates and keys for the certificate authority, server, and client:
 
@@ -284,4 +286,22 @@ ssl-ca = /etc/mysql/ssl/ca-cert.pem
 ssl-cert = /etc/mysql/ssl/server-cert.pem
 ssl-key = /etc/mysql/ssl/server-key-rsa.pem
 #
+```
+
+### Creating users and databases
+
+- Create a database `create database DATABASE NAME;`
+```
+create database thecork;
+create database external;
+```
+
+- Create a user `create user 'USER'@'host' identified by 'PASSWORD';`
+```
+create user 'sirs'@'192.168.10.1' identified by 'PASSWORD';
+```
+- Grant privileges `grant all privileges on database.* to 'user'@'host';` 
+```
+grant all privileges on thecork.* to 'sirs'@'192.168.10.1';
+grant all privileges on external.* to 'sirs'@'192.168.10.1';
 ```

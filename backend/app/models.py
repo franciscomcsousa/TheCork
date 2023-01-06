@@ -31,6 +31,8 @@ with open(PASS_PATH, 'r') as db_pass_file:
             ssl_cert='/etc/mysql/ssl/client-cert.pem',
             ssl_ca='/etc/mysql/ssl/ca-cert.pem'
             )
+
+    print("Connected to database")
     
     
 
@@ -128,9 +130,9 @@ def redeem_gift_card(card_number, redeemer_email):
     #con.close()
 
 
-def redeem_user_points(amount, email):
+def redeem_user_points(redeemed_points, email):
     #con = connect()
-    cur = con_external.cursor()
+    cur = con.cursor()
     cur_external = con_external.cursor()
     # verify if the user exists and has correct password
     data = (email,)
@@ -152,22 +154,23 @@ def redeem_user_points(amount, email):
     query = 'select points from cupons where email = %s'
     cur_external.execute(query, data)
     points = cur_external.fetchall()
-    points = points[0][0]
+    points = points[0]
     
-    if len(points == 0) or points < amount:
+    if not points or points[0] < redeemed_points:
         cur.close()
         cur_external.close()
         #con.close()
         #con_external.close()
         return {'400': 'Insufficient points'}
-    
-    new_amount = wallet + (amount / 20)
+
+    points = int(points[0])
+    new_amount = wallet + (redeemed_points / 20)
     new_amount_enc = aes_encrypt(str(new_amount))
     data = (new_amount_enc[0], new_amount_enc[1], email)
     query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
     
-    data = (points - amount, email)
+    data = (points - redeemed_points, email)
     query = 'update cupons set points = %s where email = %s'
     cur_external.execute(query, data)
     

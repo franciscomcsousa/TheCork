@@ -8,6 +8,9 @@ from Crypto.Random import get_random_bytes
 AES_PATH = "../../secret/database.key"
 LOCKS = {}
 
+with open(AES_PATH, 'rb') as db_aes_file:
+    key = db_aes_file.read()
+
 def get_lock(name):
     lock = LOCKS.get(name, None)
     if not lock:
@@ -23,22 +26,14 @@ def hash_card(card_number:str):
     return hashlib.sha256(card_number.encode('ascii')).hexdigest()
 
 def aes_encrypt(data):
-    with open(AES_PATH, 'rb') as db_aes_file:
-        key = db_aes_file.read()
-        print(f"encrypt key {key}")
+    cipher = AES.new(key, AES.MODE_CBC)
+    ct_bytes = cipher.encrypt(pad(data.encode(), AES.block_size))
+    iv = b64encode(cipher.iv).decode('utf-8')
+    cipher_text = b64encode(ct_bytes).decode('utf-8')
 
-        cipher = AES.new(key, AES.MODE_CBC)
-        ct_bytes = cipher.encrypt(pad(data.encode(), AES.block_size))
-        iv = b64encode(cipher.iv).decode('utf-8')
-        cipher_text = b64encode(ct_bytes).decode('utf-8')
-
-        return cipher_text, iv
+    return cipher_text, iv
 
 def aes_decrypt(cipher_text, iv):
-    with open(AES_PATH, 'rb') as db_aes_file:
-        key = db_aes_file.read()
-        print(f"decrypt key {key}")
-
         try:
             iv = b64decode(iv)
             cipher_text = b64decode(cipher_text)

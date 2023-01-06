@@ -48,9 +48,8 @@ def redeem_points():
         if request.method == 'POST':
             data = request.get_json()
             email = data['email']
-            password = data['password']
-            amount = data['amount']
-            response = redeem_user_points(int(amount), email, salt_password(get_user_id(email), password))
+            points = data['points']
+            response = redeem_user_points(int(points), email)
         return response
 
 
@@ -138,6 +137,7 @@ def restaurant_update(Name):
         data = request.get_json()
         availability = data['availability']
         restaurant_name = data['restaurant_name']
+        closed = data['closed']
 
         status = change_availability(restaurant_name, availability)
         return make_response({"status":status}, status)
