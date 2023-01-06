@@ -3,7 +3,6 @@ import threading
 from base64 import b64encode, b64decode
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
-from Crypto.Random import get_random_bytes
 
 AES_PATH = "../../secret/database.key"
 LOCKS = {}
@@ -27,6 +26,7 @@ def hash_card(card_number:str):
 
 def aes_encrypt(data):
     cipher = AES.new(key, AES.MODE_CBC)
+    # when no ivs is specified, it is automatically and securely generated (pycryptodome)
     ct_bytes = cipher.encrypt(pad(data.encode(), AES.block_size))
     iv = b64encode(cipher.iv).decode('utf-8')
     cipher_text = b64encode(ct_bytes).decode('utf-8')
@@ -42,7 +42,7 @@ def aes_decrypt(cipher_text, iv):
             return pt
 
         except (ValueError, KeyError):
-            print("Incorrect decryption")
+            print("WARNING - Incorrect decryption")
 
 
         
