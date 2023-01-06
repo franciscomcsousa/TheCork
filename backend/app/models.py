@@ -63,7 +63,7 @@ def create_gift_card(amount, email, password):
     elif wallet < amount:
         cur.close()
         #con.close()
-        return INSUFIICIENT_FUNDS_STATUS
+        return INSUFICIENT_FUNDS_STATUS
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
     card_number_hash = hash_card(card_number)
@@ -82,7 +82,6 @@ def create_gift_card(amount, email, password):
     con.commit()
     cur.close()
     return OK_STATUS
-    #con.close()
     
     
 def redeem_gift_card(card_number, redeemer_email):
@@ -97,10 +96,10 @@ def redeem_gift_card(card_number, redeemer_email):
     if not amount_enc:
         cur.close()
         #con.close()
-        return {'400': 'Gift Card does not exist'}
+        return WRONG_CARD_NUMBER_STATUS
     amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
     if amount == 0:
-        return {'400': 'Card was already redeemed'}
+        return WRONG_CARD_NUMBER_STATUS
     # if there is a user with that email
     data = (redeemer_email,)
     query = 'select wallet_cipher, wallet_iv from users where email = %s'
@@ -111,7 +110,7 @@ def redeem_gift_card(card_number, redeemer_email):
     if not wallet_enc:
         cur.close()
         #con.close()
-        return {'400': 'User does not exist'}
+        return CARD_ALREADY_REDDEMED_STATUS
     # update the user's wallet, add the amount
     new_wallet = wallet + amount
     new_wallet_enc = aes_encrypt(str(new_wallet))
@@ -126,8 +125,7 @@ def redeem_gift_card(card_number, redeemer_email):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': OK_STATUS}
-    #con.close()
+    return OK_STATUS
 
 
 def redeem_user_points(redeemed_points, email):

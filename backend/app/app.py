@@ -36,8 +36,8 @@ def redeem_cards():
             data = request.get_json()
             card_number = data['card']
             redeemer_email = data['redeemer_email']
-            response = redeem_gift_card(card_number, redeemer_email)
-        return response
+            status = redeem_gift_card(card_number, redeemer_email)
+        return make_response({"status":status}, status)
 
 @app.route('/redeem_points', methods=['GET', 'POST'])
 def redeem_points():
