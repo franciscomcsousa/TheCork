@@ -17,7 +17,7 @@ import {useNavigate} from 'react-router-dom'
 
 const theme = createTheme();
 
-export default function RegisterForm({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit, userData }) {
+export default function RegisterForm({ nameInput, emailInput, passwordInput, onFormChangeName, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
     const navigate = useNavigate();
   
     const handleChangeName = (event) => {
@@ -35,20 +35,6 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
     const handleSubmit = (event) => {
         event.preventDefault()
         onFormSubmit()
-    }
-
-    if (userData) {
-      //console.log(userData) For some reason only alerts when its submitted twice ## 
-      //problem when redirecting  TODO, fix the user interface 
-      if (userData.status === 200) {
-        //navigate("/", {replace: true})
-        alert("Successfull Registration")
-        navigate(0)
-      }
-      else if (userData.status !== 200) {
-            alert("User and/or Password is incorrect")//TODO: also add the predefined messages 
-            navigate(0)
-      }
     }
 
     let re = /\S+@\S+\.\S+/;
@@ -142,7 +128,6 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
               type="submit"
               fullWidth
               variant="contained"
-              //onClick={() => window.location.href = '/'}
               disabled={!validate()}
             >
               Register
