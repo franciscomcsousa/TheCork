@@ -49,8 +49,8 @@ def redeem_points():
             data = request.get_json()
             email = data['email']
             points = data['points']
-            response = redeem_user_points(int(points), email)
-        return response
+            status = redeem_user_points(int(points), email)
+        return make_response({"status":status}, status)
 
 
 @app.route('/register', methods=['GET', 'POST'])

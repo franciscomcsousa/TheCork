@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import RedeemPointsForm from '../Components/RedeemPointsForm';
+import * as Error from '../Error';
+import { useNavigate } from 'react-router-dom';
 
 export const RedeemPoints = () => {
 
     const [addPointsInput, setPointsInput] = useState('')
     const [addEmailInput, setEmailInput] = useState('')
 
-    const [data, setData] = useState('')
+    const navigate = useNavigate();
 
     const handleFormChangePoints = (pointsInput) => {
         setPointsInput(pointsInput)
@@ -26,16 +28,15 @@ export const RedeemPoints = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
             }
             return response.json();
         })
         .then(data => {
-            setData(data)
+            alert(Error.getErrorMessage(data.status))
+            if (data.status === 200) {
+                navigate(0)
+            }
         })
-        //.catch(error => {
-        //   console.log(error)
-        //})
     }
 
 
@@ -43,7 +44,7 @@ return (
     <div>
         <RedeemPointsForm pointsInput={ addPointsInput } emailInput={ addEmailInput }
         onFormChangePoints={handleFormChangePoints} onFormChangeEmail={handleFormChangeEmail}
-        onFormSubmit={handleFormSubmit} userData={data}/>
+        onFormSubmit={handleFormSubmit} />
     </div>
     )
 }
