@@ -148,7 +148,7 @@ def restaurant_update(Name):
         reservation_id = data['reservation_id']
 
         status = update_reservation_status(reservation_id, reservation_status)
-        return make_response({"reservation_id":reservation_id, "reservation_status":reservation_status}, status)
+        return make_response({"status":status}, status)
     
     return {'400': 'Not allowed'}
 

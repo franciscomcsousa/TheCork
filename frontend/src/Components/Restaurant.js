@@ -23,7 +23,6 @@ export default function Restaurant() {
 
 const location = useLocation();
 const [available, setAvailability] = useState('')
-const [statusData, setStatusData] = useState('')
 
 if (!location.state) {
     return (
@@ -79,22 +78,20 @@ const handleReservation = (event) => {
   })
   .then(response => {
     if (!response.ok) {
+      alert("Error in the server, try again later")
       throw new Error(`This is an HTTP error: The status is ${response.status}`)
     }
     return response.json();
   }
   ).then(data => {
     //works, retrieves which reservation was updated and how
-    console.log(data['reservation_id']) 
-    console.log(data['reservation_status'])
-    setStatusData(data)
+    alert("The reservation status was sent to the server.\n It will be updated when you log in again.")
   })
   .catch(error => {
     console.log(error)
   }
   )
 }
-console.log("status data",statusData)
 
 
 return (
@@ -152,31 +149,17 @@ return (
                     <Typography sx={{ p: 2 }}>Availability: {availability} </Typography>
                     <Typography sx={{ p: 2 }} component={'div'}>Current Reservations:{adminData.reservations.map( (reservation) =>
                      
-                     <li key={reservation}> 
-                      UserEmail: {reservation[1]} 
-                      How many people:{reservation[2]}
-                      Status: {reservation[3] === 1 ? "Accepted! " : "Pending... "}
+                      <li key={reservation}> 
+                        UserEmail: {reservation[1]} 
+                        <p> How many people:{reservation[2]}</p>
+                       
+                        Status: {reservation[3] === 1 ? "Accepted! " : "Pending... "}
 
-                      <Button type="submit" value={[reservation[0], 1]} onClick={handleReservation} variant="contained" color="success" sx={{ height: 20, width: 50, ml: 2}}> 
-                      Accept </Button>
-                      <Button type="submit" value={[reservation[0], 0]} onClick={handleReservation} variant="outlined" color="error" sx={{ height: 20, width: 50, ml: 2}}> 
-                      Deny </Button>
-                      
-                      {/* return reservation_id, and 1 for accept, 0 for deny*/}
-                      {/* <FormControl component={'div'}>
-                        <FormLabel id="reservation-status">Respond to your client!</FormLabel>
-                        <RadioGroup
-                          aria-labelledby="reservation-status"
-                          defaultValue=""
-                          name="radio-buttons-group"
-                          onChange={handleReservation}
-                        >
-                          <FormControlLabel control={<Radio value={[reservation[0],1]} color="success"/>}label="Accept!"/>
-                          <FormControlLabel control={<Radio value={[reservation[0],0]} color="error"/>}label="Deny."/>
-                        </RadioGroup>
-                      </FormControl> */}
+                        <Button type="submit" value={[reservation[0], 1]} onClick={handleReservation} variant="contained" color="success" sx={{ height: 30, width: 50, ml: 2}}> 
+                        Accept </Button>
+                        <Button type="submit" value={[reservation[0], 0]} onClick={handleReservation} variant="outlined" color="error" sx={{ height: 30, width: 50, ml: 2}}> 
+                        Deny </Button>
                       </li>
-              
                       )}
                     </Typography>                       
                     
