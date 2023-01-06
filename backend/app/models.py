@@ -335,18 +335,6 @@ def change_availability(restaurant_name, availability):
     return OK_STATUS
 
 
-def login(email, password):
-    #con = connect() 
-    cur = con.cursor()
-    data = (email, password)
-    query = 'select * from users where email = %s and password = %s'
-    cur.execute(query, data)
-    user = cur.fetchall()
-    cur.close()
-    #con.close()
-    return user
-
-
 def book_table(restaurant_name, user_email, people_count):
     #con = connect() 
     cur = con.cursor()

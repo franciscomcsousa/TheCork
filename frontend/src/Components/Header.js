@@ -26,7 +26,6 @@ const usefulKeywords = [
   { label: 'The Cork', url: '/' },
   { label: 'Cork', url: '/' },
   { label: 'Restaurant', url: '/book' },
-  { label: 'Login', url: '/login' },
   { label: 'Register', url: '/register' },
   { label: 'Book', url: '/book' },
   { label: 'User', url: '/profile' },

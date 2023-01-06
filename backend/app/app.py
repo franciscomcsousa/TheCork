@@ -154,20 +154,6 @@ def restaurant_update(Name):
     return make_response({"status":400}, 400)
 
 
-@app.route('/login', methods=['GET', 'POST'])
-def user_login():
-    if request.method == 'GET':
-        pass
-  
-    if request.method == 'POST':
-        email = request.form.get('email')
-        password = request.form.get('password')
-        user = login(email, salt_password(get_user_id(email), password))
-        if user is not None:
-            return {'200': 'User successfully logged in'}
-    return {'400': 'User or Password is incorrect'}
-
-
 @app.route('/book', methods=['GET', 'POST'])
 def book():
     if request.method == 'GET':
