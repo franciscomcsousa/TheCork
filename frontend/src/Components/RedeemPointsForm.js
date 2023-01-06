@@ -48,7 +48,7 @@ export default function RedeemPointsForm({ pointsInput, emailInput, onFormChange
     let re = /\S+@\S+\.\S+/;
 
     const validate = () => {
-      return re.test(emailInput) && pointsInput.length > 0 && pointsInput > 0 && pointsInput % 1 == 0;
+      return re.test(emailInput) && pointsInput.length > 0 && pointsInput > 0 && pointsInput % 1 === 0;
     };
 
     return(
