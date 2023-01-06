@@ -22,8 +22,8 @@ def gift_cards():
             email = data['email']
             password = data['password']
             amount = data['amount']
-            response = create_gift_card(int(amount), email, salt_password(get_user_id(email), password))
-        return response
+            status = create_gift_card(int(amount), email, salt_password(get_user_id(email), password))
+        return make_response({"status":status}, status)
 
 
 @app.route('/redeem_cards', methods=['GET', 'POST'])

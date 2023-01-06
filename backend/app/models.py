@@ -59,11 +59,11 @@ def create_gift_card(amount, email, password):
     if not wallet_enc[0]:
         cur.close()
         #con.close()
-        return {'400': 'User does not exist or password is incorrect'}
+        return USER_DOES_NOT_EXIST_STATUS
     elif wallet < amount:
         cur.close()
         #con.close()
-        return {'400': 'Insufficient funds'}
+        return INSUFIICIENT_FUNDS_STATUS
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
     card_number_hash = hash_card(card_number)
@@ -81,7 +81,7 @@ def create_gift_card(amount, email, password):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': OK_STATUS}
+    return OK_STATUS
     #con.close()
     
     

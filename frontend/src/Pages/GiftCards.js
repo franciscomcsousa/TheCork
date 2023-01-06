@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import Gift from '../Components/Gift';
+import * as Error from '../Error';
+import { useNavigate } from 'react-router-dom';
+
 
 export const GiftCards = () => {
 
@@ -7,7 +10,9 @@ export const GiftCards = () => {
     const [addPasswordInput, setPasswordInput] = useState('')
     const [addTierInput, setTierInput] = useState('')
 
-    const [data, setData] = useState('')
+    const navigate = useNavigate();
+
+    //const [data, setData] = useState('')
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -31,23 +36,23 @@ export const GiftCards = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
+                //alert(Error.getErrorMessage(response.status))
             }
         return response.json();
         })
         .then(data => {
-            setData(data)
+            alert(Error.getErrorMessage(data.status))
+            if (data.status === 200) {
+                navigate(0)
+            }
         })
-        //.catch(error => {
-        //    console.log(error)
-        //})
     }
 
 return (
     <div>
         <Gift emailInput={ addEmailInput } passwordInput={ addPasswordInput } tierInput={ addTierInput}
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} onFormChangeCard={handleFormChangeTier}
-        onFormSubmit={handleFormSubmit} userData={data}/>
+        onFormSubmit={handleFormSubmit} />
     </div>
     )
 }
