@@ -169,7 +169,6 @@ export default function Gift({ emailInput, passwordInput, onFormChangeEmail, onF
                   </ul>
                 </CardContent>
                 <CardActions>
-                  {/* Make button variant change when clicked*/}
                   <Button fullWidth value={tier.price} onClick={(event)=>handleChangeCard(event, tier.price)} variant={tier.currentButtonVariant}>
                     {tier.buttonText}
                   </Button>

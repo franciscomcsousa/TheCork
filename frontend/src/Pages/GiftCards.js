@@ -12,8 +12,6 @@ export const GiftCards = () => {
 
     const navigate = useNavigate();
 
-    //const [data, setData] = useState('')
-
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
     }

@@ -9,7 +9,6 @@ import { UserPage } from './Pages/UserPage'
 import { RestaurantProfilePage } from './Pages/RestaurantProfilePage'
 import { RestaurantPage } from './Pages/RestaurantPage'
 import { Book } from './Pages/Book'
-import { Login } from './Pages/Login'
 import { RedeemPoints } from './Pages/RedeemPoints'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
@@ -29,7 +28,6 @@ function App() {
             <Route exact path="/restaurant" element={ <RestaurantProfilePage/> }/>
             <Route exact path="/restaurant/:name" element={ <RestaurantPage/> }/>
             <Route exact path="/book" element={ <Book/> }/>
-            <Route exact path="/login" element={ <Login/> }/>
             <Route exact path="/redeem_points" element={ <RedeemPoints/> }/>
           </Routes>
       </Router>

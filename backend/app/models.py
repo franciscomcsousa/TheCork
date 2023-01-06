@@ -36,18 +36,15 @@ with open(PASS_PATH, 'r') as db_pass_file:
     
     
 
-def get_all_gift_cards():
-    #con = connect() 
+def get_all_gift_cards(): 
     cur = con.cursor()
     cur.execute('select * from gift_cards')
     gift_cards = cur.fetchall()
     cur.close()
-    #con.close()
     return gift_cards
 
 
 def create_gift_card(amount, email, password):
-    #con = connect() 
     cur = con.cursor()
     # verify if the user exists and has correct password
     data = (email, password)
@@ -56,12 +53,10 @@ def create_gift_card(amount, email, password):
     wallet_enc = cur.fetchall()
     if not wallet_enc:
         cur.close()
-        #con.close()
         return USER_DOES_NOT_EXIST_STATUS
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
     if wallet < amount:
         cur.close()
-        #con.close()
         return INSUFICIENT_FUNDS_STATUS
     # secrets module is more cryptographically secure than random module
     card_number = secrets.token_hex(8) 
@@ -84,7 +79,6 @@ def create_gift_card(amount, email, password):
     
     
 def redeem_gift_card(card_number, redeemer_email):
-    #con = connect() 
     cur = con.cursor()
     card_number_hash = hash_card(card_number)
     data = (card_number_hash,)
@@ -94,7 +88,6 @@ def redeem_gift_card(card_number, redeemer_email):
     # if there is no gift card with that number
     if not amount_enc:
         cur.close()
-        #con.close()
         return WRONG_CARD_NUMBER_STATUS
     amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
     if amount == 0:
@@ -106,12 +99,10 @@ def redeem_gift_card(card_number, redeemer_email):
     wallet_enc = cur.fetchall()
     if not wallet_enc:
         cur.close()
-        #con.close()
         return USER_DOES_NOT_EXIST_STATUS
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
     if not wallet_enc:
         cur.close()
-        #con.close()
         return CARD_ALREADY_REDDEMED_STATUS
     # update the user's wallet, add the amount
     new_wallet = wallet + amount
@@ -131,7 +122,6 @@ def redeem_gift_card(card_number, redeemer_email):
 
 
 def redeem_user_points(redeemed_points, email):
-    #con = connect()
     cur = con.cursor()
     cur_external = con_external.cursor()
     # verify if the user exists and has correct password
@@ -141,14 +131,11 @@ def redeem_user_points(redeemed_points, email):
     wallet_enc = cur.fetchall()
     if not wallet_enc:
         cur.close()
-        #con.close()
         return USER_DOES_NOT_EXIST_STATUS
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())    
     if not wallet_enc:
         cur.close()
         cur_external.close()
-        #con.close()
-        #con_external.close()
         return USER_DOES_NOT_EXIST_STATUS
     
     # verify if the user has enough points
@@ -161,8 +148,6 @@ def redeem_user_points(redeemed_points, email):
     if not points or points[0] < redeemed_points:
         cur.close()
         cur_external.close()
-        #con.close()
-        #con_external.close()
         return INSUFICIENT_POINTS_STATUS
 
     points = int(points[0])
@@ -180,13 +165,10 @@ def redeem_user_points(redeemed_points, email):
     con_external.commit()
     cur.close()
     cur_external.close()
-    #con.close()
-    #con_external.close()
     return OK_STATUS
     
     
 def create_user(name,email,password):
-    #con = connect() 
     cur = con.cursor()
     # Verify if the user already exists
     data = (email,)
@@ -195,7 +177,6 @@ def create_user(name,email,password):
     user = cur.fetchall()
     if len(user) > 0:
         cur.close()
-        #con.close()
         return USER_ALREADY_EXISTS_STATUS
     
     # Create the user
@@ -205,13 +186,10 @@ def create_user(name,email,password):
     query = 'insert into users (name, email, password, wallet_cipher, wallet_iv) values (%s, %s, %s, %s, %s)'
     cur.execute(query, data)
     con.commit()
-    #cur.close()
     return OK_STATUS
-    #con.close()
 
 
 def get_user_id(email):
-    #con = connect() 
     cur = con.cursor()
     data = (email,)
     query = 'select user_id from users where email = %s'
@@ -220,12 +198,10 @@ def get_user_id(email):
     cur.close()
     if not user:
         return USER_DOES_NOT_EXIST_STATUS
-    #con.close()
     return user[0][0]
       
       
 def get_next_user_id():
-    #con = connect() 
     cur = con.cursor()
     query = 'select auto_increment from information_schema.tables where table_name = \'users\' and table_schema = database();'
     cur.execute(query)
@@ -233,20 +209,16 @@ def get_next_user_id():
     cur.close()
     if not user:
         return USER_DOES_NOT_EXIST_STATUS
-    #con.close()
     return user[0][0]
        
 def get_all_users():
-    #con = connect() 
     cur = con.cursor()
     cur.execute('select * from users')
     users = cur.fetchall()
     cur.close()
-    #con.close()
     return users
 
 def get_profile(email, password):
-    #con = connect() 
     cur = con.cursor()
     data = (email, password)
     query = 'select name, email, wallet_cipher, wallet_iv from users where email = %s and password = %s'
@@ -284,12 +256,10 @@ def get_profile(email, password):
     reservations = cur.fetchall()
     
     cur.close()
-    #con.close()
     return [user, sent_cards, redeemed_cards, reservations]
 
 
 def get_restaurant_profile(email, password):
-    #con = connect() 
     cur = con.cursor()
     
     data = (email, password)
@@ -298,23 +268,19 @@ def get_restaurant_profile(email, password):
     restaurant_data = cur.fetchall()
     if not restaurant_data:
         cur.close()
-        #con.close()
         return RESTAURANT_IS_NOT_RESGISTERED_STATUS
     
     restaurant = [restaurant_data[0][1], restaurant_data[0][2], restaurant_data[0][3], restaurant_data[0][4], restaurant_data[0][6], restaurant_data[0][7]]
     
-    # TODO: get status
     data = (email,)
     query = 'select id, user_email, people_count, status from reservations where restaurant_email = %s'
     cur.execute(query, data)
     reservations = cur.fetchall()
     cur.close()
-    #con.close()
     return [restaurant, reservations]
 
 
 def change_availability(restaurant_name, availability):
-    #con = connect() 
     cur = con.cursor()
     data = (restaurant_name,)
     query = 'select * from restaurants where name = %s'
@@ -323,7 +289,6 @@ def change_availability(restaurant_name, availability):
     
     if not restaurant:
         cur = con.cursor()
-        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     data = (availability, restaurant_name)
@@ -331,12 +296,10 @@ def change_availability(restaurant_name, availability):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    #con.close()
     return OK_STATUS
 
 
 def book_table(restaurant_name, user_email, people_count):
-    #con = connect() 
     cur = con.cursor()
     
     data = (user_email,)
@@ -345,7 +308,6 @@ def book_table(restaurant_name, user_email, people_count):
     user = cur.fetchall()
     if not user:
         cur.close()
-        #con.close()
         return USER_DOES_NOT_EXIST_STATUS
     
     data = (restaurant_name,)
@@ -356,12 +318,10 @@ def book_table(restaurant_name, user_email, people_count):
     # Check if the restaurant exists 
     if len(restaurant_info) == 0:
         cur.close()
-        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     if  restaurant_info[0][1] < int(people_count):
         cur.close()
-        #con.close()
         return RESTAURANT_IS_FULL_STATUS
     
     data = (restaurant_name, restaurant_info[0][0], user_email, people_count)
@@ -375,12 +335,10 @@ def book_table(restaurant_name, user_email, people_count):
     
     con.commit()
     cur.close()
-    #con.close()
     return OK_STATUS
 
 
 def change_availability(restaurant_name, availability):
-    #con = connect() 
     cur = con.cursor()
     data = (restaurant_name,)
     query = 'select * from restaurants where name = %s'
@@ -389,7 +347,6 @@ def change_availability(restaurant_name, availability):
     
     if not restaurant:
         cur = con.cursor()
-        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     data = (availability, restaurant_name)
@@ -397,12 +354,10 @@ def change_availability(restaurant_name, availability):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    #con.close()
     return OK_STATUS
 
 
 def update_reservation_status(reservation_id, status):
-    #con = connect() 
     cur = con.cursor()
     
     data = (reservation_id, )
@@ -412,7 +367,6 @@ def update_reservation_status(reservation_id, status):
     
     if not reservation:
         cur.close()
-        #con.close()
         return RESERVATION_DOES_NOT_EXIST_STATUS
     
     data = (status, reservation_id)
@@ -420,5 +374,4 @@ def update_reservation_status(reservation_id, status):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    #con.close()
     return OK_STATUS

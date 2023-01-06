@@ -11,11 +11,6 @@ import Header from './Header';
 import {useLocation} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-//import { Radio } from '@mui/material';
-//import FormControlLabel from '@mui/material/FormControlLabel';
-//import FormControl from '@mui/material/FormControl';
-//import FormLabel from '@mui/material/FormLabel';
-//import RadioGroup from '@mui/material/RadioGroup';
 
 const theme = createTheme();
 
@@ -65,7 +60,6 @@ const handleAvailability = (event) => {
 
 const handleReservation = (event) => {
   event.preventDefault()
-  console.log(event.target.value)
   fetch(`/restaurant/${urlName}`, {
     method: 'POST',
     headers: {
@@ -139,7 +133,6 @@ return (
             <Grid container spacing={2}>
               
                 <Grid item xs={12}>
-                    {/* TODO: beautify, or just make it more readable */}
                     <Typography sx={{ p: 2 }}>Name:{adminData.name}</Typography>
                     <Typography sx={{ p: 2 }}>Address:{adminData.address} </Typography>
                     <Typography sx={{ p: 2 }}>Phone:{adminData.phone} </Typography>

@@ -64,7 +64,6 @@ return (
         </Box>
             <Grid container spacing={2}>
                 <Grid item xs={12}>
-                    {/* TODO: beautify, or just make it more readable */}
                     <Typography sx={{ p: 2 }}>Name:{userData.name}</Typography>
                     <Typography sx={{ p: 2 }}>Email:{userData.email} </Typography>
                     <Typography sx={{ p: 2 }}>Wallet:{userData.wallet}€ </Typography>

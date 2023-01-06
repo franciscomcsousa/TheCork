@@ -6,10 +6,6 @@ from utils import *
 
 app = Flask(__name__)
 
-CORS(app)
-
-app.secret_key = os.urandom(32) # TODO - what is this? is it related to cookies?
-
 @app.route('/gift_cards', methods=['GET', 'POST'])
 def gift_cards():
     
@@ -63,9 +59,7 @@ def register_user():
         name = data['name']
         email = data['email']
         password = data['password']
-        # TODO - This is not protected perhaps
         status = create_user(name, email, salt_password(get_next_user_id(), password))
-        # TODO - also pass as param the status message :facepalm: 
         return make_response({"status":status}, status)
     
     return make_response({"status":400}, 400)
@@ -99,8 +93,6 @@ def profile():
     return make_response({"status":400}, 400)
 
 
-# TODO - password is hashed because its populated from the database with the hash
-# password is banana
 @app.route('/restaurant', methods=['GET', 'POST'])
 def restaurant_profile():
     if request.method == 'GET':
@@ -133,7 +125,6 @@ def restaurant_update(Name):
     if request.method == 'GET':
         pass
         
-    # TODO: change what is sent in the front end to open or close p.ex
     if request.method == 'POST'and "availability" in request.json:
         
         data = request.get_json()
