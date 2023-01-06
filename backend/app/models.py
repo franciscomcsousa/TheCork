@@ -59,9 +59,9 @@ def create_gift_card(amount, email, password):
     query = 'insert into gift_cards (sender_email, card_number_hash, card_number_cipher, card_number_iv, amount_cipher, amount_iv) values(%s, %s, %s, %s, %s, %s)'
     cur.execute(query, data)
     # update the user's wallet, subtract the amount
-    new_amount = wallet - amount
-    new_amount_enc = aes_encrypt(str(new_amount))
-    data = (new_amount_enc[0], new_amount_enc[1], email)
+    new_wallet = wallet - amount
+    new_wallet_enc = aes_encrypt(str(new_wallet))
+    data = (new_wallet_enc[0], new_wallet_enc[1], email)
     query = 'update users set wallet_cipher = %s, wallet_iv = %s where email = %s'
     cur.execute(query, data)
     con.commit()
@@ -81,7 +81,7 @@ def redeem_gift_card(card_number, redeemer_email):
     # if there is no gift card with that number
     if not amount_enc:
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'Gift Card does not exist'}
     amount = float(aes_decrypt(amount_enc[0][0], amount_enc[0][1]).decode())
     if amount == 0:
@@ -95,7 +95,7 @@ def redeem_gift_card(card_number, redeemer_email):
     # TODO - is this okay?
     if not wallet_enc:
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'User does not exist'}
     # update the user's wallet, add the amount
     new_wallet = wallet + amount
@@ -127,7 +127,7 @@ def redeem_user_points(amount, email):
     # TODO - is this okay?
     if not wallet_enc[0]:
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'User does not exist or password is incorrect'}
     new_amount = wallet + (amount / 20)
     new_amount_enc = aes_encrypt(str(new_amount))
@@ -150,7 +150,7 @@ def create_user(name,email,password):
     user = cur.fetchall()
     if len(user) > 0:
         cur.close()
-        con.close()
+        #con.close()
         return USER_ALREADY_EXISTS_STATUS
     
     # Create the user
@@ -160,7 +160,7 @@ def create_user(name,email,password):
     query = 'insert into users (name, email, password, wallet_cipher, wallet_iv) values (%s, %s, %s, %s, %s)'
     cur.execute(query, data)
     con.commit()
-    cur.close()
+    #cur.close()
     return OK_STATUS
     #con.close()
 
@@ -207,7 +207,6 @@ def get_profile(email, password):
     # user_raw is a mixed of the encrypted wallet and regular fields
     user_raw = cur.fetchall()
     if len(user_raw) == 0:
-        print("why here")
         cur.close()
         return []
     
@@ -278,7 +277,7 @@ def change_availability(restaurant_name, availability):
     
     if len(restaurant) == 0:
         cur = con.cursor()
-        con.close()
+        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     data = (availability, restaurant_name)
@@ -312,7 +311,7 @@ def book_table(restaurant_name, user_email, people_count):
     user = cur.fetchall()
     if len(user) == 0:
         cur.close()
-        con.close()
+        #con.close()
         return {'453': USER_DOES_NOT_EXIST_STATUS}
     
     data = (restaurant_name,)
@@ -321,7 +320,7 @@ def book_table(restaurant_name, user_email, people_count):
     restaurant_info = cur.fetchall()
     if len(restaurant_info) == 0 or restaurant_info[0][1] < int(people_count):
         cur.close()
-        con.close()
+        #con.close()
         return {'400': 'Restaurant does not exist or does not have enough seats'}
     
     data = (restaurant_name, restaurant_info[0][0], user_email, people_count)
@@ -349,7 +348,7 @@ def change_availability(restaurant_name, availability):
     
     if len(restaurant) == 0:
         cur = con.cursor()
-        con.close()
+        #con.close()
         return RESTAURANT_DOES_NOT_EXIST_STATUS
     
     data = (availability, restaurant_name)
@@ -372,7 +371,7 @@ def update_reservation_status(reservation_id, status):
     
     if len(reservation) == 0:
         cur.close()
-        con.close()
+        #con.close()
         return RESERVATION_DOES_NOT_EXIST_STATUS
     
     data = (status, reservation_id)
