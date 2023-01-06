@@ -116,7 +116,6 @@ def restaurant_profile():
         
         restaurant = info[0]
         reservations = info[1]
-        print(restaurant,reservations)
         return make_response(
                 {"name": restaurant[0],"address": restaurant[1], 
                 "phone": restaurant[2], "email": restaurant[3],
@@ -139,7 +138,6 @@ def restaurant_update(Name):
         data = request.get_json()
         availability = data['availability']
         restaurant_name = data['restaurant_name']
-        closed = data['closed']
 
         status = change_availability(restaurant_name, availability)
         return make_response({"status":status}, status)
