@@ -54,13 +54,12 @@ def create_gift_card(amount, email, password):
     query = 'select wallet_cipher, wallet_iv from users where email = %s and password = %s'
     cur.execute(query, data)
     wallet_enc = cur.fetchall()
-    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
-    # TODO - is this okay?
-    if not wallet_enc[0]:
+    if not wallet_enc:
         cur.close()
         #con.close()
         return USER_DOES_NOT_EXIST_STATUS
-    elif wallet < amount:
+    wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
+    if wallet < amount:
         cur.close()
         #con.close()
         return INSUFICIENT_FUNDS_STATUS
@@ -140,7 +139,7 @@ def redeem_user_points(redeemed_points, email):
     wallet = float(aes_decrypt(wallet_enc[0][0], wallet_enc[0][1]).decode())
     # TODO - is this okay?
     
-    if not wallet_enc[0]:
+    if not wallet_enc:
         cur.close()
         cur_external.close()
         #con.close()
@@ -213,7 +212,10 @@ def get_user_id(email):
     query = 'select user_id from users where email = %s'
     cur.execute(query, data)
     user = cur.fetchall()
+    print(f"user {user}")
     cur.close()
+    if not user:
+        return USER_DOES_NOT_EXIST_STATUS
     #con.close()
     return user[0][0]
       
@@ -225,10 +227,11 @@ def get_next_user_id():
     cur.execute(query)
     user = cur.fetchall()
     cur.close()
+    if not user:
+        return USER_DOES_NOT_EXIST_STATUS
     #con.close()
     return user[0][0]
        
-        
 def get_all_users():
     #con = connect() 
     cur = con.cursor()
@@ -237,7 +240,6 @@ def get_all_users():
     cur.close()
     #con.close()
     return users
-
 
 def get_profile(email, password):
     #con = connect() 
