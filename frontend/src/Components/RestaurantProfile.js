@@ -15,7 +15,6 @@ import Header from './Header';
 const theme = createTheme();
 
 export default function RestaurantProfile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit}) {
-  const navigate = useNavigate();
 
   const handleChangeEmail = (event) => {
     onFormChangeEmail(event.target.value)

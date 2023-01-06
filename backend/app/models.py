@@ -296,7 +296,6 @@ def get_restaurant_profile(email, password):
     query = 'select * from restaurants where email = %s and password = %s'
     cur.execute(query, data)
     restaurant_data = cur.fetchall()
-    
     if not restaurant_data:
         cur.close()
         #con.close()

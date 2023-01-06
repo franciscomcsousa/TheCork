@@ -116,13 +116,14 @@ def restaurant_profile():
         
         restaurant = info[0]
         reservations = info[1]
-        
+        print(restaurant,reservations)
         return make_response(
                 {"name": restaurant[0],"address": restaurant[1], 
                 "phone": restaurant[2], "email": restaurant[3],
                 "available_seats": restaurant[4], 
                 "availability": restaurant[5],
-                "reservations": reservations
+                "reservations": reservations,
+                "response":200
                 }, 200)
     return make_response({"status":400}, 400)
 
