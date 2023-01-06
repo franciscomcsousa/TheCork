@@ -255,7 +255,7 @@ def get_profile(email, password):
     user_raw = cur.fetchall()
     if not user_raw:
         cur.close()
-        return []
+        return WRONG_LOGIN_INFO_STATUS
     
     user = [user_raw[0][0], user_raw[0][1]]
     wallet_enc = [user_raw[0][2], user_raw[0][3]]

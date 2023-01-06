@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import Profile from '../Components/UserProfile';
 import { useNavigate } from 'react-router-dom';
+import * as Error from '../Error';
 
 export const UserProfilePage = () => {
     
     const [addEmailInput, setEmailInput] = useState('')
     const [addPasswordInput, setPasswordInput] = useState('') 
 
-    const [data, setData] = useState('')
     const navigate = useNavigate();
 
     // Loads the page with the user's email address in the URL
@@ -31,24 +31,23 @@ export const UserProfilePage = () => {
         })
         .then(response => {
             if (!response.ok) {
-                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
+                alert(Error.getErrorMessage(response.status))
             }   
         return response.json();
          })
         .then(data => {
-            setData(data)
-            navigate(`/profile/${urlName}`,{ state:{data} })
+            if (data.response === 200) {
+                alert(Error.getErrorMessage(data.response))
+                navigate(`/profile/${urlName}`,{ state:{data} })
+            }
         })
-        //.catch(error => {
-        //   console.log(error)
-        //})
     };
 
 return (
     <div>
         <Profile emailInput={ addEmailInput } passwordInput={ addPasswordInput } 
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} 
-        onFormSubmit={handleFormSubmit} userData={data}/>
+        onFormSubmit={handleFormSubmit}/>
     </div>
     )
 }
