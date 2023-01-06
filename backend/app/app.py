@@ -142,6 +142,16 @@ def restaurant_update(Name):
         status = change_availability(restaurant_name, availability)
         
         return make_response({"status":status}, status)
+    
+    if request.method == 'POST' and "status" in request.json:
+        data = request.get_json()
+        status = data['status']
+        reservation_id = data['reservation_id']
+
+        status = update_reservation_status(reservation_id, status)
+        return make_response({"status":status}, status)
+    
+    
     return {'400': 'Not allowed'}
 
 

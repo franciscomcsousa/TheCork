@@ -11,6 +11,11 @@ import Header from './Header';
 import {useLocation} from 'react-router-dom';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
+import { Radio } from '@mui/material';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import RadioGroup from '@mui/material/RadioGroup';
 
 const theme = createTheme();
 
@@ -57,6 +62,29 @@ const handleAvailability = (event) => {
   })
   setAvailability(!available)
 }
+
+const handleReservation = (event) => {
+  event.preventDefault()
+  console.log(event.target.value)
+  fetch(`/restaurant/${urlName}`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      reservation_id: event.target.value[0],
+      status: event.target.value[2]
+    })
+  })
+  .then(response => {
+    if (!response.ok) {
+      throw new Error(`This is an HTTP error: The status is ${response.status}`)
+    }
+    return response.json();
+  }
+  )
+}
+
 
 return (
     <ThemeProvider theme={theme}>
@@ -112,7 +140,26 @@ return (
                     <Typography sx={{ p: 2 }}>Available Seats:{adminData.available_seats} </Typography>
                     <Typography sx={{ p: 2 }}>Availability: {availability} </Typography>
                     <Typography sx={{ p: 2 }} component={'div'}>Current Reservations:{adminData.reservations.map( (reservation) =>
-                      <li key={reservation}> UserEmail: {reservation[0]}, How many people: {reservation[1]}</li>
+                     
+                     <li key={reservation}> 
+                      UserEmail: {reservation[1]}, How many people: {reservation[2]}, 
+                      
+                      Status: {reservation[3] === 1 ? "Accepted! " : "Pending... "}
+                      <FormControl component={'div'}>
+                        <FormLabel id="reservation-status">Respond to your client!</FormLabel>
+                        <RadioGroup
+                          aria-labelledby="reservation-status"
+                          defaultValue=""
+                          name="radio-buttons-group"
+                          onChange={handleReservation}
+                        >
+                          {/* return reservation_id, and 1 for accept, 0 for deny*/}
+                          <FormControlLabel control={<Radio value={[reservation[0],1]} color="success"/>}label="Accept!"/>
+                          <FormControlLabel control={<Radio value={[reservation[0],0]} color="error"/>}label="Deny."/>
+                        </RadioGroup>
+                      </FormControl>
+                      </li>
+              
                       )}
                     </Typography>                       
                     

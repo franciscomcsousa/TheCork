@@ -77,7 +77,7 @@ return (
                       )}
                     </Typography>
                     <Typography sx={{ p: 2 }} component={'div'}>Reservations:{userData.reservations.map( (reservation) =>
-                      <li key={reservation}> Restaurant Name: {reservation[0]}, How many people: {reservation[1]}, Status: {reservation === 1 ? "Accepted!" : "Pending..."}</li>
+                      <li key={reservation}> Restaurant Name: {reservation[0]}, How many people: {reservation[1]}, Status: {reservation[2] === 1 ? "Accepted!" : "Pending..."}</li>
                       )}
                     </Typography>
                         

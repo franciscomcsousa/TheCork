@@ -260,7 +260,7 @@ def get_restaurant_profile(email, password):
     
     # TODO: get status
     data = (email,)
-    query = 'select user_email, people_count from reservations where restaurant_email = %s'
+    query = 'select id, user_email, people_count, status from reservations where restaurant_email = %s'
     cur.execute(query, data)
     reservations = cur.fetchall()
 
@@ -337,4 +337,28 @@ def change_availability(restaurant_name, availability):
     con.commit()
     cur.close()
     #con.close()
+    return OK_STATUS
+
+
+def update_reservation_status(reservation_id, status):
+    #con = connect() 
+    cur = con.cursor()
+    
+    data = (reservation_id, )
+    query = 'select * from reservations where id = %s'
+    cur.execute(query, data)
+    reservation = cur.fetchall()
+    
+    if len(reservation) == 0:
+        cur.close()
+        con.close()
+        return RESERVATION_DOES_NOT_EXIST_STATUS
+    
+    data = (status, reservation_id)
+    query = 'update reservations set status = %s where id = %s'
+    cur.execute(query, data)
+    con.commit()
+    cur.close()
+    #con.close()
+    
     return OK_STATUS
