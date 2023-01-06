@@ -82,20 +82,21 @@ def profile():
         password = data['password']
         info = get_profile(email, salt_password(get_user_id(email), password))
         
-        if len(info) == 0:
-            return {'400': "User and/or Password is incorrect"}
+        if isinstance(info, int):
+            return make_response({"status":info}, info)
         
         user = info[0]
         sent_cards = info[1]
         redeemed_cards = info[2]
         reservations = info[3]
         
-        return {"name": user[0],"email": user[1], 
+        return make_response({"name": user[0],"email": user[1], 
                 "wallet": user[2], "sent_cards": sent_cards,
-                "redeemed_cards": redeemed_cards, "reservations": reservations
-                }
+                "redeemed_cards": redeemed_cards, "reservations": reservations,
+                "response":200
+                }, 200)
         
-    return {'400': 'Not allowed'}
+    return make_response({"status":400}, 400)
 
 
 # TODO - password is hashed because its populated from the database with the hash
