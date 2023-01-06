@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import BookForm from '../Components/BookForm';
-import { useNavigate } from 'react-router-dom';
 
 export const Book = () => {
 
@@ -8,10 +7,7 @@ export const Book = () => {
     const [addPeopleCountInput, setPeopleCountInput] = useState('')
     const [addRestaurantInput, setRestaurantInput] = useState('')
 
-    const navigate = useNavigate();
-
-    // Loads the page with the user's email address in the URL
-    const urlName = addRestaurantInput.replace(/\s+/g, '-').toLowerCase();
+    const [data, setData] = useState('')
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -35,24 +31,23 @@ export const Book = () => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`This is an HTTP error: The status is ${response.status}`)
+                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
             }
         return response.json();
         })
         .then(data => {
-                //setData(data)
-                navigate(`/book/${urlName}`,{ state:{data} })
+            setData(data)
         })
-        .catch(error => {
-            console.log(error)
-        })
+        //.catch(error => {
+        //    console.log(error)
+        //})
     }
 
 return (
     <div>
        <BookForm emailInput={ addEmailInput } peopleCountInput={ addPeopleCountInput } restaurantInput={ addRestaurantInput}
         onFormChangeEmail={handleFormChangeEmail} onFormChangePeopleCount={handleFormChangePeopleCount} onFormChangeRestaurant={handleFormChangeRestaurant}
-        onFormSubmit={handleFormSubmit}/>
+        onFormSubmit={handleFormSubmit} userData={data}/>
     </div>
     )
 }

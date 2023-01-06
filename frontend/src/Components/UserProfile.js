@@ -10,11 +10,13 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import Header from './Header';
+import { useNavigate } from 'react-router-dom';
 
 
 const theme = createTheme();
 
-export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit }) {
+export default function Profile({ emailInput, passwordInput, onFormChangeEmail, onFormChangePassword, onFormSubmit, userData }) {
+  const navigate = useNavigate();
 
   const handleChangeEmail = (event) => {
     onFormChangeEmail(event.target.value)
@@ -27,6 +29,20 @@ export default function Profile({ emailInput, passwordInput, onFormChangeEmail, 
   const handleSubmit = (event) => {
     event.preventDefault()
     onFormSubmit()
+  }
+
+  if (userData) {
+    //console.log(userData) For some reason only alerts when its submitted twice ## 
+    //problem when redirecting  TODO, fix the user interface 
+    if (userData.status && userData.status === 400) {
+      //navigate("/", {replace: true})
+      alert("User and/or Password is incorrect")//TODO: also add the predefined messages
+      navigate(0)
+    }
+    else {
+          alert("Successfull Login")
+          navigate(0)
+    }
   }
 
   let re = /\S+@\S+\.\S+/;

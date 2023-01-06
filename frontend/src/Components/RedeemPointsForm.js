@@ -10,12 +10,14 @@ import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Header from './Header';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import {useNavigate} from 'react-router-dom'
 
 
 const theme = createTheme();
 
-export default function RedeemPointsForm({ pointsInput, emailInput, onFormChangePoints, onFormChangeEmail, onFormSubmit }) {
-  
+export default function RedeemPointsForm({ pointsInput, emailInput, onFormChangePoints, onFormChangeEmail, onFormSubmit, userData }) {
+    const navigate = useNavigate();
+
     const handleChangePoints = (event) => {
        onFormChangePoints(event.target.value)
     }
@@ -29,12 +31,25 @@ export default function RedeemPointsForm({ pointsInput, emailInput, onFormChange
         onFormSubmit()
     }
 
+    if (userData) {
+      //console.log(userData) For some reason only alerts when its submitted twice ## 
+      //problem when redirecting  TODO, fix the user interface 
+      if (userData.status === 200) {
+        //navigate("/", {replace: true})
+        alert("Redeem Successful")
+        navigate(0)
+      }
+      else if (userData.status !== 200) {
+            alert("User and/or Points is incorrect")//TODO: also add the predefined messages 
+            navigate(0)
+      }  
+    }
+
     let re = /\S+@\S+\.\S+/;
 
     const validate = () => {
       return re.test(emailInput) && pointsInput.length > 0 && pointsInput > 0 && pointsInput % 1 == 0;
     };
-
 
     return(
       <ThemeProvider theme={theme}>

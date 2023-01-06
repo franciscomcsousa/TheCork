@@ -180,11 +180,8 @@ def book():
         user_email = data['user_email']
         people_count = data['people_count']
         status = book_table(restaurant_name, user_email, people_count)
-        return {'200': status}
+        return status
     return {'400': 'Not allowed'}
-
-
-
 
 
 if __name__ == '__main__':

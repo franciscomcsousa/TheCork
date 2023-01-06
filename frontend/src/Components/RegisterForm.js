@@ -48,7 +48,7 @@ export default function RegisterForm({ nameInput, emailInput, passwordInput, onF
       else if (userData.status !== 200) {
             alert("User and/or Password is incorrect")//TODO: also add the predefined messages 
             navigate(0)
-      }  
+      }
     }
 
     let re = /\S+@\S+\.\S+/;

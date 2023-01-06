@@ -11,6 +11,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Avatar from '@mui/material/Avatar';
 import BookIcon from '@mui/icons-material/Book';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { useNavigate } from 'react-router-dom';
 
 
 const theme = createTheme();
@@ -20,8 +21,9 @@ const restaurants = [
   { label: 'La Pasta'},
 ];
 
-export default function BookForm({ emailInput, peopleCountInput, restaurantInput, onFormChangeEmail, onFormChangePeopleCount, onFormChangeRestaurant, onFormSubmit }) {
-  
+export default function BookForm({ emailInput, peopleCountInput, restaurantInput, onFormChangeEmail, onFormChangePeopleCount, onFormChangeRestaurant, onFormSubmit, userData }) {
+    const navigate = useNavigate();
+
     const handleChangeEmail = (event) => {
        onFormChangeEmail(event.target.value)
     }
@@ -37,6 +39,20 @@ export default function BookForm({ emailInput, peopleCountInput, restaurantInput
     const handleSubmit = (event) => {
         event.preventDefault()
         onFormSubmit()
+    }
+
+    if (userData) {
+      //console.log(userData) For some reason only alerts when its submitted twice ## 
+      //problem when redirecting  TODO, fix the user interface 
+      if (userData.status === 200) {
+        //navigate("/", {replace: true})
+        alert("Reservation successful")
+        navigate(0)
+      }
+      else if (userData.status !== 200) {
+            alert("User is incorrect or reservation not possible")//TODO: also add the predefined messages 
+            navigate(0)
+      }  
     }
 
     let re = /\S+@\S+\.\S+/;

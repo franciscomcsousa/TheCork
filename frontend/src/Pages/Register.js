@@ -32,16 +32,11 @@ export const Register = () => {
         .then(response => {
             if (!response.ok) {
                 //throw new Error(`This is an HTTP error: The status is ${response.status}`)
-                //instead of throwing an error, we can use the response to display an error message TODO: implement this (and catch the error)
             }   
             return response.json();
         })
          .then(data => {
-                //console.log((data))
-                //console.log("AAAAAAAAAAAA")
-                setData(data)
-                //navigate(`/profile/${urlName}`,{ state:{data} })
-        
+            setData(data)        
         })
         //.catch(error => {
         //console.log(error.message)

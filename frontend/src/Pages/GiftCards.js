@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Gift from '../Components/Gift';
-import { useNavigate } from 'react-router-dom';
 
 export const GiftCards = () => {
 
@@ -8,10 +7,7 @@ export const GiftCards = () => {
     const [addPasswordInput, setPasswordInput] = useState('')
     const [addTierInput, setTierInput] = useState('')
 
-    const navigate = useNavigate();
-
-    // Loads the page with the user's email address in the URL
-    const urlName = addEmailInput.substring(0, addEmailInput.indexOf('@'))
+    const [data, setData] = useState('')
 
     const handleFormChangeEmail = (emailInput) => {
         setEmailInput(emailInput)
@@ -35,24 +31,23 @@ export const GiftCards = () => {
         })
         .then(response => {
             if (!response.ok) {
-                throw new Error(`This is an HTTP error: The status is ${response.status}`)
+                //throw new Error(`This is an HTTP error: The status is ${response.status}`)
             }
         return response.json();
         })
         .then(data => {
-                //setData(data)
-                navigate(`/gift_cards/${urlName}`,{ state:{data} })
+            setData(data)
         })
-        .catch(error => {
-            console.log(error)
-        })
+        //.catch(error => {
+        //    console.log(error)
+        //})
     }
 
 return (
     <div>
         <Gift emailInput={ addEmailInput } passwordInput={ addPasswordInput } tierInput={ addTierInput}
         onFormChangeEmail={handleFormChangeEmail} onFormChangePassword={handleFormChangePassword} onFormChangeCard={handleFormChangeTier}
-        onFormSubmit={handleFormSubmit}/>
+        onFormSubmit={handleFormSubmit} userData={data}/>
     </div>
     )
 }

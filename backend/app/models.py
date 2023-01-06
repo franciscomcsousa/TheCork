@@ -66,7 +66,7 @@ def create_gift_card(amount, email, password):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'Gift Card Created Successfully'}
+    return {'200': OK_STATUS}
     #con.close()
     
     
@@ -111,7 +111,7 @@ def redeem_gift_card(card_number, redeemer_email):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'Gift Card Redeemed Successfully'}
+    return {'200': OK_STATUS}
     #con.close()
 
 
@@ -136,7 +136,7 @@ def redeem_user_points(amount, email):
     cur.execute(query, data)
     con.commit()
     cur.close()
-    return {'200': 'Points Redeemed Successfully'}
+    return {'200': OK_STATUS}
     #con.close()
     
     
@@ -263,10 +263,31 @@ def get_restaurant_profile(email, password):
     query = 'select id, user_email, people_count, status from reservations where restaurant_email = %s'
     cur.execute(query, data)
     reservations = cur.fetchall()
-
     cur.close()
     #con.close()
     return [restaurant, reservations]
+
+
+def change_availability(restaurant_name, availability):
+    #con = connect() 
+    cur = con.cursor()
+    data = (restaurant_name,)
+    query = 'select * from restaurants where name = %s'
+    cur.execute(query, data)
+    restaurant = cur.fetchall()
+    
+    if len(restaurant) == 0:
+        cur = con.cursor()
+        con.close()
+        return RESTAURANT_DOES_NOT_EXIST_STATUS
+    
+    data = (availability, restaurant_name)
+    query = 'update restaurants set availability = %s where name = %s'
+    cur.execute(query, data)
+    con.commit()
+    cur.close()
+    #con.close()
+    return OK_STATUS
 
 
 def login(email, password):
@@ -292,7 +313,7 @@ def book_table(restaurant_name, user_email, people_count):
     if len(user) == 0:
         cur.close()
         con.close()
-        return USER_DOES_NOT_EXIST_STATUS
+        return {'453': USER_DOES_NOT_EXIST_STATUS}
     
     data = (restaurant_name,)
     query = 'select email, available_seats from restaurants where name = %s'
@@ -360,5 +381,4 @@ def update_reservation_status(reservation_id, status):
     con.commit()
     cur.close()
     #con.close()
-    
     return OK_STATUS
