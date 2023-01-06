@@ -275,3 +275,13 @@ chown mysql: ./server-key-rsa.pem
 - Change values of `ssl-ca`, `ssl-cert` and `ssl-key` to the right ones in `/etc/mysql/mariadb.conf.d/50-server.cnf`
 
 - Restart mariadb `systemctl restart mariadb`
+
+```
+#
+# For generating SSL certificates you can use for example the GUI tool "tinyca".
+#
+ssl-ca = /etc/mysql/ssl/ca-cert.pem
+ssl-cert = /etc/mysql/ssl/server-cert.pem
+ssl-key = /etc/mysql/ssl/server-key-rsa.pem
+#
+```
